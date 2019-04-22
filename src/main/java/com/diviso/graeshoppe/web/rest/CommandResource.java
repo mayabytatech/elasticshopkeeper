@@ -25,14 +25,25 @@ public class CommandResource {
 	
 	@PostMapping("/customers/register-customer")
 	public void createCustomer(@RequestBody CustomerAggregator customerAggregator) {
-	       log.debug("REST request to save customer : {}",  customerAggregator );
+CustomerDTO customerDTO= new CustomerDTO();
+customerDTO.setName(customerAggregator.getName());
+customerResourceApi.createCustomerUsingPOST(customerDTO);
+
+		/*System.out.println("customerAggregator>>>>>>>>>>>>>>>"+customerAggregator);
+		
+		log.debug("REST request to save customer : {}",  customerAggregator );
 		CustomerDTO customerDTO= new CustomerDTO();
 		ContactDTO contactDTO= new ContactDTO();
-		contactDTO.setMobileNumber(customerAggregator.getMobileNumber());
-		ContactDTO resultDTO=contactResourceApi.createContactUsingPOST(contactDTO).getBody(); 
 		customerDTO.setName(customerAggregator.getName());
-		customerDTO.setContactId(resultDTO.getId());
-		customerResourceApi.createCustomerUsingPOST(customerDTO);
+System.out.println("customerDTO>>>>>>>>>>>>>>>"+customerDTO);*/
+//contactResourceApi.createContactUsingPOST(customerAggregator);
+		
+			
+		//customerDTO.setContactId(resultDTO.getId());
+		/*contactDTO.setMobileNumber(customerAggregator.getMobileNumber());
+		ContactDTO resultDTO=contactResourceApi.createContactUsingPOST(contactDTO).getBody(); 
+		
+		customerResourceApi.createCustomerUsingPOST(customerDTO);*/
 		
 
 	}
