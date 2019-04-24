@@ -86,7 +86,7 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public Page<Customer> findAllCustomers(String searchTerm, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(matchQuery("name", searchTerm).fuzziness(Fuzziness.TWO)).build();
+				.withQuery(matchQuery("name", searchTerm).prefixLength(3).fuzziness(Fuzziness.TWO)).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
 

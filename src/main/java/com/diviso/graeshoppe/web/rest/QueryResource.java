@@ -1,4 +1,4 @@
-package com.diviso.graeshoppe.web.rest;
+  package com.diviso.graeshoppe.web.rest;
 
 import java.util.List;
 
