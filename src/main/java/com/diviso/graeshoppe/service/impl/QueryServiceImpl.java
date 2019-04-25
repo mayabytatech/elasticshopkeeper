@@ -2,7 +2,7 @@ package com.diviso.graeshoppe.service.impl;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
-
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +16,8 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
-/*import com.diviso.graeshoppe.client.product.domain.Category;
-import com.diviso.graeshoppe.client.product.domain.Product;
+import com.diviso.graeshoppe.client.product.model.*;
+/*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
@@ -40,7 +40,7 @@ public class QueryServiceImpl implements QueryService {
 	@Autowired
 	ElasticsearchOperations elasticsearchOperations;
 
-	/*@Override
+	@Override
 	public Page<Category> findAllCategories(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 
@@ -50,14 +50,14 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<Product> findProductByCategoryId(Long categoryId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("categoryId", categoryId))
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("categoryId", categoryId))
 				.build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 
 	}
 
-	public List<Result> findAll(String searchTerm, Pageable pageable) {
+/*	public List<Result> findAll(String searchTerm, Pageable pageable) {
 		List<Result> values = new ArrayList<Result>();
 		;
 
