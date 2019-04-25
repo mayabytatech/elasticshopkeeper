@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
-/*import com.diviso.graeshoppe.client.product.domain.Category;
-import com.diviso.graeshoppe.client.product.domain.Product;
+import com.diviso.graeshoppe.client.product.model.*;
+/*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ public class QueryResource {
 	QueryService queryService;
 	
 	
-	/*@GetMapping("/findAllCategories")
+	@GetMapping("/findAllCategories")
 	public Page<Category> findAllCategories(Pageable pageable) {
 		return queryService.findAllCategories(pageable);
 	}
@@ -31,11 +31,11 @@ public class QueryResource {
 	public Page<Product> findProductByCategoryId(@PathVariable Long categoryId,Pageable pageable) {
 		return queryService.findProductByCategoryId(categoryId,pageable);
 	}
-	@GetMapping("/findAll/{searchTerm}")
+	/*@GetMapping("/findAll/{searchTerm}")
 	public List<Result> findAll(@PathVariable String searchTerm,Pageable pageable) {
 		return queryService.findAll(searchTerm,pageable);
-	}
-	*/
+	}*/
+	
 	@GetMapping("/findAllCustomer/{searchTerm}")
 	public Page<Customer> findAllCustomers(@PathVariable String searchTerm,Pageable pageable) {
 		return queryService.findAllCustomers(searchTerm,pageable);
