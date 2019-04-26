@@ -1,4 +1,4 @@
-package com.diviso.graeshoppe.client.customer.domain;
+package com.diviso.graeshoppe.client;
 
 public class CustomerAggregator {
 	private String name;

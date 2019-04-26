@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.diviso.graeshoppe.client.product.api.*;
 import com.diviso.graeshoppe.client.product.model.*;
+import com.diviso.graeshoppe.client.CustomerAggregator.*;
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
-import com.diviso.graeshoppe.client.customer.domain.CustomerAggregator;
 import com.diviso.graeshoppe.client.customer.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ public class CommandResource {
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
 	@PostMapping("/customers/register-customer")
-	public void createCustomer(@RequestBody CustomerAggregator customerAggregator) {
+	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerAggregator customerAggregator) {
 
 		CustomerDTO customerDTO = new CustomerDTO();
 		ContactDTO contactDTO = new ContactDTO();
@@ -41,26 +42,28 @@ public class CommandResource {
 		contactDTO.setMobileNumber(customerAggregator.getMobileNumber());
 		ContactDTO resultDTO = contactResourceApi.createContactUsingPOST(contactDTO).getBody();
 		customerDTO.setContactId(resultDTO.getId());
-		customerResourceApi.createCustomerUsingPOST(customerDTO);
+	return	customerResourceApi.createCustomerUsingPOST(customerDTO);
 
 	}
 	
 	
 	
 	@PostMapping("/unit-of-meassurement")
-	public void createUOM(@RequestBody UomDTO uomDTO) {
-		uomResourceApi.createUomUsingPOST(uomDTO);
+	public ResponseEntity<UomDTO> createUOM(@RequestBody UomDTO uomDTO) {
+		return uomResourceApi.createUomUsingPOST(uomDTO);
 	}
 	
 	@PostMapping("/productCategory")
-	public void createProductCategory(@RequestBody CategoryDTO categoryDTO) {
-		categoryResourceApi.createCategoryUsingPOST(categoryDTO);
+	public ResponseEntity<CategoryDTO> createProductCategory(@RequestBody CategoryDTO categoryDTO) {
+		
+		
+		return categoryResourceApi.createCategoryUsingPOST(categoryDTO);
 	}
 	
 	
 	@PostMapping("/product")
-	public void createProduct(@RequestBody ProductDTO productDTO) {
-		productResourceApi.createProductUsingPOST(productDTO);
+	public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+		return productResourceApi.createProductUsingPOST(productDTO);
 	}
 	
 	
