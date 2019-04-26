@@ -1,4 +1,4 @@
-package com.diviso.graeshoppe.client;
+package com.diviso.graeshoppe.client.aggregators;
 
 public class CustomerAggregator {
 	private String name;

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.diviso.graeshoppe.client.product.api.*;
 import com.diviso.graeshoppe.client.product.model.*;
-import com.diviso.graeshoppe.client.CustomerAggregator.*;
+import com.diviso.graeshoppe.client.aggregators.*;
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.model.*;
