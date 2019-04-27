@@ -42,6 +42,11 @@ public class QueryResource {
 	}
 	
 	
+	@GetMapping("/findAllUom")
+	public List<String> findAllUom(Pageable pageable) {
+		return queryService.findAllUom(pageable);
+	}
+	
 	
 	
 	

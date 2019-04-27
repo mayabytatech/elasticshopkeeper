@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service.impl;
 
+import static org.elasticsearch.action.search.SearchType.QUERY_THEN_FETCH;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +23,14 @@ import com.diviso.graeshoppe.client.product.model.*;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
+import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
 import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;
 import com.google.gson.JsonObject;
 
 import io.searchbox.client.JestClient;
 import io.searchbox.core.SearchResult;
+import io.searchbox.core.search.aggregation.TermsAggregation;
+import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
 
 @Service
 public class QueryServiceImpl implements QueryService {
@@ -91,5 +96,39 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
 
 	}
+	
+	public List<String> findAllUom(Pageable pageable){
+		List<String> uomList = new ArrayList<String>();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				  .withQuery(matchAllQuery())
+				  .withSearchType(QUERY_THEN_FETCH)
+				  .withIndices("uom").withTypes("uom")
+				  .addAggregation(AggregationBuilders.terms("distinct_uom").field("name.keyword"))
+				  .build();
+	
+		
+		AggregatedPage<Uom> result = elasticsearchTemplate.queryForPage(searchQuery, Uom.class);
+		TermsAggregation uomAgg = result.getAggregation("distinct_qualification", TermsAggregation.class);
+		
+		
+
+
+	for (int i=0;i<uomAgg.getBuckets().size();i++)
+	{
+		uomList.add(uomAgg.getBuckets().get(i).getKey());
+	}
+	
+		
+		
+		return uomList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
