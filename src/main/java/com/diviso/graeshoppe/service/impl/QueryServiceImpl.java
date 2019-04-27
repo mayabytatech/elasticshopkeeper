@@ -96,7 +96,7 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
 
 	}
-	
+	@Override
 	public List<String> findAllUom(Pageable pageable){
 		List<String> uomList = new ArrayList<String>();
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
@@ -108,9 +108,9 @@ public class QueryServiceImpl implements QueryService {
 	
 		
 		AggregatedPage<Uom> result = elasticsearchTemplate.queryForPage(searchQuery, Uom.class);
-		TermsAggregation uomAgg = result.getAggregation("distinct_qualification", TermsAggregation.class);
+		TermsAggregation uomAgg = result.getAggregation("distinct_uom", TermsAggregation.class);
 		
-		
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<"+uomAgg.getBuckets().size());
 
 
 	for (int i=0;i<uomAgg.getBuckets().size();i++)
