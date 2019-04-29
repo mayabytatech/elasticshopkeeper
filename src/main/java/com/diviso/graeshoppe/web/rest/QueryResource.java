@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.product.model.*;
 import com.diviso.graeshoppe.client.product.api.*;
-import com.diviso.graeshoppe.domain.Result;*/
+
 import com.diviso.graeshoppe.service.QueryService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -66,13 +67,12 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/findAllCateogories")
-	public ResponseEntity<List<UomDTO>> findAllCategories(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
+	public ResponseEntity<List<CategoryDTO>> findAllCategories(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
 			@RequestParam(value = "sort", required = false) List<String> sort) {
 		
-		return categoryResourceApi.getAllCategoriesUsingGET(page,size,sort);
+		return categoryResourceApi.getAllCategoriesUsingGET(page, size, sort);
+	
 	}
-	
-	
 	
 	
 
