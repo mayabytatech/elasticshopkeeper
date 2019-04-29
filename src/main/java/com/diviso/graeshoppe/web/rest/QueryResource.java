@@ -33,7 +33,8 @@ public class QueryResource {
 	CategoryResourceApi categoryResourceApi;
 	
 	
-	
+	@Autowired
+	private	ProductResourceApi productResourceApi ;
 /*	@GetMapping("/findAllCategories")
 	public Page<Category> findAllCategories(Pageable pageable) {
 		return queryService.findAllCategories(pageable);
@@ -75,5 +76,12 @@ public class QueryResource {
 	}
 	
 	
+	
+	@GetMapping("/products")
+	public ResponseEntity<List<ProductDTO>> findAllProduct( Boolean eagerload,Integer page,Integer size,List<String> sort){
+	return productResourceApi.getAllProductsUsingGET(eagerload, page, size, sort);
+	}
+	
 
+	
 }

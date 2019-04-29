@@ -1,6 +1,9 @@
 package com.diviso.graeshoppe.web.rest;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,8 +49,25 @@ public class CommandResource {
 
 	}
 	
+	@PutMapping("/customers")
+	public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO){
+		return customerResourceApi.updateCustomerUsingPUT(customerDTO);
+	}
 	
+	@DeleteMapping("/customers")
+	public void deleteCustomer(@PathVariable Long id){
+		customerResourceApi.deleteCustomerUsingDELETE(id);
+	}
 	
+	@PutMapping("/categories")
+	public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO){
+		return categoryResourceApi.updateCategoryUsingPUT(categoryDTO);
+	}
+	
+	@DeleteMapping("/categories/{id}")
+	public void deleteCategory(@PathVariable Long id){
+		categoryResourceApi.deleteCategoryUsingDELETE(id);
+	}
 	@PostMapping("/unit-of-meassurement")
 	public ResponseEntity<UomDTO> createUOM(@RequestBody UomDTO uomDTO) {
 		return uomResourceApi.createUomUsingPOST(uomDTO);
@@ -61,15 +81,20 @@ public class CommandResource {
 	}
 	
 	
-	@PostMapping("/product")
+	@PostMapping("/products")
 	public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
 		return productResourceApi.createProductUsingPOST(productDTO);
 	}
 	
+	@PutMapping("/products")
+	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO){
+		return productResourceApi.updateProductUsingPUT(productDTO);
+	}
 	
-	
-	
-	
+	@DeleteMapping("/products/{id}")
+	public void deleteProduct(@PathVariable Long id){
+		productResourceApi.deleteProductUsingDELETE(id);
+	}
 	
 	}
 	
