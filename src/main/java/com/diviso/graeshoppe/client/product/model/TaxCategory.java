@@ -1,148 +1,206 @@
 package com.diviso.graeshoppe.client.product.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.Tax;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
-
 /**
- * A TaxCategory.
+ * TaxCategory
  */
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
-@Document(indexName = "taxcategory")
-public class TaxCategory implements Serializable {
+public class TaxCategory   {
+  @JsonProperty("description")
+  private String description = null;
 
-    private static final long serialVersionUID = 1L;
- 
-    private Long id;
+  @JsonProperty("id")
+  private Long id = null;
 
-   
-    private String name;
+  @JsonProperty("name")
+  private String name = null;
 
-    private String description;
+  @JsonProperty("products")
+  @Valid
+  private List<Product> products = null;
 
-    private Set<Tax> taxes = new HashSet<>();
+  @JsonProperty("taxes")
+  @Valid
+  private List<Tax> taxes = null;
 
-    private Set<Product> products = new HashSet<>();
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
+  public TaxCategory description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Get description
+   * @return description
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public TaxCategory id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public TaxCategory name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public TaxCategory products(List<Product> products) {
+    this.products = products;
+    return this;
+  }
+
+  public TaxCategory addProductsItem(Product productsItem) {
+    if (this.products == null) {
+      this.products = new ArrayList<Product>();
     }
+    this.products.add(productsItem);
+    return this;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  /**
+   * Get products
+   * @return products
+  **/
+  @ApiModelProperty(value = "")
 
-    public String getName() {
-        return name;
-    }
+  @Valid
 
-    public TaxCategory name(String name) {
-        this.name = name;
-        return this;
-    }
+  public List<Product> getProducts() {
+    return products;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setProducts(List<Product> products) {
+    this.products = products;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public TaxCategory taxes(List<Tax> taxes) {
+    this.taxes = taxes;
+    return this;
+  }
 
-    public TaxCategory description(String description) {
-        this.description = description;
-        return this;
+  public TaxCategory addTaxesItem(Tax taxesItem) {
+    if (this.taxes == null) {
+      this.taxes = new ArrayList<Tax>();
     }
+    this.taxes.add(taxesItem);
+    return this;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  /**
+   * Get taxes
+   * @return taxes
+  **/
+  @ApiModelProperty(value = "")
 
-    public Set<Tax> getTaxes() {
-        return taxes;
-    }
+  @Valid
 
-    public TaxCategory taxes(Set<Tax> taxes) {
-        this.taxes = taxes;
-        return this;
-    }
+  public List<Tax> getTaxes() {
+    return taxes;
+  }
 
-    public TaxCategory addTaxes(Tax tax) {
-        this.taxes.add(tax);
-        tax.setTaxCategory(this);
-        return this;
-    }
+  public void setTaxes(List<Tax> taxes) {
+    this.taxes = taxes;
+  }
 
-    public TaxCategory removeTaxes(Tax tax) {
-        this.taxes.remove(tax);
-        tax.setTaxCategory(null);
-        return this;
-    }
 
-    public void setTaxes(Set<Tax> taxes) {
-        this.taxes = taxes;
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TaxCategory taxCategory = (TaxCategory) o;
+    return Objects.equals(this.description, taxCategory.description) &&
+        Objects.equals(this.id, taxCategory.id) &&
+        Objects.equals(this.name, taxCategory.name) &&
+        Objects.equals(this.products, taxCategory.products) &&
+        Objects.equals(this.taxes, taxCategory.taxes);
+  }
 
-    public Set<Product> getProducts() {
-        return products;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(description, id, name, products, taxes);
+  }
 
-    public TaxCategory products(Set<Product> products) {
-        this.products = products;
-        return this;
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class TaxCategory {\n");
+    
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    products: ").append(toIndentedString(products)).append("\n");
+    sb.append("    taxes: ").append(toIndentedString(taxes)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    public TaxCategory addProducts(Product product) {
-        this.products.add(product);
-        product.setTaxCategory(this);
-        return this;
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public TaxCategory removeProducts(Product product) {
-        this.products.remove(product);
-        product.setTaxCategory(null);
-        return this;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        TaxCategory taxCategory = (TaxCategory) o;
-        if (taxCategory.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), taxCategory.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "TaxCategory{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            "}";
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

@@ -1,173 +1,251 @@
 package com.diviso.graeshoppe.client.product.model;
 
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.Status;
+import com.diviso.graeshoppe.client.product.model.StockLine;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
-
 /**
- * A Stock.
+ * Stock
  */
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
-@Document(indexName = "stock")
-public class Stock implements Serializable {
+public class Stock   {
+  @JsonProperty("dateOfStockUpdated")
+  private LocalDate dateOfStockUpdated = null;
 
-    private static final long serialVersionUID = 1L;
+  @JsonProperty("deliveryNoteRef")
+  private Long deliveryNoteRef = null;
+
+  @JsonProperty("id")
+  private Long id = null;
+
+  @JsonProperty("reference")
+  private String reference = null;
+
+  @JsonProperty("status")
+  private Status status = null;
+
+  @JsonProperty("stockLines")
+  @Valid
+  private List<StockLine> stockLines = null;
+
+  @JsonProperty("storageCost")
+  private Double storageCost = null;
+
+  public Stock dateOfStockUpdated(LocalDate dateOfStockUpdated) {
+    this.dateOfStockUpdated = dateOfStockUpdated;
+    return this;
+  }
+
+  /**
+   * Get dateOfStockUpdated
+   * @return dateOfStockUpdated
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public LocalDate getDateOfStockUpdated() {
+    return dateOfStockUpdated;
+  }
+
+  public void setDateOfStockUpdated(LocalDate dateOfStockUpdated) {
+    this.dateOfStockUpdated = dateOfStockUpdated;
+  }
+
+  public Stock deliveryNoteRef(Long deliveryNoteRef) {
+    this.deliveryNoteRef = deliveryNoteRef;
+    return this;
+  }
+
+  /**
+   * Get deliveryNoteRef
+   * @return deliveryNoteRef
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getDeliveryNoteRef() {
+    return deliveryNoteRef;
+  }
+
+  public void setDeliveryNoteRef(Long deliveryNoteRef) {
+    this.deliveryNoteRef = deliveryNoteRef;
+  }
+
+  public Stock id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Stock reference(String reference) {
+    this.reference = reference;
+    return this;
+  }
+
+  /**
+   * Get reference
+   * @return reference
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getReference() {
+    return reference;
+  }
+
+  public void setReference(String reference) {
+    this.reference = reference;
+  }
+
+  public Stock status(Status status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Get status
+   * @return status
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
+  public Stock stockLines(List<StockLine> stockLines) {
+    this.stockLines = stockLines;
+    return this;
+  }
+
+  public Stock addStockLinesItem(StockLine stockLinesItem) {
+    if (this.stockLines == null) {
+      this.stockLines = new ArrayList<StockLine>();
+    }
+    this.stockLines.add(stockLinesItem);
+    return this;
+  }
+
+  /**
+   * Get stockLines
+   * @return stockLines
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<StockLine> getStockLines() {
+    return stockLines;
+  }
+
+  public void setStockLines(List<StockLine> stockLines) {
+    this.stockLines = stockLines;
+  }
+
+  public Stock storageCost(Double storageCost) {
+    this.storageCost = storageCost;
+    return this;
+  }
+
+  /**
+   * Get storageCost
+   * @return storageCost
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getStorageCost() {
+    return storageCost;
+  }
+
+  public void setStorageCost(Double storageCost) {
+    this.storageCost = storageCost;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Stock stock = (Stock) o;
+    return Objects.equals(this.dateOfStockUpdated, stock.dateOfStockUpdated) &&
+        Objects.equals(this.deliveryNoteRef, stock.deliveryNoteRef) &&
+        Objects.equals(this.id, stock.id) &&
+        Objects.equals(this.reference, stock.reference) &&
+        Objects.equals(this.status, stock.status) &&
+        Objects.equals(this.stockLines, stock.stockLines) &&
+        Objects.equals(this.storageCost, stock.storageCost);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(dateOfStockUpdated, deliveryNoteRef, id, reference, status, stockLines, storageCost);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Stock {\n");
     
-  
-    private Long id;
+    sb.append("    dateOfStockUpdated: ").append(toIndentedString(dateOfStockUpdated)).append("\n");
+    sb.append("    deliveryNoteRef: ").append(toIndentedString(deliveryNoteRef)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    stockLines: ").append(toIndentedString(stockLines)).append("\n");
+    sb.append("    storageCost: ").append(toIndentedString(storageCost)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    
-    private String reference;
-
-   
-    private Long deliveryNoteRef;
-
-    private LocalDate dateOfStockUpdated;
-
-    private Double storageCost;
-
-   
-    private Status status;
-
-    private Set<StockLine> stockLines = new HashSet<>();
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public Stock reference(String reference) {
-        this.reference = reference;
-        return this;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    public Long getDeliveryNoteRef() {
-        return deliveryNoteRef;
-    }
-
-    public Stock deliveryNoteRef(Long deliveryNoteRef) {
-        this.deliveryNoteRef = deliveryNoteRef;
-        return this;
-    }
-
-    public void setDeliveryNoteRef(Long deliveryNoteRef) {
-        this.deliveryNoteRef = deliveryNoteRef;
-    }
-
-    public LocalDate getDateOfStockUpdated() {
-        return dateOfStockUpdated;
-    }
-
-    public Stock dateOfStockUpdated(LocalDate dateOfStockUpdated) {
-        this.dateOfStockUpdated = dateOfStockUpdated;
-        return this;
-    }
-
-    public void setDateOfStockUpdated(LocalDate dateOfStockUpdated) {
-        this.dateOfStockUpdated = dateOfStockUpdated;
-    }
-
-    public Double getStorageCost() {
-        return storageCost;
-    }
-
-    public Stock storageCost(Double storageCost) {
-        this.storageCost = storageCost;
-        return this;
-    }
-
-    public void setStorageCost(Double storageCost) {
-        this.storageCost = storageCost;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public Stock status(Status status) {
-        this.status = status;
-        return this;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Set<StockLine> getStockLines() {
-        return stockLines;
-    }
-
-    public Stock stockLines(Set<StockLine> stockLines) {
-        this.stockLines = stockLines;
-        return this;
-    }
-
-  /*  public Stock addStockLines(StockLine stockLine) {
-        this.stockLines.add(stockLine);
-        stockLine.getStocks().add(this);
-        return this;
-    }
-
-    public Stock removeStockLines(StockLine stockLine) {
-        this.stockLines.remove(stockLine);
-        stockLine.getStocks().remove(this);
-        return this;
-    }*/
-
-    public void setStockLines(Set<StockLine> stockLines) {
-        this.stockLines = stockLines;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Stock stock = (Stock) o;
-        if (stock.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), stock.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Stock{" +
-            "id=" + getId() +
-            ", reference='" + getReference() + "'" +
-            ", deliveryNoteRef=" + getDeliveryNoteRef() +
-            ", dateOfStockUpdated='" + getDateOfStockUpdated() + "'" +
-            ", storageCost=" + getStorageCost() +
-            "}";
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

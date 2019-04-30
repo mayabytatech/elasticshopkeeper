@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * StateDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-19T21:21:08.464+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T17:02:12.813+05:30[Asia/Calcutta]")
 
 public class StateDTO   {
   @JsonProperty("countryId")

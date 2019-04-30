@@ -30,5 +30,18 @@
         "dtoSuffix": "DTO",
         "otherModules": [],
         "enableTranslation": false
+    },
+    "generator-jhipster-swagger-cli": {
+        "apis": {
+            "product": {
+                "spec": "http://34.73.191.107:8084/v2/api-docs"
+            },
+            "customer": {
+                "spec": "http://34.73.191.107:8088/v2/api-docs"
+            },
+            "sale": {
+                "spec": "http://34.73.191.107:8086/v2/api-docs"
+            }
+        }
     }
 }

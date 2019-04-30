@@ -5,6 +5,8 @@
  */
 package com.diviso.graeshoppe.client.product.api;
 
+import java.util.List;
+import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -25,7 +27,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-25T12:45:57.717+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
 @Api(value = "ProductResource", description = "the ProductResource API")
 public interface ProductResourceApi {
@@ -77,6 +79,20 @@ public interface ProductResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<ProductDTO> getProductUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST", notes = "", response = ProductDTO.class, responseContainer = "List", tags={ "product-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = ProductDTO.class, responseContainer = "List"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/products/toDto",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<List<ProductDTO>> listToDtoUsingPOST(@ApiParam(value = "products" ,required=true )  @Valid @RequestBody List<Product> product);
 
 
     @ApiOperation(value = "searchProducts", nickname = "searchProductsUsingGET", notes = "", response = ProductDTO.class, responseContainer = "List", tags={ "product-resource", })

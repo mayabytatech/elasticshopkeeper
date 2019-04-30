@@ -1,167 +1,231 @@
 package com.diviso.graeshoppe.client.product.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.Stock;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
-
 /**
- * A Status.
+ * Status
  */
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
-@Document(indexName = "status")
-public class Status implements Serializable {
+public class Status   {
+  @JsonProperty("description")
+  private String description = null;
 
-    private static final long serialVersionUID = 1L;
+  @JsonProperty("id")
+  private Long id = null;
+
+  @JsonProperty("name")
+  private String name = null;
+
+  @JsonProperty("products")
+  @Valid
+  private List<Product> products = null;
+
+  @JsonProperty("reference")
+  private String reference = null;
+
+  @JsonProperty("stocks")
+  @Valid
+  private List<Stock> stocks = null;
+
+  public Status description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Get description
+   * @return description
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Status id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Status name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Status products(List<Product> products) {
+    this.products = products;
+    return this;
+  }
+
+  public Status addProductsItem(Product productsItem) {
+    if (this.products == null) {
+      this.products = new ArrayList<Product>();
+    }
+    this.products.add(productsItem);
+    return this;
+  }
+
+  /**
+   * Get products
+   * @return products
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<Product> products) {
+    this.products = products;
+  }
+
+  public Status reference(String reference) {
+    this.reference = reference;
+    return this;
+  }
+
+  /**
+   * Get reference
+   * @return reference
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getReference() {
+    return reference;
+  }
+
+  public void setReference(String reference) {
+    this.reference = reference;
+  }
+
+  public Status stocks(List<Stock> stocks) {
+    this.stocks = stocks;
+    return this;
+  }
+
+  public Status addStocksItem(Stock stocksItem) {
+    if (this.stocks == null) {
+      this.stocks = new ArrayList<Stock>();
+    }
+    this.stocks.add(stocksItem);
+    return this;
+  }
+
+  /**
+   * Get stocks
+   * @return stocks
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Stock> getStocks() {
+    return stocks;
+  }
+
+  public void setStocks(List<Stock> stocks) {
+    this.stocks = stocks;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Status status = (Status) o;
+    return Objects.equals(this.description, status.description) &&
+        Objects.equals(this.id, status.id) &&
+        Objects.equals(this.name, status.name) &&
+        Objects.equals(this.products, status.products) &&
+        Objects.equals(this.reference, status.reference) &&
+        Objects.equals(this.stocks, status.stocks);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(description, id, name, products, reference, stocks);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Status {\n");
     
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    products: ").append(toIndentedString(products)).append("\n");
+    sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
+    sb.append("    stocks: ").append(toIndentedString(stocks)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    private Long id;
-
-
-    private String reference;
-
-    
-    private String name;
-
-    private String description;
-
- 
-    private Set<Product> products = new HashSet<>();
-
-    private Set<Stock> stocks = new HashSet<>();
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public Status reference(String reference) {
-        this.reference = reference;
-        return this;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Status name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Status description(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public Status products(Set<Product> products) {
-        this.products = products;
-        return this;
-    }
-
-    public Status addProducts(Product product) {
-        this.products.add(product);
-        product.setStatus(this);
-        return this;
-    }
-
-    public Status removeProducts(Product product) {
-        this.products.remove(product);
-        product.setStatus(null);
-        return this;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-
-    public Set<Stock> getStocks() {
-        return stocks;
-    }
-
-    public Status stocks(Set<Stock> stocks) {
-        this.stocks = stocks;
-        return this;
-    }
-
-    public Status addStocks(Stock stock) {
-        this.stocks.add(stock);
-        stock.setStatus(this);
-        return this;
-    }
-
-    public Status removeStocks(Stock stock) {
-        this.stocks.remove(stock);
-        stock.setStatus(null);
-        return this;
-    }
-
-    public void setStocks(Set<Stock> stocks) {
-        this.stocks = stocks;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Status status = (Status) o;
-        if (status.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), status.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Status{" +
-            "id=" + getId() +
-            ", reference='" + getReference() + "'" +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            "}";
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

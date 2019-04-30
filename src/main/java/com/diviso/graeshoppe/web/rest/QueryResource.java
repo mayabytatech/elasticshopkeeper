@@ -110,8 +110,9 @@ public class QueryResource {
 	}*/
 	
 	@GetMapping("/products")
-	public Page<Product> findAllProduct(Pageable page){
-		return queryService.findAllProduct(page);
+	public ResponseEntity<List<ProductDTO>> findAllProduct(Pageable page){
+		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(page).getContent());
+		
 	}
 
 	@GetMapping("/ticket-lines")

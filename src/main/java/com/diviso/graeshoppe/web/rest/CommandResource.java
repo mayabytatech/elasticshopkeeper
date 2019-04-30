@@ -40,6 +40,9 @@ public class CommandResource {
 	@Autowired
 	SaleResourceApi saleResourceApi;
 	@Autowired
+	UomResourceApi UomResourceApi;
+	
+	@Autowired
 	TicketLineResourceApi ticketLineResourceApi;
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
@@ -119,12 +122,16 @@ public class CommandResource {
 		ticketLineResourceApi.deleteTicketLineUsingDELETE(id);
 	}
 	
+	@PutMapping("/uoms")
+	public ResponseEntity<UomDTO> createUom(@RequestBody UomDTO uomDTO){
+		return UomResourceApi.updateUomUsingPUT(uomDTO);
+	}
 	
 	
-	
-	
-	
-	
+	@DeleteMapping("/uoms")
+	public void deleteUOM(@PathVariable  Long id){
+		UomResourceApi.deleteUomUsingDELETE(id);
+	}
 	
 	
 	

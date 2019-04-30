@@ -1,171 +1,207 @@
 package com.diviso.graeshoppe.client.product.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
-
 /**
- * A Category.
+ * Category
  */
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
-@Document(indexName = "category")
-public class Category implements Serializable {
+public class Category   {
+  @JsonProperty("description")
+  private String description = null;
 
-    private static final long serialVersionUID = 1L;
+  @JsonProperty("id")
+  private Long id = null;
 
-    private Long id;
+  @JsonProperty("image")
+  private byte[] image = null;
 
-    private String name;
+  @JsonProperty("imageContentType")
+  private String imageContentType = null;
 
-    private byte[] image;
+  @JsonProperty("name")
+  private String name = null;
+
+  @JsonProperty("visible")
+  private Boolean visible = null;
+
+  public Category description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Get description
+   * @return description
+  **/
+  @ApiModelProperty(value = "")
 
 
-    private String imageContentType;
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Category id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
 
 
-    private Boolean visible;
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Category image(byte[] image) {
+    this.image = image;
+    return this;
+  }
+
+  /**
+   * Get image
+   * @return image
+  **/
+  @ApiModelProperty(value = "")
+
+@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$") 
+  public byte[] getImage() {
+    return image;
+  }
+
+  public void setImage(byte[] image) {
+    this.image = image;
+  }
+
+  public Category imageContentType(String imageContentType) {
+    this.imageContentType = imageContentType;
+    return this;
+  }
+
+  /**
+   * Get imageContentType
+   * @return imageContentType
+  **/
+  @ApiModelProperty(value = "")
 
 
-    private String description;
+  public String getImageContentType() {
+    return imageContentType;
+  }
 
-    private Set<Product> products = new HashSet<>();
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
+  public void setImageContentType(String imageContentType) {
+    this.imageContentType = imageContentType;
+  }
+
+  public Category name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Category visible(Boolean visible) {
+    this.visible = visible;
+    return this;
+  }
+
+  /**
+   * Get visible
+   * @return visible
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean isVisible() {
+    return visible;
+  }
+
+  public void setVisible(Boolean visible) {
+    this.visible = visible;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    Category category = (Category) o;
+    return Objects.equals(this.description, category.description) &&
+        Objects.equals(this.id, category.id) &&
+        Objects.equals(this.image, category.image) &&
+        Objects.equals(this.imageContentType, category.imageContentType) &&
+        Objects.equals(this.name, category.name) &&
+        Objects.equals(this.visible, category.visible);
+  }
 
-    public String getName() {
-        return name;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(description, id, image, imageContentType, name, visible);
+  }
 
-    public Category name(String name) {
-        this.name = name;
-        return this;
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Category {\n");
+    
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    image: ").append(toIndentedString(image)).append("\n");
+    sb.append("    imageContentType: ").append(toIndentedString(imageContentType)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    visible: ").append(toIndentedString(visible)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    public void setName(String name) {
-        this.name = name;
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public Category image(byte[] image) {
-        this.image = image;
-        return this;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public String getImageContentType() {
-        return imageContentType;
-    }
-
-    public Category imageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-        return this;
-    }
-
-    public void setImageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-    }
-
-    public Boolean isVisible() {
-        return visible;
-    }
-
-    public Category visible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Category description(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public Category products(Set<Product> products) {
-        this.products = products;
-        return this;
-    }
-
-    public Category addProduct(Product product) {
-        this.products.add(product);
-        product.setCategory(this);
-        return this;
-    }
-
-    public Category removeProduct(Product product) {
-        this.products.remove(product);
-        product.setCategory(null);
-        return this;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Category category = (Category) o;
-        if (category.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), category.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", image='" + getImage() + "'" +
-            ", imageContentType='" + getImageContentType() + "'" +
-            ", visible='" + isVisible() + "'" +
-            ", description='" + getDescription() + "'" +
-            "}";
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

@@ -1,433 +1,641 @@
 package com.diviso.graeshoppe.client.product.model;
 
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.Barcode;
+import com.diviso.graeshoppe.client.product.model.Category;
+import com.diviso.graeshoppe.client.product.model.Label;
+import com.diviso.graeshoppe.client.product.model.Note;
+import com.diviso.graeshoppe.client.product.model.Status;
+import com.diviso.graeshoppe.client.product.model.StockLine;
+import com.diviso.graeshoppe.client.product.model.TaxCategory;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
-
 /**
- * A Product.
+ * Product
  */
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
-@Document(indexName = "product")
-public class Product implements Serializable {
+public class Product   {
+  @JsonProperty("barcode")
+  private Barcode barcode = null;
 
-    private static final long serialVersionUID = 1L;
+  @JsonProperty("categories")
+  @Valid
+  private List<Category> categories = null;
+
+  @JsonProperty("dateOfExpiry")
+  private LocalDate dateOfExpiry = null;
+
+  @JsonProperty("dateOfMfd")
+  private LocalDate dateOfMfd = null;
+
+  @JsonProperty("description")
+  private String description = null;
+
+  @JsonProperty("id")
+  private Long id = null;
+
+  @JsonProperty("image")
+  private byte[] image = null;
+
+  @JsonProperty("imageContentType")
+  private String imageContentType = null;
+
+  @JsonProperty("labels")
+  @Valid
+  private List<Label> labels = null;
+
+  @JsonProperty("maximumStockLevel")
+  private Double maximumStockLevel = null;
+
+  @JsonProperty("mpn")
+  private String mpn = null;
+
+  @JsonProperty("name")
+  private String name = null;
+
+  @JsonProperty("notes")
+  @Valid
+  private List<Note> notes = null;
+
+  @JsonProperty("reOrderLevel")
+  private Double reOrderLevel = null;
+
+  @JsonProperty("reference")
+  private String reference = null;
+
+  @JsonProperty("searchkey")
+  private String searchkey = null;
+
+  @JsonProperty("sku")
+  private String sku = null;
+
+  @JsonProperty("status")
+  private Status status = null;
+
+  @JsonProperty("stockLines")
+  @Valid
+  private List<StockLine> stockLines = null;
+
+  @JsonProperty("taxCategory")
+  private TaxCategory taxCategory = null;
+
+  @JsonProperty("visible")
+  private Boolean visible = null;
+
+  public Product barcode(Barcode barcode) {
+    this.barcode = barcode;
+    return this;
+  }
+
+  /**
+   * Get barcode
+   * @return barcode
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Barcode getBarcode() {
+    return barcode;
+  }
+
+  public void setBarcode(Barcode barcode) {
+    this.barcode = barcode;
+  }
+
+  public Product categories(List<Category> categories) {
+    this.categories = categories;
+    return this;
+  }
+
+  public Product addCategoriesItem(Category categoriesItem) {
+    if (this.categories == null) {
+      this.categories = new ArrayList<Category>();
+    }
+    this.categories.add(categoriesItem);
+    return this;
+  }
+
+  /**
+   * Get categories
+   * @return categories
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Category> getCategories() {
+    return categories;
+  }
+
+  public void setCategories(List<Category> categories) {
+    this.categories = categories;
+  }
+
+  public Product dateOfExpiry(LocalDate dateOfExpiry) {
+    this.dateOfExpiry = dateOfExpiry;
+    return this;
+  }
+
+  /**
+   * Get dateOfExpiry
+   * @return dateOfExpiry
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public LocalDate getDateOfExpiry() {
+    return dateOfExpiry;
+  }
+
+  public void setDateOfExpiry(LocalDate dateOfExpiry) {
+    this.dateOfExpiry = dateOfExpiry;
+  }
+
+  public Product dateOfMfd(LocalDate dateOfMfd) {
+    this.dateOfMfd = dateOfMfd;
+    return this;
+  }
+
+  /**
+   * Get dateOfMfd
+   * @return dateOfMfd
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public LocalDate getDateOfMfd() {
+    return dateOfMfd;
+  }
+
+  public void setDateOfMfd(LocalDate dateOfMfd) {
+    this.dateOfMfd = dateOfMfd;
+  }
+
+  public Product description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Get description
+   * @return description
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Product id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Product image(byte[] image) {
+    this.image = image;
+    return this;
+  }
+
+  /**
+   * Get image
+   * @return image
+  **/
+  @ApiModelProperty(value = "")
+
+@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$") 
+  public byte[] getImage() {
+    return image;
+  }
+
+  public void setImage(byte[] image) {
+    this.image = image;
+  }
+
+  public Product imageContentType(String imageContentType) {
+    this.imageContentType = imageContentType;
+    return this;
+  }
+
+  /**
+   * Get imageContentType
+   * @return imageContentType
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getImageContentType() {
+    return imageContentType;
+  }
+
+  public void setImageContentType(String imageContentType) {
+    this.imageContentType = imageContentType;
+  }
+
+  public Product labels(List<Label> labels) {
+    this.labels = labels;
+    return this;
+  }
+
+  public Product addLabelsItem(Label labelsItem) {
+    if (this.labels == null) {
+      this.labels = new ArrayList<Label>();
+    }
+    this.labels.add(labelsItem);
+    return this;
+  }
+
+  /**
+   * Get labels
+   * @return labels
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Label> getLabels() {
+    return labels;
+  }
+
+  public void setLabels(List<Label> labels) {
+    this.labels = labels;
+  }
+
+  public Product maximumStockLevel(Double maximumStockLevel) {
+    this.maximumStockLevel = maximumStockLevel;
+    return this;
+  }
+
+  /**
+   * Get maximumStockLevel
+   * @return maximumStockLevel
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getMaximumStockLevel() {
+    return maximumStockLevel;
+  }
+
+  public void setMaximumStockLevel(Double maximumStockLevel) {
+    this.maximumStockLevel = maximumStockLevel;
+  }
+
+  public Product mpn(String mpn) {
+    this.mpn = mpn;
+    return this;
+  }
+
+  /**
+   * Get mpn
+   * @return mpn
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getMpn() {
+    return mpn;
+  }
+
+  public void setMpn(String mpn) {
+    this.mpn = mpn;
+  }
+
+  public Product name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Product notes(List<Note> notes) {
+    this.notes = notes;
+    return this;
+  }
+
+  public Product addNotesItem(Note notesItem) {
+    if (this.notes == null) {
+      this.notes = new ArrayList<Note>();
+    }
+    this.notes.add(notesItem);
+    return this;
+  }
+
+  /**
+   * Get notes
+   * @return notes
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Note> getNotes() {
+    return notes;
+  }
+
+  public void setNotes(List<Note> notes) {
+    this.notes = notes;
+  }
+
+  public Product reOrderLevel(Double reOrderLevel) {
+    this.reOrderLevel = reOrderLevel;
+    return this;
+  }
+
+  /**
+   * Get reOrderLevel
+   * @return reOrderLevel
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getReOrderLevel() {
+    return reOrderLevel;
+  }
+
+  public void setReOrderLevel(Double reOrderLevel) {
+    this.reOrderLevel = reOrderLevel;
+  }
+
+  public Product reference(String reference) {
+    this.reference = reference;
+    return this;
+  }
+
+  /**
+   * Get reference
+   * @return reference
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getReference() {
+    return reference;
+  }
+
+  public void setReference(String reference) {
+    this.reference = reference;
+  }
+
+  public Product searchkey(String searchkey) {
+    this.searchkey = searchkey;
+    return this;
+  }
+
+  /**
+   * Get searchkey
+   * @return searchkey
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getSearchkey() {
+    return searchkey;
+  }
+
+  public void setSearchkey(String searchkey) {
+    this.searchkey = searchkey;
+  }
+
+  public Product sku(String sku) {
+    this.sku = sku;
+    return this;
+  }
+
+  /**
+   * Get sku
+   * @return sku
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getSku() {
+    return sku;
+  }
+
+  public void setSku(String sku) {
+    this.sku = sku;
+  }
+
+  public Product status(Status status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Get status
+   * @return status
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
+  public Product stockLines(List<StockLine> stockLines) {
+    this.stockLines = stockLines;
+    return this;
+  }
+
+  public Product addStockLinesItem(StockLine stockLinesItem) {
+    if (this.stockLines == null) {
+      this.stockLines = new ArrayList<StockLine>();
+    }
+    this.stockLines.add(stockLinesItem);
+    return this;
+  }
+
+  /**
+   * Get stockLines
+   * @return stockLines
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<StockLine> getStockLines() {
+    return stockLines;
+  }
+
+  public void setStockLines(List<StockLine> stockLines) {
+    this.stockLines = stockLines;
+  }
+
+  public Product taxCategory(TaxCategory taxCategory) {
+    this.taxCategory = taxCategory;
+    return this;
+  }
+
+  /**
+   * Get taxCategory
+   * @return taxCategory
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public TaxCategory getTaxCategory() {
+    return taxCategory;
+  }
+
+  public void setTaxCategory(TaxCategory taxCategory) {
+    this.taxCategory = taxCategory;
+  }
+
+  public Product visible(Boolean visible) {
+    this.visible = visible;
+    return this;
+  }
+
+  /**
+   * Get visible
+   * @return visible
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean isVisible() {
+    return visible;
+  }
+
+  public void setVisible(Boolean visible) {
+    this.visible = visible;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Product product = (Product) o;
+    return Objects.equals(this.barcode, product.barcode) &&
+        Objects.equals(this.categories, product.categories) &&
+        Objects.equals(this.dateOfExpiry, product.dateOfExpiry) &&
+        Objects.equals(this.dateOfMfd, product.dateOfMfd) &&
+        Objects.equals(this.description, product.description) &&
+        Objects.equals(this.id, product.id) &&
+        Objects.equals(this.image, product.image) &&
+        Objects.equals(this.imageContentType, product.imageContentType) &&
+        Objects.equals(this.labels, product.labels) &&
+        Objects.equals(this.maximumStockLevel, product.maximumStockLevel) &&
+        Objects.equals(this.mpn, product.mpn) &&
+        Objects.equals(this.name, product.name) &&
+        Objects.equals(this.notes, product.notes) &&
+        Objects.equals(this.reOrderLevel, product.reOrderLevel) &&
+        Objects.equals(this.reference, product.reference) &&
+        Objects.equals(this.searchkey, product.searchkey) &&
+        Objects.equals(this.sku, product.sku) &&
+        Objects.equals(this.status, product.status) &&
+        Objects.equals(this.stockLines, product.stockLines) &&
+        Objects.equals(this.taxCategory, product.taxCategory) &&
+        Objects.equals(this.visible, product.visible);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(barcode, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, notes, reOrderLevel, reference, searchkey, sku, status, stockLines, taxCategory, visible);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Product {\n");
     
-    
-    private Long id;
-
-    
-    private String reference;
-
-   
-    private String searchkey;
-
-  
-    private String name;
-
-    @Lob
-   
-    private byte[] image;
-
-  
-    private String imageContentType;
-
-   
-    private String description;
-
-  
-    private String sku;
-
-  
-    private String mpn;
-
-
-    private Boolean visible;
-
-  
-    private LocalDate dateOfMfd;
-
- 
-    private LocalDate dateOfExpiry;
-
-   
-    private Double maximumStockLevel;
-
-   
-    private Double reOrderLevel;
-
-    
-    private Barcode barcode;
-
-   
-    private Set<Note> notes = new HashSet<>();
-    
-    private Set<StockLine> stockLines = new HashSet<>();
-  
-    private Set<Label> labels = new HashSet<>();
-
-  
-    private Category category;
-
-  
-    private Status status;
-
- 
-    private TaxCategory taxCategory;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public Product reference(String reference) {
-        this.reference = reference;
-        return this;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    public String getSearchkey() {
-        return searchkey;
-    }
-
-    public Product searchkey(String searchkey) {
-        this.searchkey = searchkey;
-        return this;
-    }
-
-    public void setSearchkey(String searchkey) {
-        this.searchkey = searchkey;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Product name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public Product image(byte[] image) {
-        this.image = image;
-        return this;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public String getImageContentType() {
-        return imageContentType;
-    }
-
-    public Product imageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-        return this;
-    }
-
-    public void setImageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Product description(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public Product sku(String sku) {
-        this.sku = sku;
-        return this;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public String getMpn() {
-        return mpn;
-    }
-
-    public Product mpn(String mpn) {
-        this.mpn = mpn;
-        return this;
-    }
-
-    public void setMpn(String mpn) {
-        this.mpn = mpn;
-    }
-
-    public Boolean isVisible() {
-        return visible;
-    }
-
-    public Product visible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
-    public LocalDate getDateOfMfd() {
-        return dateOfMfd;
-    }
-
-    public Product dateOfMfd(LocalDate dateOfMfd) {
-        this.dateOfMfd = dateOfMfd;
-        return this;
-    }
-
-    public void setDateOfMfd(LocalDate dateOfMfd) {
-        this.dateOfMfd = dateOfMfd;
-    }
-
-    public LocalDate getDateOfExpiry() {
-        return dateOfExpiry;
-    }
-
-    public Product dateOfExpiry(LocalDate dateOfExpiry) {
-        this.dateOfExpiry = dateOfExpiry;
-        return this;
-    }
-
-    public void setDateOfExpiry(LocalDate dateOfExpiry) {
-        this.dateOfExpiry = dateOfExpiry;
-    }
-
-    public Double getMaximumStockLevel() {
-        return maximumStockLevel;
-    }
-
-    public Product maximumStockLevel(Double maximumStockLevel) {
-        this.maximumStockLevel = maximumStockLevel;
-        return this;
-    }
-
-    public void setMaximumStockLevel(Double maximumStockLevel) {
-        this.maximumStockLevel = maximumStockLevel;
-    }
-
-    public Double getReOrderLevel() {
-        return reOrderLevel;
-    }
-
-    public Product reOrderLevel(Double reOrderLevel) {
-        this.reOrderLevel = reOrderLevel;
-        return this;
-    }
-
-    public void setReOrderLevel(Double reOrderLevel) {
-        this.reOrderLevel = reOrderLevel;
-    }
-
-    public Barcode getBarcode() {
-        return barcode;
-    }
-
-    public Product barcode(Barcode barcode) {
-        this.barcode = barcode;
-        return this;
-    }
-
-    public void setBarcode(Barcode barcode) {
-        this.barcode = barcode;
-    }
-
-    public Set<Note> getNotes() {
-        return notes;
-    }
-
-    public Product notes(Set<Note> notes) {
-        this.notes = notes;
-        return this;
-    }
-
-    public Product addNotes(Note note) {
-        this.notes.add(note);
-        note.setProduct(this);
-        return this;
-    }
-
-    public Product removeNotes(Note note) {
-        this.notes.remove(note);
-        note.setProduct(null);
-        return this;
-    }
-
-    public void setNotes(Set<Note> notes) {
-        this.notes = notes;
-    }
-
-    public Set<StockLine> getStockLines() {
-        return stockLines;
-    }
-
-    public Product stockLines(Set<StockLine> stockLines) {
-        this.stockLines = stockLines;
-        return this;
-    }
-
-    public Product addStockLines(StockLine stockLine) {
-        this.stockLines.add(stockLine);
-        stockLine.setProduct(this);
-        return this;
-    }
-
-    public Product removeStockLines(StockLine stockLine) {
-        this.stockLines.remove(stockLine);
-        stockLine.setProduct(null);
-        return this;
-    }
-
-    public void setStockLines(Set<StockLine> stockLines) {
-        this.stockLines = stockLines;
-    }
-
-    public Set<Label> getLabels() {
-        return labels;
-    }
-
-    public Product labels(Set<Label> labels) {
-        this.labels = labels;
-        return this;
-    }
-/*
-    public Product addLabels(Label label) {
-        this.labels.add(label);
-        label.getProducts().add(this);
-        return this;
-    }
-
-    public Product removeLabels(Label label) {
-        this.labels.remove(label);
-        label.getProducts().remove(this);
-        return this;
-    }*/
-
-    public void setLabels(Set<Label> labels) {
-        this.labels = labels;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public Product category(Category category) {
-        this.category = category;
-        return this;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public Product status(Status status) {
-        this.status = status;
-        return this;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public TaxCategory getTaxCategory() {
-        return taxCategory;
-    }
-
-    public Product taxCategory(TaxCategory taxCategory) {
-        this.taxCategory = taxCategory;
-        return this;
-    }
-
-    public void setTaxCategory(TaxCategory taxCategory) {
-        this.taxCategory = taxCategory;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Product product = (Product) o;
-        if (product.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), product.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-            "id=" + getId() +
-            ", reference='" + getReference() + "'" +
-            ", searchkey='" + getSearchkey() + "'" +
-            ", name='" + getName() + "'" +
-            ", image='" + getImage() + "'" +
-            ", imageContentType='" + getImageContentType() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", sku='" + getSku() + "'" +
-            ", mpn='" + getMpn() + "'" +
-            ", visible='" + isVisible() + "'" +
-            ", dateOfMfd='" + getDateOfMfd() + "'" +
-            ", dateOfExpiry='" + getDateOfExpiry() + "'" +
-            ", maximumStockLevel=" + getMaximumStockLevel() +
-            ", reOrderLevel=" + getReOrderLevel() +
-            "}";
-    }
+    sb.append("    barcode: ").append(toIndentedString(barcode)).append("\n");
+    sb.append("    categories: ").append(toIndentedString(categories)).append("\n");
+    sb.append("    dateOfExpiry: ").append(toIndentedString(dateOfExpiry)).append("\n");
+    sb.append("    dateOfMfd: ").append(toIndentedString(dateOfMfd)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    image: ").append(toIndentedString(image)).append("\n");
+    sb.append("    imageContentType: ").append(toIndentedString(imageContentType)).append("\n");
+    sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
+    sb.append("    maximumStockLevel: ").append(toIndentedString(maximumStockLevel)).append("\n");
+    sb.append("    mpn: ").append(toIndentedString(mpn)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
+    sb.append("    reOrderLevel: ").append(toIndentedString(reOrderLevel)).append("\n");
+    sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
+    sb.append("    searchkey: ").append(toIndentedString(searchkey)).append("\n");
+    sb.append("    sku: ").append(toIndentedString(sku)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    stockLines: ").append(toIndentedString(stockLines)).append("\n");
+    sb.append("    taxCategory: ").append(toIndentedString(taxCategory)).append("\n");
+    sb.append("    visible: ").append(toIndentedString(visible)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

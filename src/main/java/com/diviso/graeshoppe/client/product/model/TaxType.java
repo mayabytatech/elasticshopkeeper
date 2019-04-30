@@ -1,92 +1,133 @@
 package com.diviso.graeshoppe.client.product.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
-import java.io.Serializable;
 import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.Tax;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
- * A TaxType.
+ * TaxType
  */
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
-@Document(indexName = "taxtype")
-public class TaxType implements Serializable {
+public class TaxType   {
+  @JsonProperty("id")
+  private Long id = null;
 
-    private static final long serialVersionUID = 1L;
+  @JsonProperty("tax")
+  private Tax tax = null;
+
+  @JsonProperty("taxType")
+  private String taxType = null;
+
+  public TaxType id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public TaxType tax(Tax tax) {
+    this.tax = tax;
+    return this;
+  }
+
+  /**
+   * Get tax
+   * @return tax
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Tax getTax() {
+    return tax;
+  }
+
+  public void setTax(Tax tax) {
+    this.tax = tax;
+  }
+
+  public TaxType taxType(String taxType) {
+    this.taxType = taxType;
+    return this;
+  }
+
+  /**
+   * Get taxType
+   * @return taxType
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getTaxType() {
+    return taxType;
+  }
+
+  public void setTaxType(String taxType) {
+    this.taxType = taxType;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TaxType taxType = (TaxType) o;
+    return Objects.equals(this.id, taxType.id) &&
+        Objects.equals(this.tax, taxType.tax) &&
+        Objects.equals(this.taxType, taxType.taxType);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, tax, taxType);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class TaxType {\n");
     
-  
-    private Long id;
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    tax: ").append(toIndentedString(tax)).append("\n");
+    sb.append("    taxType: ").append(toIndentedString(taxType)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    private String taxType;
-
-  
-    private Tax tax;
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
-        return id;
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTaxType() {
-        return taxType;
-    }
-
-    public TaxType taxType(String taxType) {
-        this.taxType = taxType;
-        return this;
-    }
-
-    public void setTaxType(String taxType) {
-        this.taxType = taxType;
-    }
-
-    public Tax getTax() {
-        return tax;
-    }
-
-    public TaxType tax(Tax tax) {
-        this.tax = tax;
-        return this;
-    }
-
-    public void setTax(Tax tax) {
-        this.tax = tax;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        TaxType taxType = (TaxType) o;
-        if (taxType.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), taxType.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "TaxType{" +
-            "id=" + getId() +
-            ", taxType='" + getTaxType() + "'" +
-            "}";
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+
