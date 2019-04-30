@@ -1,21 +1,27 @@
 package com.diviso.graeshoppe.web.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.product.model.*;
 import com.diviso.graeshoppe.client.product.api.*;
 
 import com.diviso.graeshoppe.service.QueryService;
+import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -74,7 +80,22 @@ public class QueryResource {
 		return categoryResourceApi.getAllCategoriesUsingGET(page, size, sort);
 	
 	}
+	@GetMapping("/findAllCategoriesWithOutImage")
+	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
+			@RequestParam(value = "sort", required = false) List<String> sort){
+		List<CategoryDTO> categoryDTOList=new ArrayList<CategoryDTO>();
 	
+		for(CategoryDTO categoryDTO:categoryResourceApi.getAllCategoriesUsingGET(page, size, sort).getBody()){
+			categoryDTO.setImage(null);
+			categoryDTOList.add(categoryDTO);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>  "+categoryDTO+"   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		}
+		 Page<CategoryDTO> page1=new PageImpl<CategoryDTO>(categoryDTOList);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page1, "/api/query/findAllCategoriesWithOutImage");
+        return ResponseEntity.ok().headers(headers).body(categoryDTOList);
+		
+		
+	}
 	
 	
 	@GetMapping("/products")
