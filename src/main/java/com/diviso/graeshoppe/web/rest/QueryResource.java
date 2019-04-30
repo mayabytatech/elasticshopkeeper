@@ -104,11 +104,15 @@ public class QueryResource {
 	}
 	
 	
-	@GetMapping("/products")
+	/*@GetMapping("/products")
 	public ResponseEntity<List<ProductDTO>> findAllProduct( Boolean eagerload,Integer page,Integer size,List<String> sort){
 	return productResourceApi.getAllProductsUsingGET(eagerload, page, size, sort);
-	}
+	}*/
 	
+	@GetMapping("/products")
+	public Page<Product> findAllProduct(Pageable page){
+		return queryService.findAllProduct(page);
+	}
 
 	@GetMapping("/ticket-lines")
 	public ResponseEntity<List<TicketLineDTO>> findAllTicketlines(Integer page,Integer size,List<String> sort){
