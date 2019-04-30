@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.diviso.graeshoppe.client.product.api.*;
 import com.diviso.graeshoppe.client.product.model.*;
+import com.diviso.graeshoppe.client.sale.api.*;
+import com.diviso.graeshoppe.client.sale.model.SaleDTO;
+import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
 import com.diviso.graeshoppe.client.aggregators.*;
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
@@ -34,6 +37,10 @@ public class CommandResource {
 	private ContactResourceApi contactResourceApi;
 	@Autowired
 	private CustomerResourceApi customerResourceApi;
+	@Autowired
+	SaleResourceApi saleResourceApi;
+	@Autowired
+	TicketLineResourceApi ticketLineResourceApi;
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
 	@PostMapping("/customers/register-customer")
@@ -96,6 +103,20 @@ public class CommandResource {
 		productResourceApi.deleteProductUsingDELETE(id);
 	}
 	
+	@PostMapping("/sales")
+	public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO saleDTO){
+	return	saleResourceApi.createSaleUsingPOST(saleDTO);
+		
+	}
+	
+	@PutMapping("/sales")
+	public ResponseEntity<TicketLineDTO> updateTicketLine(@RequestBody TicketLineDTO ticketLineDTO){
+		return ticketLineResourceApi.updateTicketLineUsingPUT(ticketLineDTO);
+	}
+	
+	@DeleteMapping("/sales/{id}")
+	public void deleteTicketline(@PathVariable Long id){
+		ticketLineResourceApi.deleteTicketLineUsingDELETE(id);
 	}
 	
 	
@@ -108,4 +129,4 @@ public class CommandResource {
 	
 	
 	
-
+}

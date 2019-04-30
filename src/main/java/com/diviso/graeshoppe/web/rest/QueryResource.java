@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.product.model.*;
+import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
+import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
 import com.diviso.graeshoppe.client.product.api.*;
 
 import com.diviso.graeshoppe.service.QueryService;
@@ -41,6 +43,10 @@ public class QueryResource {
 	
 	@Autowired
 	private	ProductResourceApi productResourceApi ;
+	
+	@Autowired
+	TicketLineResourceApi ticketLineResourceApi;
+	
 /*	@GetMapping("/findAllCategories")
 	public Page<Category> findAllCategories(Pageable pageable) {
 		return queryService.findAllCategories(pageable);
@@ -104,5 +110,14 @@ public class QueryResource {
 	}
 	
 
+	@GetMapping("/ticket-lines")
+	public ResponseEntity<List<TicketLineDTO>> findAllTicketlines(Integer page,Integer size,List<String> sort){
+		return ticketLineResourceApi.getAllTicketLinesUsingGET(page, size, sort);
+	}
+	
+	@GetMapping("/ticket-lines/{id}")
+	public ResponseEntity<TicketLineDTO> findOneTicketLines(@PathVariable Long id){
+		return ticketLineResourceApi.getTicketLineUsingGET(id);
+	}
 	
 }
