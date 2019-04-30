@@ -1,4 +1,4 @@
-package com.diviso.graeshoppe.client.sale;
+package com.diviso.graeshoppe.client.product;
 
 import com.diviso.graeshoppe.client.ExcludeFromComponentScan;
 import feign.auth.BasicAuthRequestInterceptor;
@@ -19,6 +19,6 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 @Configuration
 @ExcludeFromComponentScan
 @EnableConfigurationProperties
-public class ClientConfiguration {
+public class ProductClientConfiguration {
 
 }
