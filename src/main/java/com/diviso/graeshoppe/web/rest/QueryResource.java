@@ -64,9 +64,12 @@ public class QueryResource {
 	
 	@GetMapping("/findAllCustomer/{searchTerm}")
 	public Page<Customer> findAllCustomers(@PathVariable String searchTerm,Pageable pageable) {
-		if(searchTerm != null)
+		if(searchTerm != null) {
+			System.out.println("_--------------------------------_to search");
 			return queryService.findAllCustomers(searchTerm,pageable);
+		}
 		else
+			System.out.println("_--------------------------------_to_no_search");
 			return queryService.findAllCustomersWithoutSearch(pageable);
 	}
 	
