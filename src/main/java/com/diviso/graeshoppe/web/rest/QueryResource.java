@@ -68,7 +68,7 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/findAllCustomers")
-	public Page<Customer> findAllCustomersWithoutSearch(@PathVariable String searchTerm,Pageable pageable) {
+	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
 			return queryService.findAllCustomersWithoutSearch(pageable);
 	}
 	
