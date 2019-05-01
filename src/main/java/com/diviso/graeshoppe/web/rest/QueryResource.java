@@ -119,4 +119,9 @@ public class QueryResource {
 		return ticketLineResourceApi.getTicketLineUsingGET(id);
 	}
 	
+	@GetMapping("/products/{id}")
+	public ResponseEntity<ProductDTO> findProduct(@PathVariable Long id){
+		return this.productResourceApi.getProductUsingGET(id);
+	}
+	
 }
