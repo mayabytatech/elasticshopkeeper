@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,6 +18,7 @@ import javax.validation.constraints.*;
 /**
  * Status
  */
+@Document(indexName = "status")
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
 
