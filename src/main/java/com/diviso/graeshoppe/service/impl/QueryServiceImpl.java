@@ -61,7 +61,7 @@ public class QueryServiceImpl implements QueryService {
 	}
 	@Override
 	public Page<Product> findProductByCategoryId(Long categoryId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("categoryId", categoryId))
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("id", categoryId))
 				.build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
