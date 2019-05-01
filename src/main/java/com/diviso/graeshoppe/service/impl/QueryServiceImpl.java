@@ -128,6 +128,11 @@ public class QueryServiceImpl implements QueryService {
 		
 		return uomList;
 	}
+	@Override
+	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
+	}
 	
 	
 	

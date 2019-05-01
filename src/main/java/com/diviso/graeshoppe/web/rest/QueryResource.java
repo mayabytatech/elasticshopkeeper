@@ -64,7 +64,10 @@ public class QueryResource {
 	
 	@GetMapping("/findAllCustomer/{searchTerm}")
 	public Page<Customer> findAllCustomers(@PathVariable String searchTerm,Pageable pageable) {
-		return queryService.findAllCustomers(searchTerm,pageable);
+		if(searchTerm != null)
+			return queryService.findAllCustomers(searchTerm,pageable);
+		else
+			return queryService.findAllCustomersWithoutSearch(pageable);
 	}
 	
 	
@@ -83,7 +86,6 @@ public class QueryResource {
 	@GetMapping("/findAllCateogories")
 	public ResponseEntity<List<CategoryDTO>> findAllCategories(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
 			@RequestParam(value = "sort", required = false) List<String> sort) {
-		
 		return categoryResourceApi.getAllCategoriesUsingGET(page, size, sort);
 	
 	}
@@ -103,7 +105,6 @@ public class QueryResource {
 	@GetMapping("/products")
 	public ResponseEntity<List<ProductDTO>> findAllProduct(Pageable page){
 		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(page).getContent());
-		
 	}
 
 	@GetMapping("/ticket-lines")
