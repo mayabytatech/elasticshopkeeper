@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDate;
 import java.util.Date;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,6 +18,7 @@ import javax.validation.constraints.*;
 /**
  * Note
  */
+@Document(indexName = "note")
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:18.659136500+05:30[Asia/Calcutta]")
 
