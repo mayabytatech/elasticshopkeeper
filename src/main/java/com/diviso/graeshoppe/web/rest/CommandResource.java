@@ -39,8 +39,6 @@ public class CommandResource {
 	private CustomerResourceApi customerResourceApi;
 	@Autowired
 	SaleResourceApi saleResourceApi;
-	@Autowired
-	UomResourceApi UomResourceApi;
 	
 	@Autowired
 	TicketLineResourceApi ticketLineResourceApi;
@@ -108,32 +106,45 @@ public class CommandResource {
 	
 	@PostMapping("/sales")
 	public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO saleDTO){
-	return	saleResourceApi.createSaleUsingPOST(saleDTO);
-		
+		return	saleResourceApi.createSaleUsingPOST(saleDTO);	
 	}
 	
 	@PutMapping("/sales")
+	public ResponseEntity<SaleDTO> updateSale(@RequestBody SaleDTO saleDTO){
+		return this.saleResourceApi.updateSaleUsingPUT(saleDTO);
+	}
+	
+	@DeleteMapping("/sales/{id}")
+	public void deleteSale(@PathVariable Long id) {
+		this.ticketLineResourceApi.findAllTicketLinesBySaleIdUsingGET(id).getBody().forEach(ticket -> {this.deleteTicketline(ticket.getId());});
+		this.saleResourceApi.deleteSaleUsingDELETE(id);
+	}
+	
+	@PostMapping("/ticket-lines")
+	public ResponseEntity<TicketLineDTO> createTickerLine(@RequestBody TicketLineDTO ticketLineDTO) {
+		return this.ticketLineResourceApi.createTicketLineUsingPOST(ticketLineDTO);
+	}
+	
+	@PutMapping("/ticket-lines")
 	public ResponseEntity<TicketLineDTO> updateTicketLine(@RequestBody TicketLineDTO ticketLineDTO){
 		return ticketLineResourceApi.updateTicketLineUsingPUT(ticketLineDTO);
 	}
 	
-	@DeleteMapping("/sales/{id}")
+	@DeleteMapping("/ticket-lines/{id}")
 	public void deleteTicketline(@PathVariable Long id){
 		ticketLineResourceApi.deleteTicketLineUsingDELETE(id);
 	}
 	
 	@PutMapping("/uoms")
 	public ResponseEntity<UomDTO> createUom(@RequestBody UomDTO uomDTO){
-		return UomResourceApi.updateUomUsingPUT(uomDTO);
+		return uomResourceApi.updateUomUsingPUT(uomDTO);
 	}
 	
 	
 	@DeleteMapping("/uoms")
 	public void deleteUOM(@PathVariable  Long id){
-		UomResourceApi.deleteUomUsingDELETE(id);
+		uomResourceApi.deleteUomUsingDELETE(id);
 	}
-	
-	
 	
 	
 }

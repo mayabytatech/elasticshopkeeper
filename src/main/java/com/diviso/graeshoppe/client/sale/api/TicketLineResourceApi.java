@@ -66,6 +66,16 @@ public interface TicketLineResourceApi {
         method = RequestMethod.GET)
     ResponseEntity<List<TicketLineDTO>> getAllTicketLinesUsingGET(@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
 
+    @ApiOperation(value = "findAllTicketLinesBySaleId", nickname = "findAllTicketLinesBySaleIdUsingGET", notes = "", response = TicketLineDTO.class, responseContainer = "List", tags={ "ticket-line-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = TicketLineDTO.class, responseContainer = "List"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/findAllTicketLinesBySaleId/{saleId}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<List<TicketLineDTO>> findAllTicketLinesBySaleIdUsingGET(@ApiParam(value = "saleId",required=true) @PathVariable("saleId") Long saleId);
 
     @ApiOperation(value = "getTicketLine", nickname = "getTicketLineUsingGET", notes = "", response = TicketLineDTO.class, tags={ "ticket-line-resource", })
     @ApiResponses(value = { 
