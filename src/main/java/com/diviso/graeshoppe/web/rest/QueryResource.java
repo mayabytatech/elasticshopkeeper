@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.product.model.*;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
@@ -41,6 +41,8 @@ public class QueryResource {
 	@Autowired
 	CategoryResourceApi categoryResourceApi;
 	
+	@Autowired
+	CustomerResourceApi customerResourceApi;
 	
 	@Autowired
 	private	ProductResourceApi productResourceApi ;
@@ -122,6 +124,16 @@ public class QueryResource {
 	@GetMapping("/products/{id}")
 	public ResponseEntity<ProductDTO> findProduct(@PathVariable Long id){
 		return this.productResourceApi.getProductUsingGET(id);
+	}
+	
+	@GetMapping("/products/export")
+	public ResponseEntity<byte[]> exportProducts() {
+		return this.productResourceApi.getPdfAllProdutsWithPriceUsingGET();
+	}
+	
+	@GetMapping("/customers/export")
+	public ResponseEntity<byte[]> exportCustomers() {
+		return this.customerResourceApi.getPdfAllCustomersUsingGET();
 	}
 	
 }

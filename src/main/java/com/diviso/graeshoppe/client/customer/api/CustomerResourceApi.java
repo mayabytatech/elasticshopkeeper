@@ -25,7 +25,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T17:02:12.813+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:23.898839200+05:30[Asia/Calcutta]")
 
 @Api(value = "CustomerResource", description = "the CustomerResource API")
 public interface CustomerResourceApi {
@@ -77,6 +77,18 @@ public interface CustomerResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<CustomerDTO> getCustomerUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "getPdfAllCustomers", nickname = "getPdfAllCustomersUsingGET", notes = "", response = byte[].class, tags={ "customer-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = byte[].class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/pdf/customerReport",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<byte[]> getPdfAllCustomersUsingGET();
 
 
     @ApiOperation(value = "searchCustomers", nickname = "searchCustomersUsingGET", notes = "", response = CustomerDTO.class, responseContainer = "List", tags={ "customer-resource", })

@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,8 +19,8 @@ import io.swagger.annotations.ApiModelProperty;
  * Product
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
-@Document(indexName = "product")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:18.659136500+05:30[Asia/Calcutta]")
+
 public class Product   {
   @JsonProperty("barcode")
   private Barcode barcode = null;

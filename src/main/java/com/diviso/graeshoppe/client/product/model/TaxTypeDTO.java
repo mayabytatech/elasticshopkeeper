@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * TaxTypeDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-04-30T16:24:43.095+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:18.659136500+05:30[Asia/Calcutta]")
 
 public class TaxTypeDTO   {
   @JsonProperty("id")
