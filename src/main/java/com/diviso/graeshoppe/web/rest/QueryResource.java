@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.product.model.*;
+import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
+import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
 import com.diviso.graeshoppe.client.product.api.*;
 
@@ -34,6 +36,8 @@ public class QueryResource {
 	@Autowired
 	QueryService queryService;
 	
+	@Autowired
+	SaleResourceApi saleResourceApi;
 
 	@Autowired
 	UomResourceApi uomResourceApi;
@@ -134,6 +138,16 @@ public class QueryResource {
 	@GetMapping("/customers/export")
 	public ResponseEntity<byte[]> exportCustomers() {
 		return this.customerResourceApi.getPdfAllCustomersUsingGET();
+	}
+	
+	@GetMapping("/sales")
+	public ResponseEntity<List<SaleDTO>> findAllSales(Integer page,Integer size,List<String> sort) {
+		return this.saleResourceApi.getAllSalesUsingGET(page, size, sort);
+	}
+	
+	@GetMapping("/sales/{id}")
+	public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
+		return this.saleResourceApi.getSaleUsingGET(id);
 	}
 	
 }
