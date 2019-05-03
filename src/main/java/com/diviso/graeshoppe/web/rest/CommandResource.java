@@ -62,7 +62,7 @@ public class CommandResource {
 		return customerResourceApi.updateCustomerUsingPUT(customerDTO);
 	}
 	
-	@DeleteMapping("/customers")
+	@DeleteMapping("/customers/{id}")
 	public void deleteCustomer(@PathVariable Long id){
 		customerResourceApi.deleteCustomerUsingDELETE(id);
 	}
@@ -83,8 +83,6 @@ public class CommandResource {
 	
 	@PostMapping("/productCategory")
 	public ResponseEntity<CategoryDTO> createProductCategory(@RequestBody CategoryDTO categoryDTO) {
-		
-		
 		return categoryResourceApi.createCategoryUsingPOST(categoryDTO);
 	}
 	
@@ -141,7 +139,7 @@ public class CommandResource {
 	}
 	
 	
-	@DeleteMapping("/uoms")
+	@DeleteMapping("/uoms/{id}")
 	public void deleteUOM(@PathVariable  Long id){
 		uomResourceApi.deleteUomUsingDELETE(id);
 	}
