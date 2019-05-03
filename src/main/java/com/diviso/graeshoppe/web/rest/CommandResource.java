@@ -134,7 +134,7 @@ public class CommandResource {
 	}
 	
 	@PutMapping("/uoms")
-	public ResponseEntity<UomDTO> createUom(@RequestBody UomDTO uomDTO){
+	public ResponseEntity<UomDTO> updateUOM(@RequestBody UomDTO uomDTO){
 		return uomResourceApi.updateUomUsingPUT(uomDTO);
 	}
 	
