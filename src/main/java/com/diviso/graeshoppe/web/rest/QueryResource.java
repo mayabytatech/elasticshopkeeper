@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
+import com.diviso.graeshoppe.client.customer.model.ContactDTO;
+import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.product.model.*;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
@@ -52,7 +55,10 @@ public class QueryResource {
 	private	ProductResourceApi productResourceApi ;
 	
 	@Autowired
-	TicketLineResourceApi ticketLineResourceApi;
+	private TicketLineResourceApi ticketLineResourceApi;
+	
+	@Autowired
+	private ContactResourceApi contactResourceApi;
 	
 /*	@GetMapping("/findAllCategories")
 	public Page<Category> findAllCategories(Pageable pageable) {
@@ -76,6 +82,16 @@ public class QueryResource {
 	@GetMapping("/findAllCustomers")
 	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
 			return queryService.findAllCustomersWithoutSearch(pageable);
+	}
+	
+	@GetMapping("/customers/{id}")
+	public ResponseEntity<CustomerDTO> findCustomerById(@PathVariable Long id) {
+		return this.customerResourceApi.getCustomerUsingGET(id);
+	}
+	
+	@GetMapping("contacts/{id}")
+	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
+		return this.contactResourceApi.getContactUsingGET(id);
 	}
 	
 	
@@ -148,6 +164,11 @@ public class QueryResource {
 	@GetMapping("/sales/{id}")
 	public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
 		return this.saleResourceApi.getSaleUsingGET(id);
+	}
+	
+	@GetMapping("/stocklines")
+	public ResponseEntity<List<StockLine>> findAllStockLines(Pageable pageable) {
+		return ResponseEntity.ok().body(this.queryService.findAllStockLines(pageable).getContent());
 	}
 	
 }

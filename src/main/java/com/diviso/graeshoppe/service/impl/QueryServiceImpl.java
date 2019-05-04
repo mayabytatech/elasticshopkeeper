@@ -4,10 +4,10 @@ import static org.elasticsearch.action.search.SearchType.QUERY_THEN_FETCH;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,19 +18,18 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
-import com.diviso.graeshoppe.client.product.model.*;
+import com.diviso.graeshoppe.client.product.model.Category;
+import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.StockLine;
+import com.diviso.graeshoppe.client.product.model.Uom;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
 import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
-import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;
-import com.google.gson.JsonObject;
 
 import io.searchbox.client.JestClient;
-import io.searchbox.core.SearchResult;
 import io.searchbox.core.search.aggregation.TermsAggregation;
-import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
 
 @Service
 public class QueryServiceImpl implements QueryService {
@@ -48,24 +47,26 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public Page<Category> findAllCategories(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
-
 		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
-
 	}
+	
 	@Override
 	public Page<Product> findAllProduct(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
-
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
-
 	}
+	
 	@Override
 	public Page<Product> findProductByCategoryId(Long categoryId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("categories.id", categoryId))
 				.build();
-
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
-
+	}
+	
+	@Override
+	public Page<StockLine> findAllStockLines(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, StockLine.class);
 	}
 
 /*	public List<Result> findAll(String searchTerm, Pageable pageable) {

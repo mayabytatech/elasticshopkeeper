@@ -21,4 +21,5 @@ public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
  * @return
  */
 Page<Product> findAllProduct(Pageable pageable);
+Page<StockLine> findAllStockLines(Pageable pageable);
 }

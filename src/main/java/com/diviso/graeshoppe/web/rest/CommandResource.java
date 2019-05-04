@@ -32,13 +32,15 @@ public class CommandResource {
 	@Autowired
 	private CategoryResourceApi categoryResourceApi;
 	@Autowired
+	private StockLineResourceApi stockLineResourceApi;
+	@Autowired
 	private	ProductResourceApi productResourceApi ;
 	@Autowired
 	private ContactResourceApi contactResourceApi;
 	@Autowired
 	private CustomerResourceApi customerResourceApi;
 	@Autowired
-	SaleResourceApi saleResourceApi;
+	private SaleResourceApi saleResourceApi;
 	
 	@Autowired
 	TicketLineResourceApi ticketLineResourceApi;
@@ -64,7 +66,19 @@ public class CommandResource {
 	
 	@DeleteMapping("/customers/{id}")
 	public void deleteCustomer(@PathVariable Long id){
+		Long contactid = customerResourceApi.getCustomerUsingGET(id).getBody().getContactId();
 		customerResourceApi.deleteCustomerUsingDELETE(id);
+		this.deleteContact(contactid);
+	}
+	
+	@PutMapping("/contacts")
+	public ResponseEntity<ContactDTO> updateContact(@RequestBody ContactDTO contact) {
+		return this.contactResourceApi.updateContactUsingPUT(contact);
+	}
+	
+	@DeleteMapping("/contacts/{id}")
+	public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
+		return this.contactResourceApi.deleteContactUsingDELETE(id);
 	}
 	
 	@PutMapping("/categories")
@@ -138,11 +152,23 @@ public class CommandResource {
 		return uomResourceApi.updateUomUsingPUT(uomDTO);
 	}
 	
-	
 	@DeleteMapping("/uoms/{id}")
 	public void deleteUOM(@PathVariable  Long id){
 		uomResourceApi.deleteUomUsingDELETE(id);
 	}
 	
+	@PostMapping("/stocklines")
+	public ResponseEntity<StockLineDTO> createStockLine(@RequestBody StockLineDTO stockLine) {
+		return this.stockLineResourceApi.createStockLineUsingPOST(stockLine);
+	}
 	
+	@PutMapping("/stocklines")
+	public ResponseEntity<StockLineDTO> updateStockLine(@RequestBody StockLineDTO stockLine) {
+		return this.stockLineResourceApi.updateStockLineUsingPUT(stockLine);
+	}
+	
+	@DeleteMapping("/stocklines/{id}")
+	public ResponseEntity<Void> deleteStockLine(@PathVariable Long id) {
+		return this.stockLineResourceApi.deleteStockLineUsingDELETE(id);
+	}
 }
