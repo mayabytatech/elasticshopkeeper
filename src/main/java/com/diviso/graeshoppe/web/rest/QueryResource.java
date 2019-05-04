@@ -102,21 +102,21 @@ public class QueryResource {
 	
 	@GetMapping("/findAllUom")
 	public ResponseEntity<List<UomDTO>> findAllUom(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
-			@RequestParam(value = "sort", required = false) List<String> sort) {
+			@RequestParam(value = "sort", required = false) ArrayList<String> sort) {
 		
 		return uomResourceApi.getAllUomsUsingGET(page,size, sort);
 	}
 	
 	@GetMapping("/findAllCateogories")
 	public ResponseEntity<List<CategoryDTO>> findAllCategories(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
-			@RequestParam(value = "sort", required = false) List<String> sort) {
+			@RequestParam(value = "sort", required = false) ArrayList<String> sort) {
 		return categoryResourceApi.getAllCategoriesUsingGET(page, size, sort);
 	
 	}
 	
 	@GetMapping("/findAllCategoriesWithOutImage")
 	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
-			@RequestParam(value = "sort", required = false) List<String> sort){
+			@RequestParam(value = "sort", required = false) ArrayList<String> sort){
 		return ResponseEntity.ok().body(categoryResourceApi.getAllCategoriesUsingGET(page, size, sort).getBody().stream().map(c -> {c.setImage(null); return c;}).collect(Collectors.toList()));
 	}
 	
@@ -132,7 +132,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/ticket-lines")
-	public ResponseEntity<List<TicketLineDTO>> findAllTicketlines(Integer page,Integer size,List<String> sort){
+	public ResponseEntity<List<TicketLineDTO>> findAllTicketlines(Integer page,Integer size,ArrayList<String> sort){
 		return ticketLineResourceApi.getAllTicketLinesUsingGET(page, size, sort);
 	}
 	
@@ -157,7 +157,7 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/sales")
-	public ResponseEntity<List<SaleDTO>> findAllSales(Integer page,Integer size,List<String> sort) {
+	public ResponseEntity<List<SaleDTO>> findAllSales(Integer page,Integer size,ArrayList<String> sort) {
 		return this.saleResourceApi.getAllSalesUsingGET(page, size, sort);
 	}
 	
