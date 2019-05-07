@@ -20,6 +20,7 @@ import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.product.model.*;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
+import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
 import com.diviso.graeshoppe.client.product.api.*;
@@ -164,6 +165,10 @@ public class QueryResource {
 	@GetMapping("/sales/{id}")
 	public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
 		return this.saleResourceApi.getSaleUsingGET(id);
+	}
+	@GetMapping("/sale")
+	public  Page<Sale> findSales(Pageable pageable){
+		return	queryService.findSales(pageable);
 	}
 	
 	@GetMapping("/stocklines")

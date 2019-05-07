@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 
 import com.diviso.graeshoppe.client.product.model.*;
+import com.diviso.graeshoppe.client.sale.domain.Sale;
+import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 
 public interface QueryService {
 public Page<Category> findAllCategories(Pageable pageable);
@@ -22,4 +25,8 @@ public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
  */
 Page<Product> findAllProduct(Pageable pageable);
 Page<StockLine> findAllStockLines(Pageable pageable);
+/**
+ * @return
+ */
+public Page<Sale> findSales(Pageable pageable);
 }
