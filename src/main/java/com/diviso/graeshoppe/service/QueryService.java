@@ -10,6 +10,7 @@ import com.diviso.graeshoppe.client.customer.domain.Customer;
 
 import com.diviso.graeshoppe.client.product.model.*;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
+import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 
 public interface QueryService {
@@ -29,4 +30,5 @@ Page<StockLine> findAllStockLines(Pageable pageable);
  * @return
  */
 public Page<Sale> findSales(Pageable pageable);
+public List<TicketLine> findTicketLinesBySaleId(Long saleId);
 }

@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
@@ -24,7 +23,7 @@ import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockLine;
 import com.diviso.graeshoppe.client.product.model.Uom;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
-import com.diviso.graeshoppe.client.sale.model.SaleDTO;
+import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
@@ -146,6 +145,13 @@ public class QueryServiceImpl implements QueryService {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Sale.class);
 	
+	}
+	
+	@Override
+	public List<TicketLine> findTicketLinesBySaleId(Long saleId) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("sale.id", saleId))
+				.build();
+		return elasticsearchOperations.queryForPage(searchQuery, TicketLine.class).getContent();
 	}
 	
 	

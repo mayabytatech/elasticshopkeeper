@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
@@ -17,21 +19,22 @@ import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
-import com.diviso.graeshoppe.client.product.model.*;
+import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
+import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
+import com.diviso.graeshoppe.client.product.api.UomResourceApi;
+import com.diviso.graeshoppe.client.product.model.CategoryDTO;
+import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.ProductDTO;
+import com.diviso.graeshoppe.client.product.model.StockLine;
+import com.diviso.graeshoppe.client.product.model.UomDTO;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
+import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
-import com.diviso.graeshoppe.client.product.api.*;
-
 import com.diviso.graeshoppe.service.QueryService;
-import com.diviso.graeshoppe.web.rest.util.PaginationUtil;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import com.diviso.graeshoppe.service.dto.SaleAggregate;
 
 @RestController
 @RequestMapping("/api/query")
@@ -137,6 +140,11 @@ public class QueryResource {
 		return ticketLineResourceApi.getAllTicketLinesUsingGET(page, size, sort);
 	}
 	
+	@GetMapping("/ticket-lines-by-sale/{saleId}")
+	public ResponseEntity<List<TicketLine>> findAllTicketLinesBySaleId(@PathVariable Long saleId) {
+		return ResponseEntity.ok().body(queryService.findTicketLinesBySaleId(saleId));
+	}
+	
 	@GetMapping("/ticket-lines/{id}")
 	public ResponseEntity<TicketLineDTO> findOneTicketLines(@PathVariable Long id){
 		return ticketLineResourceApi.getTicketLineUsingGET(id);
@@ -157,10 +165,10 @@ public class QueryResource {
 		return this.customerResourceApi.getPdfAllCustomersUsingGET();
 	}
 	
-	@GetMapping("/sales")
-	public ResponseEntity<List<SaleDTO>> findAllSales(Integer page,Integer size,ArrayList<String> sort) {
-		return this.saleResourceApi.getAllSalesUsingGET(page, size, sort);
-	}
+//	@GetMapping("/sales")
+//	public ResponseEntity<List<SaleDTO>> findAllSales(Integer page,Integer size,ArrayList<String> sort) {
+//		return this.saleResourceApi.getAllSalesUsingGET(page, size, sort);
+//	}
 	
 	@GetMapping("/sales/{id}")
 	public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
@@ -174,6 +182,21 @@ public class QueryResource {
 	@GetMapping("/stocklines")
 	public ResponseEntity<List<StockLine>> findAllStockLines(Pageable pageable) {
 		return ResponseEntity.ok().body(this.queryService.findAllStockLines(pageable).getContent());
+	}
+	
+	@GetMapping("/sale-aggregate")
+	public ResponseEntity<List<SaleAggregate>> findAllSaleAggregates(Pageable pageable) {
+		List<SaleAggregate> sales = new ArrayList<SaleAggregate>();
+		this.findSales(pageable).getContent().forEach(sale -> {
+			SaleAggregate saleAgg = new SaleAggregate();
+			saleAgg.setSale(sale);
+			sales.add(saleAgg);
+		});
+		sales.forEach(sale -> {
+			sale.setCustomer(this.findCustomerById(sale.getSale().getCustomerId()).getBody());
+			sale.setTicketLines(this.findAllTicketLinesBySaleId(sale.getSale().getId()).getBody());
+		});
+		return ResponseEntity.ok().body(sales);
 	}
 	
 }
