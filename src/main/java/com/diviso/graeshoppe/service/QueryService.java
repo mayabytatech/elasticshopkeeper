@@ -31,4 +31,6 @@ Page<StockLine> findAllStockLines(Pageable pageable);
  */
 public Page<Sale> findSales(Pageable pageable);
 public List<TicketLine> findTicketLinesBySaleId(Long saleId);
+public Page<StockCurrent> findAllStockCurrents(Pageable pageable);
+public Page<StockDiary> findAllStockDiaries(Pageable pageable);
 }

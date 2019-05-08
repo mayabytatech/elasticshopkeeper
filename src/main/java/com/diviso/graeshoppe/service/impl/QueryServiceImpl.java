@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.StockCurrent;
+import com.diviso.graeshoppe.client.product.model.StockDiary;
 import com.diviso.graeshoppe.client.product.model.StockLine;
 import com.diviso.graeshoppe.client.product.model.Uom;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
@@ -154,9 +156,17 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, TicketLine.class).getContent();
 	}
 	
+	@Override
+	public Page<StockCurrent> findAllStockCurrents(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
+	}
 	
-	
-	
+	@Override
+	public Page<StockDiary> findAllStockDiaries(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, StockDiary.class);
+	}
 	
 	
 	

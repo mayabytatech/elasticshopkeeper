@@ -1,5 +1,9 @@
 package com.diviso.graeshoppe.web.rest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,20 +11,28 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.diviso.graeshoppe.client.product.api.*;
-import com.diviso.graeshoppe.client.product.model.*;
-import com.diviso.graeshoppe.client.sale.api.*;
-import com.diviso.graeshoppe.client.sale.model.SaleDTO;
-import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
-import com.diviso.graeshoppe.client.aggregators.*;
+
+import com.diviso.graeshoppe.client.aggregators.CustomerAggregator;
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
-import com.diviso.graeshoppe.client.customer.model.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.diviso.graeshoppe.client.customer.model.ContactDTO;
+import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
+import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
+import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
+import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
+import com.diviso.graeshoppe.client.product.api.StockDiaryResourceApi;
+import com.diviso.graeshoppe.client.product.api.StockLineResourceApi;
+import com.diviso.graeshoppe.client.product.api.UomResourceApi;
+import com.diviso.graeshoppe.client.product.model.CategoryDTO;
+import com.diviso.graeshoppe.client.product.model.ProductDTO;
+import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
+import com.diviso.graeshoppe.client.product.model.StockDiaryDTO;
+import com.diviso.graeshoppe.client.product.model.StockLineDTO;
+import com.diviso.graeshoppe.client.product.model.UomDTO;
+import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
+import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
+import com.diviso.graeshoppe.client.sale.model.SaleDTO;
+import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
 
 @RestController
 @RequestMapping("/api/command")
@@ -41,6 +53,10 @@ public class CommandResource {
 	private CustomerResourceApi customerResourceApi;
 	@Autowired
 	private SaleResourceApi saleResourceApi;
+	@Autowired
+	private StockCurrentResourceApi stockCurrentResourceApi;
+	@Autowired
+	private StockDiaryResourceApi stockDiaryResourceApi;
 	
 	@Autowired
 	TicketLineResourceApi ticketLineResourceApi;
@@ -170,5 +186,25 @@ public class CommandResource {
 	@DeleteMapping("/stocklines/{id}")
 	public ResponseEntity<Void> deleteStockLine(@PathVariable Long id) {
 		return this.stockLineResourceApi.deleteStockLineUsingDELETE(id);
+	}
+	
+	@PostMapping("/stock-diaries")
+	public ResponseEntity<StockDiaryDTO> createStockCurrent(@RequestBody StockDiaryDTO stockDiary) {
+		return this.stockDiaryResourceApi.createStockDiaryUsingPOST(stockDiary);
+	}
+	
+	@PutMapping("/stock-diaries")
+	public ResponseEntity<StockDiaryDTO> updateStockDiary(@RequestBody StockDiaryDTO stockDiary) {
+		return this.stockDiaryResourceApi.updateStockDiaryUsingPUT(stockDiary);
+	}
+	
+	@PostMapping("/stock-currents")
+	public ResponseEntity<StockCurrentDTO> createStockCurrent(@RequestBody StockCurrentDTO stockCurrent) {
+		return this.stockCurrentResourceApi.createStockCurrentUsingPOST(stockCurrent);
+	}
+	
+	@PutMapping("/stock-currents")
+	public ResponseEntity<StockCurrentDTO> updateStockCurrent(@RequestBody StockCurrentDTO StockCurrent) {
+		return this.stockCurrentResourceApi.updateStockCurrentUsingPUT(StockCurrent);
 	}
 }

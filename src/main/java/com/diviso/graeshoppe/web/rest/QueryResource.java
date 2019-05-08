@@ -21,10 +21,16 @@ import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
+import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
+import com.diviso.graeshoppe.client.product.api.StockDiaryResourceApi;
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
+import com.diviso.graeshoppe.client.product.model.StockCurrent;
+import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
+import com.diviso.graeshoppe.client.product.model.StockDiary;
+import com.diviso.graeshoppe.client.product.model.StockDiaryDTO;
 import com.diviso.graeshoppe.client.product.model.StockLine;
 import com.diviso.graeshoppe.client.product.model.UomDTO;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
@@ -63,6 +69,12 @@ public class QueryResource {
 	
 	@Autowired
 	private ContactResourceApi contactResourceApi;
+	
+	@Autowired
+	private StockCurrentResourceApi stockCurrentResourceApi;
+	
+	@Autowired
+	private StockDiaryResourceApi stockDiaryResourceApi;
 	
 /*	@GetMapping("/findAllCategories")
 	public Page<Category> findAllCategories(Pageable pageable) {
@@ -198,5 +210,27 @@ public class QueryResource {
 		});
 		return ResponseEntity.ok().body(sales);
 	}
+	
+	@GetMapping("/stock-currents")
+	public ResponseEntity<List<StockCurrent>> getAllStockCurrents(Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllStockCurrents(pageable).getContent());
+	}
+	
+	@GetMapping("/stock-currents/{id}")
+	public ResponseEntity<StockCurrentDTO> findOneStockCurrent(@PathVariable Long id) {
+		return this.stockCurrentResourceApi.getStockCurrentUsingGET(id);
+	}
+	
+	@GetMapping("/stock-diaries")
+	public ResponseEntity<List<StockDiary>> findAllStockDiaries(Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllStockDiaries(pageable).getContent());
+	}
+
+	@GetMapping("/stock-diaries")
+	public ResponseEntity<StockDiaryDTO> findOneStockDiary(@PathVariable Long id) {
+		return this.stockDiaryResourceApi.getStockDiaryUsingGET(id);
+	}
+	
+	
 	
 }
