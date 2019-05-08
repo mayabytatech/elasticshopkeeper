@@ -24,8 +24,8 @@ public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
  * @param pageable
  * @return
  */
-Page<Product> findAllProduct(Pageable pageable);
-Page<StockLine> findAllStockLines(Pageable pageable);
+public Page<Product> findAllProduct(Pageable pageable);
+public Page<StockLine> findAllStockLines(Pageable pageable);
 /**
  * @return
  */
@@ -33,4 +33,7 @@ public Page<Sale> findSales(Pageable pageable);
 public List<TicketLine> findTicketLinesBySaleId(Long saleId);
 public Page<StockCurrent> findAllStockCurrents(Pageable pageable);
 public Page<StockDiary> findAllStockDiaries(Pageable pageable);
+public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable);
+public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable pageable);
+public Page<StockDiary> findStockDiaryByProductId(Long productId, Pageable pageable);
 }

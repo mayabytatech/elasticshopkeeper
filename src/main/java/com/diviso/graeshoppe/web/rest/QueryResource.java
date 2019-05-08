@@ -1,5 +1,7 @@
 package com.diviso.graeshoppe.web.rest;
 
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,6 +89,24 @@ public class QueryResource {
 	public Page<Product> findProductByCategoryId(@PathVariable Long categoryId,Pageable pageable) {
 		return queryService.findProductByCategoryId(categoryId,pageable);
 	}
+	
+	@GetMapping("/findStockCurrentByProductId/{productId}")	
+	public Page<StockCurrent> findStockCurrentByProductId(@PathVariable Long productId,Pageable pageable){
+		return queryService.findStockCurrentByProductId(productId,pageable);
+	}
+	
+	
+	@GetMapping("/findStockDiaryByProductId/{productId}")	
+	public Page<StockDiary> findStockDiaryByProductId(@PathVariable Long productId,Pageable pageable){
+		return queryService.findStockDiaryByProductId(productId,pageable);
+	}
+	
+	@GetMapping("/findProductBySearchTerm/{searchTerm}")
+	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm,Pageable pageable) {
+		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
+	}
+	
+	
 	/*@GetMapping("/findAll/{searchTerm}")
 	public List<Result> findAll(@PathVariable String searchTerm,Pageable pageable) {
 		return queryService.findAll(searchTerm,pageable);
