@@ -253,8 +253,14 @@ public class QueryResource {
 		return this.stockDiaryResourceApi.getStockDiaryUsingGET(id);
 	}
 	
+	@GetMapping("/search-stock-current/{searchTerm}")
+	public ResponseEntity<List<StockCurrentDTO>> searchStockCurrents(@PathVariable String searchTerm, Integer page, Integer size, ArrayList<String> sort) {
+		return this.stockCurrentResourceApi.searchStockCurrentsUsingGET(searchTerm, page, size, sort);
+	}
 	
 	
-	
-	
+	@GetMapping("/search-stock-diary/{searchTerm}")
+	public ResponseEntity<List<StockDiaryDTO>> searchStockDiaries(@PathVariable String searchTerm, Integer page, Integer size, ArrayList<String> sort) {
+		return this.stockDiaryResourceApi.searchStockDiariesUsingGET(searchTerm, page, size, sort);
+	}	
 }
