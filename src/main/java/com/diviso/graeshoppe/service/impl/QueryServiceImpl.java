@@ -61,11 +61,36 @@ public class QueryServiceImpl implements QueryService {
 	}
 	
 	@Override
+	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(matchQuery("name", searchTerm).prefixLength(3)).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
+
+	}
+	
+	@Override
 	public Page<Product> findProductByCategoryId(Long categoryId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("categories.id", categoryId))
 				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
+	
+	@Override
+	public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.id", productId))
+				.build();
+		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
+	}
+	
+	@Override
+	public Page<StockDiary> findStockDiaryByProductId(Long productId, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.id", productId))
+				.build();
+		return elasticsearchOperations.queryForPage(searchQuery, StockDiary.class);
+	}
+	
+	
 	
 	@Override
 	public Page<StockLine> findAllStockLines(Pageable pageable) {
