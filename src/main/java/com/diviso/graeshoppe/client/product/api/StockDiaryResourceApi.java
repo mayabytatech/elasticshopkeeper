@@ -43,7 +43,21 @@ public interface StockDiaryResourceApi {
         method = RequestMethod.POST)
     ResponseEntity<StockDiaryDTO> createStockDiaryUsingPOST(@ApiParam(value = "stockDiaryDTO" ,required=true )  @Valid @RequestBody StockDiaryDTO stockDiaryDTO);
 
+    
+    @ApiOperation(value = "createStockOfProduct", nickname = "createStockOfProductUsingPOST", notes = "", response = StockDiaryDTO.class, tags={ "stock-diary-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = StockDiaryDTO.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/stock-diaries/productStock",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<StockDiaryDTO> createStockOfProductUsingPOST(@ApiParam(value = "stockDiaryDTO" ,required=true )  @Valid @RequestBody StockDiaryDTO stockDiaryDTO);
 
+    
     @ApiOperation(value = "deleteStockDiary", nickname = "deleteStockDiaryUsingDELETE", notes = "", tags={ "stock-diary-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),

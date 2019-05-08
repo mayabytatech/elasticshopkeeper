@@ -207,4 +207,9 @@ public class CommandResource {
 	public ResponseEntity<StockCurrentDTO> updateStockCurrent(@RequestBody StockCurrentDTO StockCurrent) {
 		return this.stockCurrentResourceApi.updateStockCurrentUsingPUT(StockCurrent);
 	}
+	
+	@PostMapping("stock-of-product")
+	public ResponseEntity<StockDiaryDTO> createStockOfProduct(@RequestBody StockDiaryDTO stockDiaryDTO) {
+		return this.stockDiaryResourceApi.createStockOfProductUsingPOST(stockDiaryDTO);
+	}
 }
