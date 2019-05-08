@@ -226,10 +226,12 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findAllStockDiaries(pageable).getContent());
 	}
 
-	@GetMapping("/stock-diaries")
+	@GetMapping("/stock-diaries/{id}")
 	public ResponseEntity<StockDiaryDTO> findOneStockDiary(@PathVariable Long id) {
 		return this.stockDiaryResourceApi.getStockDiaryUsingGET(id);
 	}
+	
+	
 	
 	
 	
