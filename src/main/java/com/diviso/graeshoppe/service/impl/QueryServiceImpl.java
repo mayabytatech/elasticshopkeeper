@@ -82,6 +82,12 @@ public class QueryServiceImpl implements QueryService {
 				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
 	}
+	@Override
+	public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("product.name", name))
+				.build();
+		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
+	}
 	
 	@Override
 	public Page<StockDiary> findStockDiaryByProductId(Long productId, Pageable pageable) {
