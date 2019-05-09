@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * TicketLineDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:28.618870500+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-09T15:22:06.170+05:30[Asia/Kolkata]")
 
 public class TicketLineDTO   {
   @JsonProperty("id")
