@@ -1,6 +1,6 @@
 package com.diviso.graeshoppe.client.sale.model;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -22,7 +22,7 @@ public class SaleDTO   {
   private Long customerId = null;
 
   @JsonProperty("date")
-  private OffsetDateTime date = null;
+  private Instant date = null;
 
   @JsonProperty("grandTotal")
   private Double grandTotal = null;
@@ -50,7 +50,7 @@ public class SaleDTO   {
     this.customerId = customerId;
   }
 
-  public SaleDTO date(OffsetDateTime date) {
+  public SaleDTO date(Instant date) {
     this.date = date;
     return this;
   }
@@ -63,11 +63,11 @@ public class SaleDTO   {
 
   @Valid
 
-  public OffsetDateTime getDate() {
+  public Instant getDate() {
     return date;
   }
 
-  public void setDate(OffsetDateTime date) {
+  public void setDate(Instant date) {
     this.date = date;
   }
 

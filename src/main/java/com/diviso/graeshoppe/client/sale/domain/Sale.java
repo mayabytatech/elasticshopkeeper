@@ -16,7 +16,7 @@
 package com.diviso.graeshoppe.client.sale.domain;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -43,7 +43,7 @@ public class Sale implements Serializable {
 
     private Double grandTotal;
     
-    private OffsetDateTime date ;
+    private Instant date ;
 
    
     private Set<TicketLine> ticketLines = new HashSet<>();
@@ -137,11 +137,11 @@ public class Sale implements Serializable {
             "}";
     }
 
-	public OffsetDateTime getDate() {
+	public Instant getDate() {
 		return date;
 	}
 
-	public void setDate(OffsetDateTime date) {
+	public void setDate(Instant date) {
 		this.date = date;
 	}
 }
