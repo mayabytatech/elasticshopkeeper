@@ -127,6 +127,11 @@ public class QueryResource {
 			return queryService.findAllCustomersWithoutSearch(pageable);
 	}
 	
+	@GetMapping("/findAllProducts")
+	public Page<Product> findAllProducts(Pageable pageable) {
+			return queryService.findAllProducts(pageable);
+	}
+	
 	@GetMapping("/customers/{id}")
 	public ResponseEntity<CustomerDTO> findCustomerById(@PathVariable Long id) {
 		return this.customerResourceApi.getCustomerUsingGET(id);

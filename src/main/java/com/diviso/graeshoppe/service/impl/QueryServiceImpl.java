@@ -198,6 +198,13 @@ public class QueryServiceImpl implements QueryService {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockDiary.class);
 	}
+
+	@Override
+	public Page<Product> findAllProducts(Pageable pageable) {
+		// TODO Auto-generated method stub
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
+	}
 	
 	
 	

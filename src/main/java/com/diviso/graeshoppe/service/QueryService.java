@@ -37,4 +37,5 @@ public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable page
 public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable pageable);
 public Page<StockDiary> findStockDiaryByProductId(Long productId, Pageable pageable);
 public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable);
+public Page<Product> findAllProducts(Pageable pageable);
 }
