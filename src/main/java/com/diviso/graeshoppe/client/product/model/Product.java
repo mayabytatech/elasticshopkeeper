@@ -1,25 +1,30 @@
 package com.diviso.graeshoppe.client.product.model;
 
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.Barcode;
+import com.diviso.graeshoppe.client.product.model.Category;
+import com.diviso.graeshoppe.client.product.model.Label;
+import com.diviso.graeshoppe.client.product.model.Note;
+import com.diviso.graeshoppe.client.product.model.Status;
+import com.diviso.graeshoppe.client.product.model.StockDiary;
+import com.diviso.graeshoppe.client.product.model.StockLine;
+import com.diviso.graeshoppe.client.product.model.TaxCategory;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModelProperty;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * Product
  */
-@Document(indexName = "product")
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:18.659136500+05:30[Asia/Calcutta]")
 
@@ -66,6 +71,9 @@ public class Product   {
   @Valid
   private List<Note> notes = null;
 
+  @JsonProperty("outOfStock")
+  private Boolean outOfStock = null;
+
   @JsonProperty("reOrderLevel")
   private Double reOrderLevel = null;
 
@@ -80,6 +88,10 @@ public class Product   {
 
   @JsonProperty("status")
   private Status status = null;
+
+  @JsonProperty("stockDiaries")
+  @Valid
+  private List<StockDiary> stockDiaries = null;
 
   @JsonProperty("stockLines")
   @Valid
@@ -382,6 +394,26 @@ public class Product   {
     this.notes = notes;
   }
 
+  public Product outOfStock(Boolean outOfStock) {
+    this.outOfStock = outOfStock;
+    return this;
+  }
+
+  /**
+   * Get outOfStock
+   * @return outOfStock
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean isOutOfStock() {
+    return outOfStock;
+  }
+
+  public void setOutOfStock(Boolean outOfStock) {
+    this.outOfStock = outOfStock;
+  }
+
   public Product reOrderLevel(Double reOrderLevel) {
     this.reOrderLevel = reOrderLevel;
     return this;
@@ -485,6 +517,35 @@ public class Product   {
     this.status = status;
   }
 
+  public Product stockDiaries(List<StockDiary> stockDiaries) {
+    this.stockDiaries = stockDiaries;
+    return this;
+  }
+
+  public Product addStockDiariesItem(StockDiary stockDiariesItem) {
+    if (this.stockDiaries == null) {
+      this.stockDiaries = new ArrayList<StockDiary>();
+    }
+    this.stockDiaries.add(stockDiariesItem);
+    return this;
+  }
+
+  /**
+   * Get stockDiaries
+   * @return stockDiaries
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<StockDiary> getStockDiaries() {
+    return stockDiaries;
+  }
+
+  public void setStockDiaries(List<StockDiary> stockDiaries) {
+    this.stockDiaries = stockDiaries;
+  }
+
   public Product stockLines(List<StockLine> stockLines) {
     this.stockLines = stockLines;
     return this;
@@ -578,11 +639,13 @@ public class Product   {
         Objects.equals(this.mpn, product.mpn) &&
         Objects.equals(this.name, product.name) &&
         Objects.equals(this.notes, product.notes) &&
+        Objects.equals(this.outOfStock, product.outOfStock) &&
         Objects.equals(this.reOrderLevel, product.reOrderLevel) &&
         Objects.equals(this.reference, product.reference) &&
         Objects.equals(this.searchkey, product.searchkey) &&
         Objects.equals(this.sku, product.sku) &&
         Objects.equals(this.status, product.status) &&
+        Objects.equals(this.stockDiaries, product.stockDiaries) &&
         Objects.equals(this.stockLines, product.stockLines) &&
         Objects.equals(this.taxCategory, product.taxCategory) &&
         Objects.equals(this.visible, product.visible);
@@ -590,7 +653,7 @@ public class Product   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(barcode, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, notes, reOrderLevel, reference, searchkey, sku, status, stockLines, taxCategory, visible);
+    return Objects.hash(barcode, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, notes, outOfStock, reOrderLevel, reference, searchkey, sku, status, stockDiaries, stockLines, taxCategory, visible);
   }
 
   @Override
@@ -611,11 +674,13 @@ public class Product   {
     sb.append("    mpn: ").append(toIndentedString(mpn)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
+    sb.append("    outOfStock: ").append(toIndentedString(outOfStock)).append("\n");
     sb.append("    reOrderLevel: ").append(toIndentedString(reOrderLevel)).append("\n");
     sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
     sb.append("    searchkey: ").append(toIndentedString(searchkey)).append("\n");
     sb.append("    sku: ").append(toIndentedString(sku)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    stockDiaries: ").append(toIndentedString(stockDiaries)).append("\n");
     sb.append("    stockLines: ").append(toIndentedString(stockLines)).append("\n");
     sb.append("    taxCategory: ").append(toIndentedString(taxCategory)).append("\n");
     sb.append("    visible: ").append(toIndentedString(visible)).append("\n");

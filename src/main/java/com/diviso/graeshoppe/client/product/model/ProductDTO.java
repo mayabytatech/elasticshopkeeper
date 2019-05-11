@@ -1,25 +1,26 @@
 package com.diviso.graeshoppe.client.product.model;
 
+import java.util.Objects;
+import com.diviso.graeshoppe.client.product.model.CategoryDTO;
+import com.diviso.graeshoppe.client.product.model.LabelDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import org.springframework.validation.annotation.Validated;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModelProperty;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * ProductDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:18.659136500+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-11T10:23:12.145314800+05:30[Asia/Colombo]")
 
 public class ProductDTO   {
   @JsonProperty("barcodeId")
@@ -59,6 +60,9 @@ public class ProductDTO   {
 
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("outOfStock")
+  private Boolean outOfStock = null;
 
   @JsonProperty("reOrderLevel")
   private Double reOrderLevel = null;
@@ -342,6 +346,26 @@ public class ProductDTO   {
     this.name = name;
   }
 
+  public ProductDTO outOfStock(Boolean outOfStock) {
+    this.outOfStock = outOfStock;
+    return this;
+  }
+
+  /**
+   * Get outOfStock
+   * @return outOfStock
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean isOutOfStock() {
+    return outOfStock;
+  }
+
+  public void setOutOfStock(Boolean outOfStock) {
+    this.outOfStock = outOfStock;
+  }
+
   public ProductDTO reOrderLevel(Double reOrderLevel) {
     this.reOrderLevel = reOrderLevel;
     return this;
@@ -506,6 +530,7 @@ public class ProductDTO   {
         Objects.equals(this.maximumStockLevel, productDTO.maximumStockLevel) &&
         Objects.equals(this.mpn, productDTO.mpn) &&
         Objects.equals(this.name, productDTO.name) &&
+        Objects.equals(this.outOfStock, productDTO.outOfStock) &&
         Objects.equals(this.reOrderLevel, productDTO.reOrderLevel) &&
         Objects.equals(this.reference, productDTO.reference) &&
         Objects.equals(this.searchkey, productDTO.searchkey) &&
@@ -517,7 +542,7 @@ public class ProductDTO   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(barcodeId, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, reOrderLevel, reference, searchkey, sku, statusId, taxCategoryId, visible);
+    return Objects.hash(barcodeId, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, outOfStock, reOrderLevel, reference, searchkey, sku, statusId, taxCategoryId, visible);
   }
 
   @Override
@@ -537,6 +562,7 @@ public class ProductDTO   {
     sb.append("    maximumStockLevel: ").append(toIndentedString(maximumStockLevel)).append("\n");
     sb.append("    mpn: ").append(toIndentedString(mpn)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    outOfStock: ").append(toIndentedString(outOfStock)).append("\n");
     sb.append("    reOrderLevel: ").append(toIndentedString(reOrderLevel)).append("\n");
     sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
     sb.append("    searchkey: ").append(toIndentedString(searchkey)).append("\n");
