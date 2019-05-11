@@ -18,16 +18,7 @@ package com.diviso.graeshoppe.client.sale.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
 import org.springframework.data.elasticsearch.annotations.Document;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * TODO Provide a detailed description here 

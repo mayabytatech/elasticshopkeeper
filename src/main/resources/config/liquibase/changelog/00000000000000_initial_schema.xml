@@ -77,7 +77,7 @@
         <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
         <loadData encoding="UTF-8"
                   file="config/liquibase/authorities.csv"
-                  separator=";"
+                  separator=";"http://34.73.191.107:8086/v2/api-docs
                   tableName="jhi_authority"/>
 
         <loadData encoding="UTF-8"

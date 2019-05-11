@@ -16,15 +16,10 @@
 package com.diviso.graeshoppe.client.sale.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 
@@ -47,6 +42,8 @@ public class Sale implements Serializable {
     private Long customerId;
 
     private Double grandTotal;
+    
+    private Instant date ;
 
    
     private Set<TicketLine> ticketLines = new HashSet<>();
@@ -139,4 +136,12 @@ public class Sale implements Serializable {
             ", grandTotal=" + getGrandTotal() +
             "}";
     }
+
+	public Instant getDate() {
+		return date;
+	}
+
+	public void setDate(Instant date) {
+		this.date = date;
+	}
 }
