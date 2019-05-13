@@ -20,6 +20,16 @@ public class StockCurrent implements Serializable {
     private Long id;
 
     private Double units;
+    
+    public Double getSellPrice() {
+		return sellPrice;
+	}
+
+	public void setSellPrice(Double sellPrice) {
+		this.sellPrice = sellPrice;
+	}
+
+	private Double sellPrice;
 
     private Product product;
 
@@ -40,6 +50,11 @@ public class StockCurrent implements Serializable {
         this.units = units;
         return this;
     }
+    
+    public StockCurrent sellPrice(Double sellPrice) {
+		this.sellPrice = sellPrice;
+		return this;
+	}
 
     public void setUnits(Double units) {
         this.units = units;
@@ -57,6 +72,8 @@ public class StockCurrent implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
+    
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
