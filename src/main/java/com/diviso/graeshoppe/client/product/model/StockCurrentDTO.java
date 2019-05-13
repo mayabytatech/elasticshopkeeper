@@ -13,114 +13,144 @@ import javax.validation.constraints.*;
  * StockCurrentDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-07T16:55:44.807556800+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-13T15:22:15.702946500+05:30[Asia/Colombo]")
 
-public class StockCurrentDTO {
-	@JsonProperty("id")
-	private Long id = null;
+public class StockCurrentDTO   {
+  @JsonProperty("id")
+  private Long id = null;
 
-	@JsonProperty("units")
-	private Double units = null;
+  @JsonProperty("productId")
+  private Long productId = null;
 
-	@JsonProperty("sellPrice")
-	private Double sellPrice = null;
+  @JsonProperty("sellPrice")
+  private Double sellPrice = null;
 
-	public StockCurrentDTO id(Long id) {
-		this.id = id;
-		return this;
-	}
+  @JsonProperty("units")
+  private Double units = null;
 
-	/**
-	 * Get id
-	 * 
-	 * @return id
-	 **/
-	@ApiModelProperty(value = "")
+  public StockCurrentDTO id(Long id) {
+    this.id = id;
+    return this;
+  }
 
-	public Long getId() {
-		return id;
-	}
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public StockCurrentDTO units(Double units) {
-		this.units = units;
-		return this;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	/**
-	 * Get units
-	 * 
-	 * @return units
-	 **/
-	@ApiModelProperty(value = "")
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public Double getUnits() {
-		return units;
-	}
+  public StockCurrentDTO productId(Long productId) {
+    this.productId = productId;
+    return this;
+  }
 
-	public void setUnits(Double units) {
-		this.units = units;
-	}
+  /**
+   * Get productId
+   * @return productId
+  **/
+  @ApiModelProperty(value = "")
 
-	public StockCurrentDTO sellPrice(Double sellPrice) {
-		this.sellPrice = sellPrice;
-		return this;
-	}
 
-	/**
-	 * Get sellPrice
-	 * 
-	 * @return sellPrice
-	 **/
-	@ApiModelProperty(value = "")
+  public Long getProductId() {
+    return productId;
+  }
 
-	public Double getSellPrice() {
-		return sellPrice;
-	}
+  public void setProductId(Long productId) {
+    this.productId = productId;
+  }
 
-	public void setSellPrice(Double sellPrice) {
-		this.sellPrice = sellPrice;
-	}
+  public StockCurrentDTO sellPrice(Double sellPrice) {
+    this.sellPrice = sellPrice;
+    return this;
+  }
 
-	@Override
-	public boolean equals(java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		StockCurrentDTO stockCurrentDTO = (StockCurrentDTO) o;
-		return Objects.equals(this.id, stockCurrentDTO.id) && Objects.equals(this.units, stockCurrentDTO.units);
-	}
+  /**
+   * Get sellPrice
+   * @return sellPrice
+  **/
+  @ApiModelProperty(value = "")
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, units);
-	}
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("class StockCurrentDTO {\n");
+  public Double getSellPrice() {
+    return sellPrice;
+  }
 
-		sb.append("    id: ").append(toIndentedString(id)).append("\n");
-		sb.append("    units: ").append(toIndentedString(units)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+  public void setSellPrice(Double sellPrice) {
+    this.sellPrice = sellPrice;
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  public StockCurrentDTO units(Double units) {
+    this.units = units;
+    return this;
+  }
+
+  /**
+   * Get units
+   * @return units
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getUnits() {
+    return units;
+  }
+
+  public void setUnits(Double units) {
+    this.units = units;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    StockCurrentDTO stockCurrentDTO = (StockCurrentDTO) o;
+    return Objects.equals(this.id, stockCurrentDTO.id) &&
+        Objects.equals(this.productId, stockCurrentDTO.productId) &&
+        Objects.equals(this.sellPrice, stockCurrentDTO.sellPrice) &&
+        Objects.equals(this.units, stockCurrentDTO.units);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, productId, sellPrice, units);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class StockCurrentDTO {\n");
+    
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
+    sb.append("    sellPrice: ").append(toIndentedString(sellPrice)).append("\n");
+    sb.append("    units: ").append(toIndentedString(units)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+
