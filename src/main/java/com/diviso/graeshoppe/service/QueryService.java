@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
@@ -38,4 +39,5 @@ public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable p
 public Page<StockDiary> findStockDiaryByProductId(Long productId, Pageable pageable);
 public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable);
 public Page<Product> findAllProducts(Pageable pageable);
+public Page<Sale> searchReceipt(Pageable pageable);
 }

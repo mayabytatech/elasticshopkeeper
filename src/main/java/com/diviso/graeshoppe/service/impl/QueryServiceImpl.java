@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -204,6 +206,14 @@ public class QueryServiceImpl implements QueryService {
 		// TODO Auto-generated method stub
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
+	}
+
+	@Override
+	public Page<Sale> searchReceipt(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("date")
+				.order(SortOrder.DESC)).build();
+		// TODO Auto-generated method stub
+		return elasticsearchOperations.queryForPage(searchQuery, Sale.class);
 	}
 	
 	

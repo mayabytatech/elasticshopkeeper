@@ -273,4 +273,11 @@ public class QueryResource {
 	public ResponseEntity<List<StockDiaryDTO>> searchStockDiaries(@PathVariable String searchTerm, Integer page, Integer size, ArrayList<String> sort) {
 		return this.stockDiaryResourceApi.searchStockDiariesUsingGET(searchTerm, page, size, sort);
 	}	
+	
+	@GetMapping("/receipt")
+	public ResponseEntity<List<Sale>> getReceipt(Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.searchReceipt(pageable).getContent());
+	}	
+	
+	
 }
