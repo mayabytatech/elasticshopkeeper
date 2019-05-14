@@ -178,7 +178,7 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public Page<Sale> findSales(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("date")
-				.order(SortOrder.DESC)).build();
+				.order(SortOrder.DESC)).withPageable(pageable).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Sale.class);
 	
 	}
