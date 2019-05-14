@@ -177,7 +177,8 @@ public class QueryServiceImpl implements QueryService {
 	 */
 	@Override
 	public Page<Sale> findSales(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("date")
+				.order(SortOrder.DESC)).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Sale.class);
 	
 	}
@@ -208,13 +209,7 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
 
-	@Override
-	public Page<Sale> searchReceipt(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("date")
-				.order(SortOrder.DESC)).build();
-		// TODO Auto-generated method stub
-		return elasticsearchOperations.queryForPage(searchQuery, Sale.class);
-	}
+	
 	
 	
 	

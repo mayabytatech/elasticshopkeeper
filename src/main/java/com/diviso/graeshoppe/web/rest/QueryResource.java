@@ -1,7 +1,5 @@
 package com.diviso.graeshoppe.web.rest;
 
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,8 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,10 +76,6 @@ public class QueryResource {
 	@Autowired
 	private StockDiaryResourceApi stockDiaryResourceApi;
 	
-/*	@GetMapping("/findAllCategories")
-	public Page<Category> findAllCategories(Pageable pageable) {
-		return queryService.findAllCategories(pageable);
-	}*/
 	
 	@GetMapping("/findProductByCategoryId/{categoryId}")
 	public Page<Product> findProductByCategoryId(@PathVariable Long categoryId,Pageable pageable) {
@@ -112,11 +104,6 @@ public class QueryResource {
 	}
 	
 	
-	/*@GetMapping("/findAll/{searchTerm}")
-	public List<Result> findAll(@PathVariable String searchTerm,Pageable pageable) {
-		return queryService.findAll(searchTerm,pageable);
-	}*/
-	
 	@GetMapping("/findAllCustomer/{searchTerm}")
 	public Page<Customer> findAllCustomers(@PathVariable String searchTerm,Pageable pageable) {
 			return queryService.findAllCustomers(searchTerm,pageable);
@@ -141,13 +128,7 @@ public class QueryResource {
 	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
 		return this.contactResourceApi.getContactUsingGET(id);
 	}
-	
-	
-	/*@GetMapping("/findAllUom")
-	public List<String> findAllUom(Pageable pageable) {
-		return queryService.findAllUom(pageable);
-	}*/
-	
+
 	@GetMapping("/findAllUom")
 	public ResponseEntity<List<UomDTO>> findAllUom(@RequestParam(required = false) Integer page,@RequestParam(required = false) Integer size, 
 			@RequestParam(value = "sort", required = false) ArrayList<String> sort) {
@@ -168,12 +149,6 @@ public class QueryResource {
 		return ResponseEntity.ok().body(categoryResourceApi.getAllCategoriesUsingGET(page, size, sort).getBody().stream().map(c -> {c.setImage(null); return c;}).collect(Collectors.toList()));
 	}
 	
-	
-	/*@GetMapping("/products")
-	public ResponseEntity<List<ProductDTO>> findAllProduct( Boolean eagerload,Integer page,Integer size,List<String> sort){
-	return productResourceApi.getAllProductsUsingGET(eagerload, page, size, sort);
-	}*/
-	
 	@GetMapping("/products")
 	public ResponseEntity<List<ProductDTO>> findAllProduct(Pageable page){
 		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(page).getContent());
@@ -184,7 +159,7 @@ public class QueryResource {
 		return ticketLineResourceApi.getAllTicketLinesUsingGET(page, size, sort);
 	}
 	
-	@GetMapping("/ticket-lines-by-sale/{saleId}")
+	@GetMapping("/ticket-lines/{saleId}")
 	public ResponseEntity<List<TicketLine>> findAllTicketLinesBySaleId(@PathVariable Long saleId) {
 		return ResponseEntity.ok().body(queryService.findTicketLinesBySaleId(saleId));
 	}
@@ -209,11 +184,6 @@ public class QueryResource {
 		return this.customerResourceApi.getPdfAllCustomersUsingGET();
 	}
 	
-//	@GetMapping("/sales")
-//	public ResponseEntity<List<SaleDTO>> findAllSales(Integer page,Integer size,ArrayList<String> sort) {
-//		return this.saleResourceApi.getAllSalesUsingGET(page, size, sort);
-//	}
-	
 	@GetMapping("/sales/{id}")
 	public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
 		return this.saleResourceApi.getSaleUsingGET(id);
@@ -228,7 +198,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(this.queryService.findAllStockLines(pageable).getContent());
 	}
 	
-	@GetMapping("/sale-aggregate")
+	@GetMapping("/sale")
 	public ResponseEntity<List<SaleAggregate>> findAllSaleAggregates(Pageable pageable) {
 		List<SaleAggregate> sales = new ArrayList<SaleAggregate>();
 		this.findSales(pageable).getContent().forEach(sale -> {
@@ -263,21 +233,17 @@ public class QueryResource {
 		return this.stockDiaryResourceApi.getStockDiaryUsingGET(id);
 	}
 	
-	@GetMapping("/search-stock-current/{searchTerm}")
+	@GetMapping("/stock-current/{searchTerm}")
 	public ResponseEntity<List<StockCurrentDTO>> searchStockCurrents(@PathVariable String searchTerm, Integer page, Integer size, ArrayList<String> sort) {
 		return this.stockCurrentResourceApi.searchStockCurrentsUsingGET(searchTerm, page, size, sort);
 	}
 	
 	
-	@GetMapping("/search-stock-diary/{searchTerm}")
+	@GetMapping("/stock-diary/{searchTerm}")
 	public ResponseEntity<List<StockDiaryDTO>> searchStockDiaries(@PathVariable String searchTerm, Integer page, Integer size, ArrayList<String> sort) {
 		return this.stockDiaryResourceApi.searchStockDiariesUsingGET(searchTerm, page, size, sort);
 	}	
 	
-	@GetMapping("/receipt")
-	public ResponseEntity<List<Sale>> getReceipt(Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.searchReceipt(pageable).getContent());
-	}	
 	
 	
 }
