@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -199,7 +200,7 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/sales/combined")
-	public ResponseEntity<List<SaleAggregate>> findAllSaleAggregates(Pageable pageable) {
+	public ResponseEntity<Page<SaleAggregate>> findAllSaleAggregates(Pageable pageable) {
 		List<SaleAggregate> sales = new ArrayList<SaleAggregate>();
 		this.findSales(pageable).getContent().forEach(sale -> {
 			SaleAggregate saleAgg = new SaleAggregate();
@@ -210,7 +211,8 @@ public class QueryResource {
 			sale.setCustomer(this.findCustomerById(sale.getSale().getCustomerId()).getBody());
 			sale.setTicketLines(this.findAllTicketLinesBySaleId(sale.getSale().getId()).getBody());
 		});
-		return ResponseEntity.ok().body(sales);
+		PageImpl<SaleAggregate> res = new PageImpl<SaleAggregate>(sales);
+		return ResponseEntity.ok().body(res);
 	}
 	
 	@GetMapping("/stock-currents")
