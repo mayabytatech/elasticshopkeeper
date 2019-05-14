@@ -188,7 +188,7 @@ public class QueryResource {
 	public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
 		return this.saleResourceApi.getSaleUsingGET(id);
 	}
-	@GetMapping("/sale")
+	@GetMapping("/sales")
 	public  Page<Sale> findSales(Pageable pageable){
 		return	queryService.findSales(pageable);
 	}
@@ -198,7 +198,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(this.queryService.findAllStockLines(pageable).getContent());
 	}
 	
-	@GetMapping("/sale")
+	@GetMapping("/sales/combined")
 	public ResponseEntity<List<SaleAggregate>> findAllSaleAggregates(Pageable pageable) {
 		List<SaleAggregate> sales = new ArrayList<SaleAggregate>();
 		this.findSales(pageable).getContent().forEach(sale -> {
