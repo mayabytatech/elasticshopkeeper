@@ -35,6 +35,14 @@ import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
+import com.diviso.graeshoppe.client.store.api.ReplyResourceApi;
+import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
+import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
+import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
+import com.diviso.graeshoppe.client.store.model.ReplyDTO;
+import com.diviso.graeshoppe.client.store.model.ReviewDTO;
+import com.diviso.graeshoppe.client.store.model.StoreDTO;
+import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
 
 @RestController
 @RequestMapping("/api/command")
@@ -61,9 +69,27 @@ public class CommandResource {
 	private StockDiaryResourceApi stockDiaryResourceApi;
 	
 	@Autowired
+	private StoreResourceApi storeResourceApi;
+	
+	@Autowired
+	private ReplyResourceApi replyResourceApi;
+	
+	@Autowired
+	private UserRatingResourceApi userRatingResourceApi;
+	
+	@Autowired
+	private ReviewResourceApi reviewResourceApi;
+	
+	@Autowired
 	TicketLineResourceApi ticketLineResourceApi;
+	
+	
+	
+	
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
+	
+	
 	@PostMapping("/customers/register-customer")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerAggregator customerAggregator) {
 
@@ -212,8 +238,69 @@ public class CommandResource {
 		return this.stockCurrentResourceApi.updateStockCurrentUsingPUT(StockCurrent);
 	}
 	
-	@PostMapping("stock-of-product")
+	@PostMapping("/stock-of-product")
 	public ResponseEntity<StockDiaryDTO> createStockOfProduct(@RequestBody StockDiaryDTO stockDiaryDTO) {
 		return this.stockDiaryResourceApi.createStockOfProductUsingPOST(stockDiaryDTO);
 	}
+	
+	@PostMapping("/stores")
+	public ResponseEntity<StoreDTO> createStore(@RequestBody StoreDTO storeDTO) {
+		return this.storeResourceApi.createStoreUsingPOST(storeDTO);
+	}
+	
+	@PutMapping("/stores")
+	public ResponseEntity<StoreDTO> updateStore(@RequestBody StoreDTO storeDTO){
+		return this.storeResourceApi.updateStoreUsingPUT(storeDTO);
+	}
+	
+	@DeleteMapping("/stores/{id}")
+	public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
+		return this.storeResourceApi.deleteStoreUsingDELETE(id);
+	}
+	
+	@PostMapping("/replies")
+	public ResponseEntity<ReplyDTO> createReply(@RequestBody ReplyDTO replyDTO) {
+		return this.replyResourceApi.createReplyUsingPOST(replyDTO);
+	}
+	
+	@PutMapping("/replies")
+	public ResponseEntity<ReplyDTO> updateReply(@RequestBody ReplyDTO replyDTO){
+		return this.replyResourceApi.updateReplyUsingPUT(replyDTO);
+	}
+	
+	@DeleteMapping("/replies/{id}")
+	public ResponseEntity<Void> deleteReply(@PathVariable Long id) {
+		return this.replyResourceApi.deleteReplyUsingDELETE(id);
+	}
+	
+	@PostMapping("/user-ratings")
+	public ResponseEntity<UserRatingDTO> createUserRating(@RequestBody UserRatingDTO userRatingDTO) {
+		return this.userRatingResourceApi.createUserRatingUsingPOST(userRatingDTO);
+	}
+	
+	@PutMapping("/user-ratings")
+	public ResponseEntity<UserRatingDTO> updateUserRating(@RequestBody UserRatingDTO userRatingDTO){
+		return this.userRatingResourceApi.updateUserRatingUsingPUT(userRatingDTO);
+	}
+	
+	@DeleteMapping("/user-ratings/{id}")
+	public ResponseEntity<Void> deleteUserRating(@PathVariable Long id) {
+		return this.userRatingResourceApi.deleteUserRatingUsingDELETE(id);
+	}
+	
+	@PostMapping("/reviews")
+	public ResponseEntity<ReviewDTO> createUserRating(@RequestBody ReviewDTO reviewDTO) {
+		return this.reviewResourceApi.createReviewUsingPOST(reviewDTO);
+	}
+	
+	@PutMapping("/reviews")
+	public ResponseEntity<ReviewDTO> updateUserRating(@RequestBody ReviewDTO reviewDTO){
+		return this.reviewResourceApi.updateReviewUsingPUT(reviewDTO);
+	}
+	
+	@DeleteMapping("/reviews/{id}")
+	public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
+	}
+	
 }

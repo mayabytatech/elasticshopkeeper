@@ -28,6 +28,8 @@ import com.diviso.graeshoppe.client.product.model.StockLine;
 import com.diviso.graeshoppe.client.product.model.Uom;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
+import com.diviso.graeshoppe.client.store.domain.Review;
+import com.diviso.graeshoppe.client.store.domain.UserRating;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
@@ -161,8 +163,7 @@ public class QueryServiceImpl implements QueryService {
 	{
 		uomList.add(uomAgg.getBuckets().get(i).getKey());
 	}
-	
-		
+
 		
 		return uomList;
 	}
@@ -172,9 +173,6 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findSales()
-	 */
 	@Override
 	public Page<Sale> findSales(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("date")
@@ -204,10 +202,22 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<Product> findAllProducts(Pageable pageable) {
-		// TODO Auto-generated method stub
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
+	
+	@Override
+	public Page<Review> findAllReviews(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, Review.class);
+	}
+
+	@Override
+	public Page<UserRating> findAllUserRatings(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, UserRating.class);
+	}
+	
 
 	
 	

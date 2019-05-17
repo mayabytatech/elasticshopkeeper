@@ -40,6 +40,8 @@ import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
+import com.diviso.graeshoppe.client.store.domain.Review;
+import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
 
@@ -246,6 +248,15 @@ public class QueryResource {
 		return this.stockDiaryResourceApi.searchStockDiariesUsingGET(searchTerm, page, size, sort);
 	}	
 	
+	@GetMapping("/reviews")
+	public ResponseEntity<List<Review>> findAllReviews(Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllReviews(pageable).getContent());
+	}
+	
+	@GetMapping("/user-ratings")
+	public ResponseEntity<List<UserRating>> findAllUserRatings(Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllUserRatings(pageable).getContent());
+	}
 	
 	
 }
