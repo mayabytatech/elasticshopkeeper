@@ -25,7 +25,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-07T16:55:44.807556800+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-17T14:38:38.757+05:30[Asia/Kolkata]")
 
 @Api(value = "StockCurrentResource", description = "the StockCurrentResource API")
 public interface StockCurrentResourceApi {
@@ -65,6 +65,18 @@ public interface StockCurrentResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<List<StockCurrentDTO>> getAllStockCurrentsUsingGET(@ApiParam(value = "filter") @Valid @RequestParam(value = "filter", required = false) String filter,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
+
+
+    @ApiOperation(value = "getStockCurrentByProductId", nickname = "getStockCurrentByProductIdUsingGET", notes = "", response = StockCurrentDTO.class, tags={ "stock-current-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = StockCurrentDTO.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/stock-currents/product/{id}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<StockCurrentDTO> getStockCurrentByProductIdUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
 
 
     @ApiOperation(value = "getStockCurrent", nickname = "getStockCurrentUsingGET", notes = "", response = StockCurrentDTO.class, tags={ "stock-current-resource", })

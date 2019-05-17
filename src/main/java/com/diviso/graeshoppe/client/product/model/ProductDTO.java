@@ -1,26 +1,25 @@
 package com.diviso.graeshoppe.client.product.model;
 
-import java.util.Objects;
-import com.diviso.graeshoppe.client.product.model.CategoryDTO;
-import com.diviso.graeshoppe.client.product.model.LabelDTO;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * ProductDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-11T10:23:12.145314800+05:30[Asia/Colombo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-17T14:38:38.757+05:30[Asia/Kolkata]")
 
 public class ProductDTO   {
   @JsonProperty("barcodeId")
@@ -81,6 +80,9 @@ public class ProductDTO   {
 
   @JsonProperty("taxCategoryId")
   private Long taxCategoryId = null;
+
+  @JsonProperty("userId")
+  private String userId = null;
 
   @JsonProperty("visible")
   private Boolean visible = null;
@@ -488,6 +490,26 @@ public class ProductDTO   {
     this.taxCategoryId = taxCategoryId;
   }
 
+  public ProductDTO userId(String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * Get userId
+   * @return userId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
   public ProductDTO visible(Boolean visible) {
     this.visible = visible;
     return this;
@@ -537,12 +559,13 @@ public class ProductDTO   {
         Objects.equals(this.sku, productDTO.sku) &&
         Objects.equals(this.statusId, productDTO.statusId) &&
         Objects.equals(this.taxCategoryId, productDTO.taxCategoryId) &&
+        Objects.equals(this.userId, productDTO.userId) &&
         Objects.equals(this.visible, productDTO.visible);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(barcodeId, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, outOfStock, reOrderLevel, reference, searchkey, sku, statusId, taxCategoryId, visible);
+    return Objects.hash(barcodeId, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, outOfStock, reOrderLevel, reference, searchkey, sku, statusId, taxCategoryId, userId, visible);
   }
 
   @Override
@@ -569,6 +592,7 @@ public class ProductDTO   {
     sb.append("    sku: ").append(toIndentedString(sku)).append("\n");
     sb.append("    statusId: ").append(toIndentedString(statusId)).append("\n");
     sb.append("    taxCategoryId: ").append(toIndentedString(taxCategoryId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    visible: ").append(toIndentedString(visible)).append("\n");
     sb.append("}");
     return sb.toString();

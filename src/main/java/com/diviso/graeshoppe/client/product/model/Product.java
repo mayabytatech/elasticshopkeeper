@@ -1,36 +1,27 @@
 package com.diviso.graeshoppe.client.product.model;
 
-import java.util.Objects;
-import com.diviso.graeshoppe.client.product.model.Barcode;
-import com.diviso.graeshoppe.client.product.model.Category;
-import com.diviso.graeshoppe.client.product.model.Label;
-import com.diviso.graeshoppe.client.product.model.Note;
-import com.diviso.graeshoppe.client.product.model.Status;
-import com.diviso.graeshoppe.client.product.model.StockDiary;
-import com.diviso.graeshoppe.client.product.model.StockLine;
-import com.diviso.graeshoppe.client.product.model.TaxCategory;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Product
  */
-@Document(indexName = "product")
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:18.659136500+05:30[Asia/Calcutta]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-17T14:38:38.757+05:30[Asia/Kolkata]")
+@Document(indexName = "product")
 public class Product   {
   @JsonProperty("barcode")
   private Barcode barcode = null;
@@ -102,6 +93,9 @@ public class Product   {
 
   @JsonProperty("taxCategory")
   private TaxCategory taxCategory = null;
+
+  @JsonProperty("userId")
+  private String userId = null;
 
   @JsonProperty("visible")
   private Boolean visible = null;
@@ -599,6 +593,26 @@ public class Product   {
     this.taxCategory = taxCategory;
   }
 
+  public Product userId(String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * Get userId
+   * @return userId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
   public Product visible(Boolean visible) {
     this.visible = visible;
     return this;
@@ -651,12 +665,13 @@ public class Product   {
         Objects.equals(this.stockDiaries, product.stockDiaries) &&
         Objects.equals(this.stockLines, product.stockLines) &&
         Objects.equals(this.taxCategory, product.taxCategory) &&
+        Objects.equals(this.userId, product.userId) &&
         Objects.equals(this.visible, product.visible);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(barcode, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, notes, outOfStock, reOrderLevel, reference, searchkey, sku, status, stockDiaries, stockLines, taxCategory, visible);
+    return Objects.hash(barcode, categories, dateOfExpiry, dateOfMfd, description, id, image, imageContentType, labels, maximumStockLevel, mpn, name, notes, outOfStock, reOrderLevel, reference, searchkey, sku, status, stockDiaries, stockLines, taxCategory, userId, visible);
   }
 
   @Override
@@ -686,6 +701,7 @@ public class Product   {
     sb.append("    stockDiaries: ").append(toIndentedString(stockDiaries)).append("\n");
     sb.append("    stockLines: ").append(toIndentedString(stockLines)).append("\n");
     sb.append("    taxCategory: ").append(toIndentedString(taxCategory)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    visible: ").append(toIndentedString(visible)).append("\n");
     sb.append("}");
     return sb.toString();

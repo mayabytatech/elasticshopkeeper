@@ -15,10 +15,9 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * StockDiary
  */
-@Document(indexName = "stockdiary")
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-08T10:42:11.190595900+05:30[Asia/Calcutta]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-17T14:38:38.757+05:30[Asia/Kolkata]")
+@Document(indexName = "stockdiary")
 public class StockDiary   {
   @JsonProperty("dateOfCreation")
   private LocalDate dateOfCreation = null;

@@ -25,7 +25,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-07T16:55:44.807556800+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-17T14:38:38.757+05:30[Asia/Kolkata]")
 
 @Api(value = "StockDiaryResource", description = "the StockDiaryResource API")
 public interface StockDiaryResourceApi {
@@ -43,7 +43,7 @@ public interface StockDiaryResourceApi {
         method = RequestMethod.POST)
     ResponseEntity<StockDiaryDTO> createStockDiaryUsingPOST(@ApiParam(value = "stockDiaryDTO" ,required=true )  @Valid @RequestBody StockDiaryDTO stockDiaryDTO);
 
-    
+
     @ApiOperation(value = "createStockOfProduct", nickname = "createStockOfProductUsingPOST", notes = "", response = StockDiaryDTO.class, tags={ "stock-diary-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = StockDiaryDTO.class),
@@ -57,7 +57,7 @@ public interface StockDiaryResourceApi {
         method = RequestMethod.POST)
     ResponseEntity<StockDiaryDTO> createStockOfProductUsingPOST(@ApiParam(value = "stockDiaryDTO" ,required=true )  @Valid @RequestBody StockDiaryDTO stockDiaryDTO);
 
-    
+
     @ApiOperation(value = "deleteStockDiary", nickname = "deleteStockDiaryUsingDELETE", notes = "", tags={ "stock-diary-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
@@ -79,6 +79,18 @@ public interface StockDiaryResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<List<StockDiaryDTO>> getAllStockDiariesUsingGET(@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
+
+
+    @ApiOperation(value = "getStockDiaryByProductId", nickname = "getStockDiaryByProductIdUsingGET", notes = "", response = StockDiaryDTO.class, responseContainer = "List", tags={ "stock-diary-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = StockDiaryDTO.class, responseContainer = "List"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/stock-diaries/product/{id}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<List<StockDiaryDTO>> getStockDiaryByProductIdUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
 
 
     @ApiOperation(value = "getStockDiary", nickname = "getStockDiaryUsingGET", notes = "", response = StockDiaryDTO.class, tags={ "stock-diary-resource", })
