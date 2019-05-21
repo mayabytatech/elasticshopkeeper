@@ -1,30 +1,31 @@
-package com.diviso.graeshoppe.client.store.model;
+package com.diviso.graeshoppe.client.store.domain;
 
+import java.time.Instant;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.Valid;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
- * PropreitorDTO
+ * DeliveryInfo
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-20T12:06:46.420+05:30[Asia/Kolkata]")
-@Document(indexName = "propreitor")
-public class PropreitorDTO   {
+@Document(indexName = "deliveryinfo")
+public class DeliveryInfo  {
   @JsonProperty("id")
   private Long id = null;
 
-  @JsonProperty("name")
-  private String name = null;
+  @JsonProperty("startingTime")
+  private Instant startingTime = null;
 
-  public PropreitorDTO id(Long id) {
+  public DeliveryInfo id(Long id) {
     this.id = id;
     return this;
   }
@@ -44,24 +45,25 @@ public class PropreitorDTO   {
     this.id = id;
   }
 
-  public PropreitorDTO name(String name) {
-    this.name = name;
+  public DeliveryInfo startingTime(Instant startingTime) {
+    this.startingTime = startingTime;
     return this;
   }
 
   /**
-   * Get name
-   * @return name
+   * Get startingTime
+   * @return startingTime
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getName() {
-    return name;
+  public Instant getStartingTime() {
+    return startingTime;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setStartingTime(Instant startingTime) {
+    this.startingTime = startingTime;
   }
 
 
@@ -73,23 +75,23 @@ public class PropreitorDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PropreitorDTO propreitorDTO = (PropreitorDTO) o;
-    return Objects.equals(this.id, propreitorDTO.id) &&
-        Objects.equals(this.name, propreitorDTO.name);
+    DeliveryInfo deliveryInfo = (DeliveryInfo) o;
+    return Objects.equals(this.id, deliveryInfo.id) &&
+        Objects.equals(this.startingTime, deliveryInfo.startingTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(id, startingTime);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PropreitorDTO {\n");
+    sb.append("class DeliveryInfoDTO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    startingTime: ").append(toIndentedString(startingTime)).append("\n");
     sb.append("}");
     return sb.toString();
   }

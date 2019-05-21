@@ -41,8 +41,10 @@ import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
 import com.diviso.graeshoppe.client.store.domain.Review;
+import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.service.QueryService;
+import com.diviso.graeshoppe.service.dto.PdfDTO;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
 
 @RestController
@@ -178,13 +180,19 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/products/export")
-	public ResponseEntity<byte[]> exportProducts() {
-		return this.productResourceApi.getPdfAllProdutsWithPriceUsingGET();
+	public ResponseEntity<PdfDTO> exportProducts() {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.productResourceApi.getPdfAllProdutsWithPriceUsingGET().getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
 	}
 	
 	@GetMapping("/customers/export")
-	public ResponseEntity<byte[]> exportCustomers() {
-		return this.customerResourceApi.getPdfAllCustomersUsingGET();
+	public ResponseEntity<PdfDTO> exportCustomers() {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.customerResourceApi.getPdfAllCustomersUsingGET().getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
 	}
 	
 	@GetMapping("/sales/{id}")
@@ -200,7 +208,7 @@ public class QueryResource {
 	public ResponseEntity<List<StockLine>> findAllStockLines(Pageable pageable) {
 		return ResponseEntity.ok().body(this.queryService.findAllStockLines(pageable).getContent());
 	}
-	
+
 	@GetMapping("/sales/combined")
 	public ResponseEntity<Page<SaleAggregate>> findAllSaleAggregates(Pageable pageable) {
 		List<SaleAggregate> sales = new ArrayList<SaleAggregate>();
@@ -257,6 +265,12 @@ public class QueryResource {
 	public ResponseEntity<List<UserRating>> findAllUserRatings(Pageable pageable) {
 		return ResponseEntity.ok().body(queryService.findAllUserRatings(pageable).getContent());
 	}
+	
+	@GetMapping("/stores/{regNo}")
+	public Page<Store> findStoreByRegNo(String regNo, Pageable pageable) {
+		return this.queryService.findStoreByRegNo(regNo, pageable);
+	}
+	
 	
 	
 }
