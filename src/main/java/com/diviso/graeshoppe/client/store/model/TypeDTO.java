@@ -12,19 +12,42 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * PropreitorDTO
+ * TypeDTO
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-20T12:06:46.420+05:30[Asia/Kolkata]")
-@Document(indexName = "propreitor")
-public class PropreitorDTO   {
+@Document(indexName = "type")
+public class TypeDTO   {
+  @JsonProperty("deliveryInfoId")
+  private Long deliveryInfoId = null;
+
   @JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("name")
   private String name = null;
 
-  public PropreitorDTO id(Long id) {
+  public TypeDTO deliveryInfoId(Long deliveryInfoId) {
+    this.deliveryInfoId = deliveryInfoId;
+    return this;
+  }
+
+  /**
+   * Get deliveryInfoId
+   * @return deliveryInfoId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getDeliveryInfoId() {
+    return deliveryInfoId;
+  }
+
+  public void setDeliveryInfoId(Long deliveryInfoId) {
+    this.deliveryInfoId = deliveryInfoId;
+  }
+
+  public TypeDTO id(Long id) {
     this.id = id;
     return this;
   }
@@ -44,7 +67,7 @@ public class PropreitorDTO   {
     this.id = id;
   }
 
-  public PropreitorDTO name(String name) {
+  public TypeDTO name(String name) {
     this.name = name;
     return this;
   }
@@ -73,21 +96,23 @@ public class PropreitorDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PropreitorDTO propreitorDTO = (PropreitorDTO) o;
-    return Objects.equals(this.id, propreitorDTO.id) &&
-        Objects.equals(this.name, propreitorDTO.name);
+    TypeDTO typeDTO = (TypeDTO) o;
+    return Objects.equals(this.deliveryInfoId, typeDTO.deliveryInfoId) &&
+        Objects.equals(this.id, typeDTO.id) &&
+        Objects.equals(this.name, typeDTO.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(deliveryInfoId, id, name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PropreitorDTO {\n");
+    sb.append("class TypeDTO {\n");
     
+    sb.append("    deliveryInfoId: ").append(toIndentedString(deliveryInfoId)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

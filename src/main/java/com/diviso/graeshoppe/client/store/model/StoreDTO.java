@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,14 +16,17 @@ import javax.validation.constraints.*;
  * StoreDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-17T15:08:38.225+05:30[Asia/Kolkata]")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-20T12:06:46.420+05:30[Asia/Kolkata]")
+@Document(indexName = "store")
 public class StoreDTO   {
   @JsonProperty("closingTime")
   private OffsetDateTime closingTime = null;
 
   @JsonProperty("contactNo")
   private Long contactNo = null;
+
+  @JsonProperty("deliveryInfoId")
+  private Long deliveryInfoId = null;
 
   @JsonProperty("email")
   private String email = null;
@@ -34,6 +39,9 @@ public class StoreDTO   {
 
   @JsonProperty("imageContentType")
   private String imageContentType = null;
+
+  @JsonProperty("info")
+  private String info = null;
 
   @JsonProperty("location")
   private String location = null;
@@ -92,6 +100,26 @@ public class StoreDTO   {
 
   public void setContactNo(Long contactNo) {
     this.contactNo = contactNo;
+  }
+
+  public StoreDTO deliveryInfoId(Long deliveryInfoId) {
+    this.deliveryInfoId = deliveryInfoId;
+    return this;
+  }
+
+  /**
+   * Get deliveryInfoId
+   * @return deliveryInfoId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getDeliveryInfoId() {
+    return deliveryInfoId;
+  }
+
+  public void setDeliveryInfoId(Long deliveryInfoId) {
+    this.deliveryInfoId = deliveryInfoId;
   }
 
   public StoreDTO email(String email) {
@@ -172,6 +200,26 @@ public class StoreDTO   {
 
   public void setImageContentType(String imageContentType) {
     this.imageContentType = imageContentType;
+  }
+
+  public StoreDTO info(String info) {
+    this.info = info;
+    return this;
+  }
+
+  /**
+   * Get info
+   * @return info
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getInfo() {
+    return info;
+  }
+
+  public void setInfo(String info) {
+    this.info = info;
   }
 
   public StoreDTO location(String location) {
@@ -307,10 +355,12 @@ public class StoreDTO   {
     StoreDTO storeDTO = (StoreDTO) o;
     return Objects.equals(this.closingTime, storeDTO.closingTime) &&
         Objects.equals(this.contactNo, storeDTO.contactNo) &&
+        Objects.equals(this.deliveryInfoId, storeDTO.deliveryInfoId) &&
         Objects.equals(this.email, storeDTO.email) &&
         Objects.equals(this.id, storeDTO.id) &&
         Objects.equals(this.image, storeDTO.image) &&
         Objects.equals(this.imageContentType, storeDTO.imageContentType) &&
+        Objects.equals(this.info, storeDTO.info) &&
         Objects.equals(this.location, storeDTO.location) &&
         Objects.equals(this.name, storeDTO.name) &&
         Objects.equals(this.openingTime, storeDTO.openingTime) &&
@@ -321,7 +371,7 @@ public class StoreDTO   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(closingTime, contactNo, email, id, image, imageContentType, location, name, openingTime, propreitorId, regNo, totalRating);
+    return Objects.hash(closingTime, contactNo, deliveryInfoId, email, id, image, imageContentType, info, location, name, openingTime, propreitorId, regNo, totalRating);
   }
 
   @Override
@@ -331,10 +381,12 @@ public class StoreDTO   {
     
     sb.append("    closingTime: ").append(toIndentedString(closingTime)).append("\n");
     sb.append("    contactNo: ").append(toIndentedString(contactNo)).append("\n");
+    sb.append("    deliveryInfoId: ").append(toIndentedString(deliveryInfoId)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    imageContentType: ").append(toIndentedString(imageContentType)).append("\n");
+    sb.append("    info: ").append(toIndentedString(info)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    openingTime: ").append(toIndentedString(openingTime)).append("\n");

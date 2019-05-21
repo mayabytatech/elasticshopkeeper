@@ -29,6 +29,7 @@ import com.diviso.graeshoppe.client.product.model.Uom;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.store.domain.Review;
+import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
@@ -218,7 +219,12 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, UserRating.class);
 	}
 	
-
+	@Override
+	public Page<Store> findStoreByRegNo(String regNo, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("regNo", regNo))
+				.build();
+		return elasticsearchOperations.queryForPage(searchQuery, Store.class);
+	}
 	
 	
 	
