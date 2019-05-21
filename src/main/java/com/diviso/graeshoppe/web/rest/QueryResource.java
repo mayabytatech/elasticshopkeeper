@@ -187,6 +187,13 @@ public class QueryResource {
 		return ResponseEntity.ok().body(pdf);
 	}
 	
+	@GetMapping("/products/pdf")
+	public ResponseEntity<byte[]> exportProductsAsPdf() {
+		
+		return this.productResourceApi.getPdfAllProdutsWithPriceUsingGET();
+		
+	}
+	
 	@GetMapping("/customers/export")
 	public ResponseEntity<PdfDTO> exportCustomers() {
 		PdfDTO pdf = new PdfDTO();
