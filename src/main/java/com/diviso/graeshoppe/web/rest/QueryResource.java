@@ -94,8 +94,8 @@ public class QueryResource {
 
 
 	@GetMapping("/findStockDiaryByProductId/{productId}") 
-	public Page<StockDiary> findStockDiaryByProductId(@PathVariable Long productId,Pageable pageable){
-	return queryService.findStockDiaryByProductId(productId,pageable);
+	public ResponseEntity<StockDiary> findStockDiaryByProductId(@PathVariable Long productId,Pageable pageable){
+	return ResponseEntity.ok().body(queryService.findStockDiaryByProductId(productId));
 	}
 
 	

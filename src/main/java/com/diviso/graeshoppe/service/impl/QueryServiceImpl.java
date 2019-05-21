@@ -91,12 +91,10 @@ public class QueryServiceImpl implements QueryService {
 	}
 	
 	@Override
-	public Page<StockDiary> findStockDiaryByProductId(Long productId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.id", productId))
-				.build();
-		return elasticsearchOperations.queryForPage(searchQuery, StockDiary.class);
+	public StockDiary findStockDiaryByProductId(Long productId) {
+		StringQuery searchQuery = new StringQuery(termQuery("product.id", productId).toString());
+		return elasticsearchOperations.queryForObject(searchQuery, StockDiary.class);
 	}
-	
 	
 	
 	@Override

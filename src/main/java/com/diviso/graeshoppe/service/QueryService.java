@@ -39,7 +39,7 @@ public Page<StockDiary> findAllStockDiaries(Pageable pageable);
 public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable);
 public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId, Pageable pageable);
 public StockCurrent findStockCurrentByProductId(Long productId);
-public Page<StockDiary> findStockDiaryByProductId(Long productId, Pageable pageable);
+public StockDiary findStockDiaryByProductId(Long productId);
 public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable);
 public Page<Product> findAllProducts(Pageable pageable);
 public Page<Review> findAllReviews(Pageable pageable);
