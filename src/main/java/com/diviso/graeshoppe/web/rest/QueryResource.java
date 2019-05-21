@@ -44,6 +44,7 @@ import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.service.QueryService;
+import com.diviso.graeshoppe.service.dto.PdfDTO;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
 
 @RestController
@@ -179,13 +180,19 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/products/export")
-	public ResponseEntity<byte[]> exportProducts() {
-		return this.productResourceApi.getPdfAllProdutsWithPriceUsingGET();
+	public ResponseEntity<PdfDTO> exportProducts() {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.productResourceApi.getPdfAllProdutsWithPriceUsingGET().getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
 	}
 	
 	@GetMapping("/customers/export")
-	public ResponseEntity<byte[]> exportCustomers() {
-		return this.customerResourceApi.getPdfAllCustomersUsingGET();
+	public ResponseEntity<PdfDTO> exportCustomers() {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.customerResourceApi.getPdfAllCustomersUsingGET().getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
 	}
 	
 	@GetMapping("/sales/{id}")
