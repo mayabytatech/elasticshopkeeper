@@ -87,14 +87,14 @@ public class QueryResource {
 		return queryService.findProductByCategoryId(categoryId,pageable);
 	}
 	
-	@GetMapping("/findStockCurrentByProductName/{name}") 
-	public Page<StockCurrent> findStockCurrentByProductName(@PathVariable String name,Pageable pageable){
+	@GetMapping("/findAllStockCurrentByProductName/{name}") 
+	public Page<StockCurrent> findAllStockCurrentByProductName(@PathVariable String name,Pageable pageable){
 	return queryService.findStockCurrentByProductName(name, pageable);
 	}
 
 
 	@GetMapping("/findStockDiaryByProductId/{productId}") 
-	public ResponseEntity<StockDiary> findStockDiaryByProductId(@PathVariable Long productId,Pageable pageable){
+	public ResponseEntity<StockDiary> findStockDiaryByProductId(@PathVariable Long productId){
 	return ResponseEntity.ok().body(queryService.findStockDiaryByProductId(productId));
 	}
 
