@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
@@ -81,12 +82,7 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
 	
-	@Override
-	public Page<StockCurrent> findStockCurrentByProductId(Long productId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.id", productId))
-				.build();
-		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
-	}
+	
 	@Override
 	public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("product.name", name))
@@ -225,10 +221,18 @@ public class QueryServiceImpl implements QueryService {
 				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, Store.class);
 	}
-	
-	
-	
-	
-	
 
+	@Override
+	public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.categories.id", categoryId))
+				.build();
+		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
+	}
+
+	@Override
+	public StockCurrent findStockCurrentByProductId(Long productId) {
+		StringQuery searchQuery = new StringQuery(termQuery("product.id", productId).toString());
+		return elasticsearchOperations.queryForObject(searchQuery, StockCurrent.class);
+	}
+	
 }
