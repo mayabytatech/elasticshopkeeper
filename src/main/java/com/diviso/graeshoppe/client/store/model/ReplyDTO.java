@@ -1,16 +1,17 @@
 package com.diviso.graeshoppe.client.store.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.util.Objects;
+
+import javax.validation.Valid;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * ReplyDTO
@@ -23,7 +24,7 @@ public class ReplyDTO   {
   private Long id = null;
 
   @JsonProperty("repliedDate")
-  private OffsetDateTime repliedDate = null;
+  private Instant repliedDate = null;
 
   @JsonProperty("reply")
   private String reply = null;
@@ -54,7 +55,7 @@ public class ReplyDTO   {
     this.id = id;
   }
 
-  public ReplyDTO repliedDate(OffsetDateTime repliedDate) {
+  public ReplyDTO repliedDate(Instant repliedDate) {
     this.repliedDate = repliedDate;
     return this;
   }
@@ -67,11 +68,11 @@ public class ReplyDTO   {
 
   @Valid
 
-  public OffsetDateTime getRepliedDate() {
+  public Instant getRepliedDate() {
     return repliedDate;
   }
 
-  public void setRepliedDate(OffsetDateTime repliedDate) {
+  public void setRepliedDate(Instant repliedDate) {
     this.repliedDate = repliedDate;
   }
 

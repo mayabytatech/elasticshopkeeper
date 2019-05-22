@@ -1,7 +1,7 @@
 package com.diviso.graeshoppe.client.store.model;
 
 import java.time.Instant;
-import java.time.OffsetDateTime;
+
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -52,7 +52,7 @@ public class StoreDTO   {
   private String name = null;
 
   @JsonProperty("openingTime")
-  private OffsetDateTime openingTime = null;
+  private Instant openingTime = null;
 
   @JsonProperty("propreitorId")
   private Long propreitorId = null;
@@ -264,7 +264,7 @@ public class StoreDTO   {
     this.name = name;
   }
 
-  public StoreDTO openingTime(OffsetDateTime openingTime) {
+  public StoreDTO openingTime(Instant openingTime) {
     this.openingTime = openingTime;
     return this;
   }
@@ -277,11 +277,11 @@ public class StoreDTO   {
 
   @Valid
 
-  public OffsetDateTime getOpeningTime() {
+  public Instant getOpeningTime() {
     return openingTime;
   }
 
-  public void setOpeningTime(OffsetDateTime openingTime) {
+  public void setOpeningTime(Instant openingTime) {
     this.openingTime = openingTime;
   }
 
