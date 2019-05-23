@@ -69,16 +69,16 @@ public interface ProductResourceApi {
     ResponseEntity<List<ProductDTO>> getAllProductsUsingGET(@ApiParam(value = "eagerload", defaultValue = "false") @Valid @RequestParam(value = "eagerload", required = false, defaultValue="false") Boolean eagerload,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
 
 
-    @ApiOperation(value = "getPdfAllProdutsWithPrice", nickname = "getPdfAllProdutsWithPriceUsingGET", notes = "", response = byte[].class, tags={ "product-resource", })
+    @ApiOperation(value = "getProductsPriceAsPdf", nickname = "getProductsPriceAsPdfUsingGET", notes = "", response = byte[].class, tags={ "product-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = byte[].class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/pdf/produtsReport",
+    @RequestMapping(value = "/api/pdf/products-report",
         produces = "*/*", 
         method = RequestMethod.GET)
-    ResponseEntity<byte[]> getPdfAllProdutsWithPriceUsingGET();
+    ResponseEntity<byte[]> getProductsPriceAsPdfUsingGET();
 
 
     @ApiOperation(value = "getProduct", nickname = "getProductUsingGET", notes = "", response = ProductDTO.class, tags={ "product-resource", })

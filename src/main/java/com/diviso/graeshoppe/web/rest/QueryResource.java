@@ -188,7 +188,7 @@ public class QueryResource {
 	@GetMapping("/products/export")
 	public ResponseEntity<PdfDTO> exportProducts() {
 		PdfDTO pdf = new PdfDTO();
-		pdf.setPdf(this.productResourceApi.getPdfAllProdutsWithPriceUsingGET().getBody());
+		pdf.setPdf(this.productResourceApi.getProductsPriceAsPdfUsingGET().getBody());
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
 	}
@@ -196,7 +196,7 @@ public class QueryResource {
 	@GetMapping("/products/pdf")
 	public ResponseEntity<byte[]> exportProductsAsPdf() {
 		
-		return this.productResourceApi.getPdfAllProdutsWithPriceUsingGET();
+		return this.productResourceApi.getProductsPriceAsPdfUsingGET();
 		
 	}
 	
