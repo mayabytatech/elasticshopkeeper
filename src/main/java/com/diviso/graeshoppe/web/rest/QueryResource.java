@@ -109,6 +109,15 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findStockCurrentByProductId(productId));
 	}
 	
+	
+	@GetMapping("/findStockCurrentDTOByProductId/{productId}")
+	public ResponseEntity<StockCurrentDTO> findStockCurrentDTOByProductId(@PathVariable Long  productId) {
+		return this.stockCurrentResourceApi.getStockCurrentByProductIdUsingGET(productId);
+	}
+	
+	
+	
+	
 	@GetMapping("/findProductBySearchTerm/{searchTerm}")
 	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm,Pageable pageable) {
 		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
