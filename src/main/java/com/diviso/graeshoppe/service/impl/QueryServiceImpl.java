@@ -8,6 +8,7 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
@@ -32,13 +33,18 @@ import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
+import com.diviso.graeshoppe.domain.Result;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
 import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
 import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
+import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;
+import com.google.gson.JsonObject;
 
 import io.searchbox.client.JestClient;
+import io.searchbox.client.JestResult;
+import io.searchbox.core.SearchResult;
 import io.searchbox.core.search.aggregation.TermsAggregation;
 
 @Service
@@ -103,7 +109,7 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, StockLine.class);
 	}
 
-/*	public List<Result> findAll(String searchTerm, Pageable pageable) {
+	public List<Result> findAll(String searchTerm, Pageable pageable) {
 		List<Result> values = new ArrayList<Result>();
 		;
 
@@ -116,8 +122,8 @@ public class QueryServiceImpl implements QueryService {
 
 				for (SearchResult.Hit<JsonObject, Void> searchHit : response.getHits(JsonObject.class)) {
 					Result result = new Result();
-					// sampleEntity.setId(searchHit.source.get(JestResult.ES_METADATA_ID).getAsString());
-					result.setName(searchHit.source.get("name").getAsString());
+					 System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+searchHit.source.get(JestResult.ES_METADATA_ID).getAsString());
+					//result.setName(searchHit.source.get("name").getAsString());
 
 					values.add(result);
 
@@ -128,7 +134,7 @@ public class QueryServiceImpl implements QueryService {
 		return values;
 
 	}
-*/
+
 	@Override
 	public Page<Customer> findAllCustomers(String searchTerm, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
