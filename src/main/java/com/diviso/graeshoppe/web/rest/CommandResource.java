@@ -35,10 +35,14 @@ import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
+import com.diviso.graeshoppe.client.store.api.DeliveryInfoResourceApi;
 import com.diviso.graeshoppe.client.store.api.ReplyResourceApi;
 import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
+import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
+import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
+import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.ReviewDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
@@ -83,8 +87,11 @@ public class CommandResource {
 	@Autowired
 	TicketLineResourceApi ticketLineResourceApi;
 	
+	@Autowired
+	DeliveryInfoResourceApi deliveryInfoResourceApi;
 	
-	
+	@Autowired
+	TypeResourceApi typeResourceApi;
 	
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
@@ -303,4 +310,16 @@ public class CommandResource {
 		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
 	}
 	
+	 @PostMapping("/store-denormalized")
+	public ResponseEntity<Store> createDenormalizedStore(@RequestBody Store store){
+		
+		return storeResourceApi.createDeNormalizedStoreUsingPOST(store);
+		 
+	 }
+	
+	 @PutMapping("/store-denormalized")
+		public ResponseEntity<Store> updateDenormalizedStore(@RequestBody Store store){
+			return storeResourceApi.updateStoreDeNormalizedUsingPUT(store);
+		}
+	 
 }

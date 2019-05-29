@@ -5,6 +5,7 @@
  */
 package com.diviso.graeshoppe.client.store.api;
 
+import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,21 @@ import java.util.Optional;
 
 @Api(value = "StoreResource", description = "the StoreResource API")
 public interface StoreResourceApi {
+	
+	
+	  @ApiOperation(value = "createDeNormalizedStore", nickname = "createDeNormalizedStoreUsingPOST", notes = "", response = Store.class, tags={ "store-resource", })
+	    @ApiResponses(value = { 
+	        @ApiResponse(code = 200, message = "OK", response = Store.class),
+	        @ApiResponse(code = 201, message = "Created"),
+	        @ApiResponse(code = 401, message = "Unauthorized"),
+	        @ApiResponse(code = 403, message = "Forbidden"),
+	        @ApiResponse(code = 404, message = "Not Found") })
+	    @RequestMapping(value = "/api/stores-denormalized",
+	        produces = "*/*", 
+	        consumes = "application/json",
+	        method = RequestMethod.POST)
+	    ResponseEntity<Store> createDeNormalizedStoreUsingPOST(@ApiParam(value = "store" ,required=true )  @Valid @RequestBody Store store);
+
 
     @ApiOperation(value = "createStore", nickname = "createStoreUsingPOST", notes = "", response = StoreDTO.class, tags={ "store-resource", })
     @ApiResponses(value = { 
@@ -103,5 +119,20 @@ public interface StoreResourceApi {
         consumes = "application/json",
         method = RequestMethod.PUT)
     ResponseEntity<StoreDTO> updateStoreUsingPUT(@ApiParam(value = "storeDTO" ,required=true )  @Valid @RequestBody StoreDTO storeDTO);
+
+    
+    @ApiOperation(value = "updateStoreDeNormalized", nickname = "updateStoreDeNormalizedUsingPUT", notes = "", response = Store.class, tags={ "store-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Store.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/stores-denormalized",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.PUT)
+    ResponseEntity<Store> updateStoreDeNormalizedUsingPUT(@ApiParam(value = "store" ,required=true )  @Valid @RequestBody Store store);
+
 
 }
