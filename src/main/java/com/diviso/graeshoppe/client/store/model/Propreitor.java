@@ -10,19 +10,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * TypeDTO
+ * Propreitor
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-30T12:03:55.028+05:30[Asia/Calcutta]")
 
-public class TypeDTO   {
+public class Propreitor   {
   @JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("name")
   private String name = null;
 
-  public TypeDTO id(Long id) {
+  public Propreitor id(Long id) {
     this.id = id;
     return this;
   }
@@ -42,7 +42,7 @@ public class TypeDTO   {
     this.id = id;
   }
 
-  public TypeDTO name(String name) {
+  public Propreitor name(String name) {
     this.name = name;
     return this;
   }
@@ -71,9 +71,9 @@ public class TypeDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TypeDTO typeDTO = (TypeDTO) o;
-    return Objects.equals(this.id, typeDTO.id) &&
-        Objects.equals(this.name, typeDTO.name);
+    Propreitor propreitor = (Propreitor) o;
+    return Objects.equals(this.id, propreitor.id) &&
+        Objects.equals(this.name, propreitor.name);
   }
 
   @Override
@@ -84,7 +84,7 @@ public class TypeDTO   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TypeDTO {\n");
+    sb.append("class Propreitor {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

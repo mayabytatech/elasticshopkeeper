@@ -26,11 +26,24 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-20T12:06:46.420+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-30T12:03:55.028+05:30[Asia/Calcutta]")
 
 @Api(value = "StoreResource", description = "the StoreResource API")
 public interface StoreResourceApi {
-	
+
+    @ApiOperation(value = "createDeNormalizedStore", nickname = "createDeNormalizedStoreUsingPOST", notes = "", response = Store.class, tags={ "store-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Store.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/stores-denormalized",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<Store> createDeNormalizedStoreUsingPOST(@ApiParam(value = "store" ,required=true )  @Valid @RequestBody Store store);
+
 
     @ApiOperation(value = "createStore", nickname = "createStoreUsingPOST", notes = "", response = StoreDTO.class, tags={ "store-resource", })
     @ApiResponses(value = { 
@@ -93,20 +106,6 @@ public interface StoreResourceApi {
     ResponseEntity<List<StoreDTO>> searchStoresUsingGET(@NotNull @ApiParam(value = "query", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
 
 
-    @ApiOperation(value = "updateStore", nickname = "updateStoreUsingPUT", notes = "", response = StoreDTO.class, tags={ "store-resource", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = StoreDTO.class),
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/stores",
-        produces = "*/*", 
-        consumes = "application/json",
-        method = RequestMethod.PUT)
-    ResponseEntity<StoreDTO> updateStoreUsingPUT(@ApiParam(value = "storeDTO" ,required=true )  @Valid @RequestBody StoreDTO storeDTO);
-
-    
     @ApiOperation(value = "updateStoreDeNormalized", nickname = "updateStoreDeNormalizedUsingPUT", notes = "", response = Store.class, tags={ "store-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Store.class),
@@ -120,5 +119,18 @@ public interface StoreResourceApi {
         method = RequestMethod.PUT)
     ResponseEntity<Store> updateStoreDeNormalizedUsingPUT(@ApiParam(value = "store" ,required=true )  @Valid @RequestBody Store store);
 
+
+    @ApiOperation(value = "updateStore", nickname = "updateStoreUsingPUT", notes = "", response = StoreDTO.class, tags={ "store-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = StoreDTO.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/stores",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.PUT)
+    ResponseEntity<StoreDTO> updateStoreUsingPUT(@ApiParam(value = "storeDTO" ,required=true )  @Valid @RequestBody StoreDTO storeDTO);
 
 }

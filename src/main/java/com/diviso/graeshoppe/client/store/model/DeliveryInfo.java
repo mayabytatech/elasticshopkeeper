@@ -1,6 +1,8 @@
 package com.diviso.graeshoppe.client.store.model;
 
 import java.util.Objects;
+import com.diviso.graeshoppe.client.store.model.Store;
+import com.diviso.graeshoppe.client.store.model.Type;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -11,12 +13,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * DeliveryInfoDTO
+ * DeliveryInfo
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-30T12:03:55.028+05:30[Asia/Calcutta]")
 
-public class DeliveryInfoDTO   {
+public class DeliveryInfo   {
   @JsonProperty("endTime")
   private OffsetDateTime endTime = null;
 
@@ -26,13 +28,13 @@ public class DeliveryInfoDTO   {
   @JsonProperty("startingTime")
   private OffsetDateTime startingTime = null;
 
-  @JsonProperty("storeId")
-  private Long storeId = null;
+  @JsonProperty("store")
+  private Store store = null;
 
-  @JsonProperty("typeId")
-  private Long typeId = null;
+  @JsonProperty("type")
+  private Type type = null;
 
-  public DeliveryInfoDTO endTime(OffsetDateTime endTime) {
+  public DeliveryInfo endTime(OffsetDateTime endTime) {
     this.endTime = endTime;
     return this;
   }
@@ -53,7 +55,7 @@ public class DeliveryInfoDTO   {
     this.endTime = endTime;
   }
 
-  public DeliveryInfoDTO id(Long id) {
+  public DeliveryInfo id(Long id) {
     this.id = id;
     return this;
   }
@@ -73,7 +75,7 @@ public class DeliveryInfoDTO   {
     this.id = id;
   }
 
-  public DeliveryInfoDTO startingTime(OffsetDateTime startingTime) {
+  public DeliveryInfo startingTime(OffsetDateTime startingTime) {
     this.startingTime = startingTime;
     return this;
   }
@@ -94,44 +96,46 @@ public class DeliveryInfoDTO   {
     this.startingTime = startingTime;
   }
 
-  public DeliveryInfoDTO storeId(Long storeId) {
-    this.storeId = storeId;
+  public DeliveryInfo store(Store store) {
+    this.store = store;
     return this;
   }
 
   /**
-   * Get storeId
-   * @return storeId
+   * Get store
+   * @return store
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public Long getStoreId() {
-    return storeId;
+  public Store getStore() {
+    return store;
   }
 
-  public void setStoreId(Long storeId) {
-    this.storeId = storeId;
+  public void setStore(Store store) {
+    this.store = store;
   }
 
-  public DeliveryInfoDTO typeId(Long typeId) {
-    this.typeId = typeId;
+  public DeliveryInfo type(Type type) {
+    this.type = type;
     return this;
   }
 
   /**
-   * Get typeId
-   * @return typeId
+   * Get type
+   * @return type
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public Long getTypeId() {
-    return typeId;
+  public Type getType() {
+    return type;
   }
 
-  public void setTypeId(Long typeId) {
-    this.typeId = typeId;
+  public void setType(Type type) {
+    this.type = type;
   }
 
 
@@ -143,29 +147,29 @@ public class DeliveryInfoDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DeliveryInfoDTO deliveryInfoDTO = (DeliveryInfoDTO) o;
-    return Objects.equals(this.endTime, deliveryInfoDTO.endTime) &&
-        Objects.equals(this.id, deliveryInfoDTO.id) &&
-        Objects.equals(this.startingTime, deliveryInfoDTO.startingTime) &&
-        Objects.equals(this.storeId, deliveryInfoDTO.storeId) &&
-        Objects.equals(this.typeId, deliveryInfoDTO.typeId);
+    DeliveryInfo deliveryInfo = (DeliveryInfo) o;
+    return Objects.equals(this.endTime, deliveryInfo.endTime) &&
+        Objects.equals(this.id, deliveryInfo.id) &&
+        Objects.equals(this.startingTime, deliveryInfo.startingTime) &&
+        Objects.equals(this.store, deliveryInfo.store) &&
+        Objects.equals(this.type, deliveryInfo.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(endTime, id, startingTime, storeId, typeId);
+    return Objects.hash(endTime, id, startingTime, store, type);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DeliveryInfoDTO {\n");
+    sb.append("class DeliveryInfo {\n");
     
     sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    startingTime: ").append(toIndentedString(startingTime)).append("\n");
-    sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
-    sb.append("    typeId: ").append(toIndentedString(typeId)).append("\n");
+    sb.append("    store: ").append(toIndentedString(store)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
   }

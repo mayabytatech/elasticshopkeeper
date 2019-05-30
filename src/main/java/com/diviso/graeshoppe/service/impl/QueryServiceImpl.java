@@ -30,9 +30,11 @@ import com.diviso.graeshoppe.client.product.model.StockLine;
 import com.diviso.graeshoppe.client.product.model.Uom;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
+import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
+import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import com.diviso.graeshoppe.domain.Result;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
@@ -222,10 +224,10 @@ public class QueryServiceImpl implements QueryService {
 	}
 	
 	@Override
-	public Page<Store> findStoreByRegNo(String regNo, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("regNo", regNo))
-				.build();
-		return elasticsearchOperations.queryForPage(searchQuery, Store.class);
+	public Store findStoreByRegNo(String regNo) {
+		StringQuery stringQuery = new StringQuery(termQuery("regNo", regNo).toString());
+				
+		return elasticsearchOperations.queryForObject(stringQuery, Store.class);
 	}
 
 	@Override
@@ -239,6 +241,17 @@ public class QueryServiceImpl implements QueryService {
 	public StockCurrent findStockCurrentByProductId(Long productId) {
 		StringQuery searchQuery = new StringQuery(termQuery("product.id", productId).toString());
 		return elasticsearchOperations.queryForObject(searchQuery, StockCurrent.class);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findDeliveryInfoByStoreId(java.lang.Long)
+	 */
+	@Override
+	public Page<DeliveryInfo> findDeliveryInfoByStoreId(Long id) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.id", id))
+				.build();
+	return elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
+		
 	}
 	
 }

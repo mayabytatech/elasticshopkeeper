@@ -26,30 +26,62 @@ public class StoreBundleDTO {
 
 	
 	StoreDTO store;
-	DeliveryInfoDTO deliveryInfo;
-	List<TypeDTO> typeDTO;
+	List<DeliveryInfoDTO> deliveryInfos;
+    List<TypeDTO> types;
 	public StoreDTO getStore() {
 		return store;
 	}
 	public void setStore(StoreDTO store) {
 		this.store = store;
 	}
-	public DeliveryInfoDTO getDeliveryInfo() {
-		return deliveryInfo;
+	public List<DeliveryInfoDTO> getDeliveryInfos() {
+		return deliveryInfos;
 	}
-	public void setDeliveryInfo(DeliveryInfoDTO deliveryInfo) {
-		this.deliveryInfo = deliveryInfo;
+	public void setDeliveryInfos(List<DeliveryInfoDTO> deliveryInfos) {
+		this.deliveryInfos = deliveryInfos;
 	}
-	public List<TypeDTO> getTypeDTO() {
-		return typeDTO;
+	public List<TypeDTO> getTypes() {
+		return types;
+	}
+	public void setTypes(List<TypeDTO> types) {
+		this.types = types;
 	}
 	@Override
-	public String toString() {
-		return "StoreBundleDTO [store=" + store + ", deliveryInfo=" + deliveryInfo + ", typeDTO=" + typeDTO + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((deliveryInfos == null) ? 0 : deliveryInfos.hashCode());
+		result = prime * result + ((store == null) ? 0 : store.hashCode());
+		result = prime * result + ((types == null) ? 0 : types.hashCode());
+		return result;
 	}
-	public void setTypeDTO(List<TypeDTO> typeDTO) {
-		this.typeDTO = typeDTO;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StoreBundleDTO other = (StoreBundleDTO) obj;
+		if (deliveryInfos == null) {
+			if (other.deliveryInfos != null)
+				return false;
+		} else if (!deliveryInfos.equals(other.deliveryInfos))
+			return false;
+		if (store == null) {
+			if (other.store != null)
+				return false;
+		} else if (!store.equals(other.store))
+			return false;
+		if (types == null) {
+			if (other.types != null)
+				return false;
+		} else if (!types.equals(other.types))
+			return false;
+		return true;
 	}
+    
 	
 	
 }

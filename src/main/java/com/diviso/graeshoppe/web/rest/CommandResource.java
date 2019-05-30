@@ -316,6 +316,21 @@ public class CommandResource {
 		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
 	}
 
+	@PostMapping("/types")
+	public ResponseEntity<TypeDTO> createType(@RequestBody TypeDTO typeDTO) {
+		return this.typeResourceApi.createTypeUsingPOST(typeDTO);
+	}
+
+	@PutMapping("/types")
+	public ResponseEntity<TypeDTO> updateType(@RequestBody TypeDTO typeDTO) {
+		return this.typeResourceApi.updateTypeUsingPUT(typeDTO);
+	}
+
+	@DeleteMapping("/types/{id}")
+	public ResponseEntity<Void> deleteType(@PathVariable Long id) {
+		return this.typeResourceApi.deleteTypeUsingDELETE(id);
+	}
+
 	@PostMapping("/stores-denormalized")
 	public ResponseEntity<StoreBundleDTO> createDeNormalizedStore(@RequestBody StoreBundleDTO storebundle)
 			throws URISyntaxException {
@@ -324,35 +339,52 @@ public class CommandResource {
 
 		StoreBundleDTO bundle = new StoreBundleDTO();
 
-		DeliveryInfoDTO deliveryInfoDTO = storebundle.getDeliveryInfo();
-		
-		List<TypeDTO> typeDTO = storebundle.getTypeDTO();
-		
+		List<DeliveryInfoDTO> deliveryInfoDTO = storebundle.getDeliveryInfos();
+
+		List<TypeDTO> typeDTO = storebundle.getTypes();
+
 		StoreDTO storeDTO = storebundle.getStore();
 
-		if (deliveryInfoDTO != null) {
-			DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfoDTO)
-					.getBody();
-
-			bundle.setDeliveryInfo(deliverydto);
-		}
+		
 		if (storeDTO != null) {
+			
 			StoreDTO store = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
+			
+			log.info("...................save store...............................");
+			
 			bundle.setStore(store);
 		}
 
 		List<TypeDTO> typeList = new ArrayList<TypeDTO>();
-
+       
+	
+		
 		for (TypeDTO t : typeDTO) {
 
 			if (t != null) {
 
 				typeList.add(typeResourceApi.createTypeUsingPOST(t).getBody());
-
+				
+				log.info("...................save types...............................");
 			}
 		}
+		bundle.setTypes(typeList);
+		
+		if (deliveryInfoDTO != null) {
 
-		bundle.setTypeDTO(typeList);
+			List<DeliveryInfoDTO> deliveryInfoList = new ArrayList<DeliveryInfoDTO>();
+
+			for (DeliveryInfoDTO delivery : deliveryInfoDTO) {
+
+				DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.createDeliveryInfoUsingPOST(delivery).getBody();
+				log.info("...................save deliveryinfos...............................");
+				deliveryInfoList.add(deliverydto);
+
+			}
+
+			bundle.setDeliveryInfos(deliveryInfoList);
+		}
+		
 
 		return ResponseEntity.ok().body(bundle);
 
@@ -360,40 +392,58 @@ public class CommandResource {
 
 	@PutMapping("/store-denormalized")
 	public ResponseEntity<StoreBundleDTO> updateDenormalizedStore(@RequestBody StoreBundleDTO storebundle) {
-
-		log.debug("REST request to save Store : {}", storebundle);
+		log.debug("REST request to update Store : {}", storebundle);
 
 		StoreBundleDTO bundle = new StoreBundleDTO();
 
-		DeliveryInfoDTO deliveryInfoDTO = storebundle.getDeliveryInfo();
-		
-		List<TypeDTO> typeDTO = storebundle.getTypeDTO();
-		
+		List<DeliveryInfoDTO> deliveryInfoDTO = storebundle.getDeliveryInfos();
+
+		List<TypeDTO> typeDTO = storebundle.getTypes();
+
 		StoreDTO storeDTO = storebundle.getStore();
 
-		if (deliveryInfoDTO != null) {
-			DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.updateDeliveryInfoUsingPUT(deliveryInfoDTO)
-					.getBody();
-
-			bundle.setDeliveryInfo(deliverydto);
-		}
+		
 		if (storeDTO != null) {
+			
 			StoreDTO store = storeResourceApi.updateStoreUsingPUT(storeDTO).getBody();
+			
+			log.info("...................update store...............................");
+			
 			bundle.setStore(store);
 		}
 
 		List<TypeDTO> typeList = new ArrayList<TypeDTO>();
-
+       
+	
+		
 		for (TypeDTO t : typeDTO) {
 
 			if (t != null) {
 
 				typeList.add(typeResourceApi.updateTypeUsingPUT(t).getBody());
-
+				
+				log.info("...................update types...............................");
 			}
 		}
+		bundle.setTypes(typeList);
+		
+		if (deliveryInfoDTO != null) {
 
-		bundle.setTypeDTO(typeList);
+			List<DeliveryInfoDTO> deliveryInfoList = new ArrayList<DeliveryInfoDTO>();
+
+			for (DeliveryInfoDTO delivery : deliveryInfoDTO) {
+
+				DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.updateDeliveryInfoUsingPUT(delivery).getBody();
+				
+				log.info("...................update deliveryinfos...............................");
+				
+				deliveryInfoList.add(deliverydto);
+
+			}
+
+			bundle.setDeliveryInfos(deliveryInfoList);
+		}
+		
 
 		return ResponseEntity.ok().body(bundle);
 	}

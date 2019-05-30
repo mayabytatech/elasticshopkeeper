@@ -1,6 +1,7 @@
 package com.diviso.graeshoppe.client.store.model;
 
 import java.util.Objects;
+import com.diviso.graeshoppe.client.store.model.Store;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -11,12 +12,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * UserRatingDTO
+ * UserRating
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-30T12:03:55.028+05:30[Asia/Calcutta]")
 
-public class UserRatingDTO   {
+public class UserRating   {
   @JsonProperty("id")
   private Long id = null;
 
@@ -26,13 +27,13 @@ public class UserRatingDTO   {
   @JsonProperty("rating")
   private Double rating = null;
 
-  @JsonProperty("storeId")
-  private Long storeId = null;
+  @JsonProperty("store")
+  private Store store = null;
 
   @JsonProperty("userName")
   private String userName = null;
 
-  public UserRatingDTO id(Long id) {
+  public UserRating id(Long id) {
     this.id = id;
     return this;
   }
@@ -52,7 +53,7 @@ public class UserRatingDTO   {
     this.id = id;
   }
 
-  public UserRatingDTO ratedOn(OffsetDateTime ratedOn) {
+  public UserRating ratedOn(OffsetDateTime ratedOn) {
     this.ratedOn = ratedOn;
     return this;
   }
@@ -73,7 +74,7 @@ public class UserRatingDTO   {
     this.ratedOn = ratedOn;
   }
 
-  public UserRatingDTO rating(Double rating) {
+  public UserRating rating(Double rating) {
     this.rating = rating;
     return this;
   }
@@ -93,27 +94,28 @@ public class UserRatingDTO   {
     this.rating = rating;
   }
 
-  public UserRatingDTO storeId(Long storeId) {
-    this.storeId = storeId;
+  public UserRating store(Store store) {
+    this.store = store;
     return this;
   }
 
   /**
-   * Get storeId
-   * @return storeId
+   * Get store
+   * @return store
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public Long getStoreId() {
-    return storeId;
+  public Store getStore() {
+    return store;
   }
 
-  public void setStoreId(Long storeId) {
-    this.storeId = storeId;
+  public void setStore(Store store) {
+    this.store = store;
   }
 
-  public UserRatingDTO userName(String userName) {
+  public UserRating userName(String userName) {
     this.userName = userName;
     return this;
   }
@@ -142,28 +144,28 @@ public class UserRatingDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserRatingDTO userRatingDTO = (UserRatingDTO) o;
-    return Objects.equals(this.id, userRatingDTO.id) &&
-        Objects.equals(this.ratedOn, userRatingDTO.ratedOn) &&
-        Objects.equals(this.rating, userRatingDTO.rating) &&
-        Objects.equals(this.storeId, userRatingDTO.storeId) &&
-        Objects.equals(this.userName, userRatingDTO.userName);
+    UserRating userRating = (UserRating) o;
+    return Objects.equals(this.id, userRating.id) &&
+        Objects.equals(this.ratedOn, userRating.ratedOn) &&
+        Objects.equals(this.rating, userRating.rating) &&
+        Objects.equals(this.store, userRating.store) &&
+        Objects.equals(this.userName, userRating.userName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, ratedOn, rating, storeId, userName);
+    return Objects.hash(id, ratedOn, rating, store, userName);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserRatingDTO {\n");
+    sb.append("class UserRating {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    ratedOn: ").append(toIndentedString(ratedOn)).append("\n");
     sb.append("    rating: ").append(toIndentedString(rating)).append("\n");
-    sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
+    sb.append("    store: ").append(toIndentedString(store)).append("\n");
     sb.append("    userName: ").append(toIndentedString(userName)).append("\n");
     sb.append("}");
     return sb.toString();

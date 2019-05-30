@@ -41,6 +41,9 @@
             },
             "sale": {
                 "spec": "http://34.73.191.107:8086/v2/api-docs"
+            },
+            "store": {
+                "spec": "http://localhost:8071/v2/api-docs"
             }
         }
     }
