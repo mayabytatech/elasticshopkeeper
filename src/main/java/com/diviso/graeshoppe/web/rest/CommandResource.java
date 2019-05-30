@@ -316,6 +316,22 @@ public class CommandResource {
 		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
 	}
 
+
+	@PostMapping("/delivery-infos")
+	public ResponseEntity<DeliveryInfoDTO> createDeliveryInfo(@RequestBody DeliveryInfoDTO deliveryInfoDTO) {
+		return this.deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfoDTO);
+	}
+
+	@PutMapping("/delivery-infos")
+	public ResponseEntity<DeliveryInfoDTO> updateDeliveryInfo(@RequestBody DeliveryInfoDTO deliveryInfoDTO) {
+		return this.deliveryInfoResourceApi.updateDeliveryInfoUsingPUT(deliveryInfoDTO);
+	}
+	
+	@DeleteMapping("/delivery-infos/{id}")
+	public void deleteDeliveryInfo(@PathVariable Long id) {
+		this.deliveryInfoResourceApi.deleteDeliveryInfoUsingDELETE(id);
+	}
+	
 	@PostMapping("/types")
 	public ResponseEntity<TypeDTO> createType(@RequestBody TypeDTO typeDTO) {
 		return this.typeResourceApi.createTypeUsingPOST(typeDTO);
@@ -332,7 +348,8 @@ public class CommandResource {
 	}
 
 	@PostMapping("/stores-denormalized")
-	public ResponseEntity<StoreBundleDTO> createDeNormalizedStore(@RequestBody StoreBundleDTO storebundle)
+	public ResponseEntity<StoreBundleDTO> createDeNormalizedStore(@RequestBody StoreBundleDTO storebundle, Integer page,
+			Integer size, ArrayList<String> sort)
 			throws URISyntaxException {
 
 		log.debug("REST request to save Store : {}", storebundle);
@@ -355,19 +372,10 @@ public class CommandResource {
 			bundle.setStore(store);
 		}
 
-		List<TypeDTO> typeList = new ArrayList<TypeDTO>();
+		List<TypeDTO> typeList = typeResourceApi.getAllTypesUsingGET(page, size, sort).getBody();
        
 	
 		
-		for (TypeDTO t : typeDTO) {
-
-			if (t != null) {
-
-				typeList.add(typeResourceApi.createTypeUsingPOST(t).getBody());
-				
-				log.info("...................save types...............................");
-			}
-		}
 		bundle.setTypes(typeList);
 		
 		if (deliveryInfoDTO != null) {
@@ -391,7 +399,8 @@ public class CommandResource {
 	}
 
 	@PutMapping("/store-denormalized")
-	public ResponseEntity<StoreBundleDTO> updateDenormalizedStore(@RequestBody StoreBundleDTO storebundle) {
+	public ResponseEntity<StoreBundleDTO> updateDenormalizedStore(@RequestBody StoreBundleDTO storebundle,Integer page,
+			Integer size, ArrayList<String> sort) {
 		log.debug("REST request to update Store : {}", storebundle);
 
 		StoreBundleDTO bundle = new StoreBundleDTO();
@@ -412,19 +421,9 @@ public class CommandResource {
 			bundle.setStore(store);
 		}
 
-		List<TypeDTO> typeList = new ArrayList<TypeDTO>();
+		List<TypeDTO> typeList =  typeResourceApi.getAllTypesUsingGET(page, size, sort).getBody();
        
-	
-		
-		for (TypeDTO t : typeDTO) {
 
-			if (t != null) {
-
-				typeList.add(typeResourceApi.updateTypeUsingPUT(t).getBody());
-				
-				log.info("...................update types...............................");
-			}
-		}
 		bundle.setTypes(typeList);
 		
 		if (deliveryInfoDTO != null) {
