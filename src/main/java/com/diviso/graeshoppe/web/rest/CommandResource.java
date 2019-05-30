@@ -1,6 +1,9 @@
 package com.diviso.graeshoppe.web.rest;
 
+import java.net.URISyntaxException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,24 +46,27 @@ import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.Store;
+import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.ReviewDTO;
+import com.diviso.graeshoppe.client.store.model.StoreBundleDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
+import com.diviso.graeshoppe.client.store.model.TypeDTO;
 import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
 
 @RestController
 @RequestMapping("/api/command")
 public class CommandResource {
-	
+
 	@Autowired
 	private UomResourceApi uomResourceApi;
-	
+
 	@Autowired
 	private CategoryResourceApi categoryResourceApi;
 	@Autowired
 	private StockLineResourceApi stockLineResourceApi;
 	@Autowired
-	private	ProductResourceApi productResourceApi ;
+	private ProductResourceApi productResourceApi;
 	@Autowired
 	private ContactResourceApi contactResourceApi;
 	@Autowired
@@ -71,32 +77,30 @@ public class CommandResource {
 	private StockCurrentResourceApi stockCurrentResourceApi;
 	@Autowired
 	private StockDiaryResourceApi stockDiaryResourceApi;
-	
+
 	@Autowired
 	private StoreResourceApi storeResourceApi;
-	
+
 	@Autowired
 	private ReplyResourceApi replyResourceApi;
-	
+
 	@Autowired
 	private UserRatingResourceApi userRatingResourceApi;
-	
+
 	@Autowired
 	private ReviewResourceApi reviewResourceApi;
-	
+
 	@Autowired
 	TicketLineResourceApi ticketLineResourceApi;
-	
+
 	@Autowired
 	DeliveryInfoResourceApi deliveryInfoResourceApi;
-	
+
 	@Autowired
 	TypeResourceApi typeResourceApi;
-	
+
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
-	
-	
 	@PostMapping("/customers/register-customer")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerAggregator customerAggregator) {
 
@@ -106,220 +110,292 @@ public class CommandResource {
 		contactDTO.setMobileNumber(customerAggregator.getMobileNumber());
 		ContactDTO resultDTO = contactResourceApi.createContactUsingPOST(contactDTO).getBody();
 		customerDTO.setContactId(resultDTO.getId());
-	return	customerResourceApi.createCustomerUsingPOST(customerDTO);
+		return customerResourceApi.createCustomerUsingPOST(customerDTO);
 
 	}
-	
+
 	@PutMapping("/customers")
-	public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO){
+	public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO) {
 		return customerResourceApi.updateCustomerUsingPUT(customerDTO);
 	}
-	
+
 	@DeleteMapping("/customers/{id}")
-	public void deleteCustomer(@PathVariable Long id){
+	public void deleteCustomer(@PathVariable Long id) {
 		Long contactid = customerResourceApi.getCustomerUsingGET(id).getBody().getContactId();
 		customerResourceApi.deleteCustomerUsingDELETE(id);
 		this.deleteContact(contactid);
 	}
-	
+
 	@PutMapping("/contacts")
 	public ResponseEntity<ContactDTO> updateContact(@RequestBody ContactDTO contact) {
 		return this.contactResourceApi.updateContactUsingPUT(contact);
 	}
-	
+
 	@DeleteMapping("/contacts/{id}")
 	public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
 		return this.contactResourceApi.deleteContactUsingDELETE(id);
 	}
-	
+
 	@PutMapping("/categories")
-	public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO){
+	public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO) {
 		return categoryResourceApi.updateCategoryUsingPUT(categoryDTO);
 	}
-	
+
 	@DeleteMapping("/categories/{id}")
-	public void deleteCategory(@PathVariable Long id){
+	public void deleteCategory(@PathVariable Long id) {
 		categoryResourceApi.deleteCategoryUsingDELETE(id);
 	}
+
 	@PostMapping("/unit-of-meassurement")
 	public ResponseEntity<UomDTO> createUOM(@RequestBody UomDTO uomDTO) {
 		return uomResourceApi.createUomUsingPOST(uomDTO);
 	}
-	
+
 	@PostMapping("/productCategory")
 	public ResponseEntity<CategoryDTO> createProductCategory(@RequestBody CategoryDTO categoryDTO) {
 		return categoryResourceApi.createCategoryUsingPOST(categoryDTO);
 	}
-	
-	
+
 	@PostMapping("/products")
 	public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
 		return productResourceApi.createProductUsingPOST(productDTO);
 	}
-	
+
 	@PutMapping("/products")
-	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO){
+	public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO) {
 		return productResourceApi.updateProductUsingPUT(productDTO);
 	}
-	
+
 	@DeleteMapping("/products/{id}")
-	public void deleteProduct(@PathVariable Long id){
+	public void deleteProduct(@PathVariable Long id) {
 		productResourceApi.deleteProductUsingDELETE(id);
 	}
-	
+
 	@PostMapping("/sales")
-	public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO saleDTO){
+	public ResponseEntity<SaleDTO> createSale(@RequestBody SaleDTO saleDTO) {
 		saleDTO.date(Instant.now());
-		
-		return	saleResourceApi.createSaleUsingPOST(saleDTO);	
+
+		return saleResourceApi.createSaleUsingPOST(saleDTO);
 	}
-	
+
 	@PutMapping("/sales")
-	public ResponseEntity<SaleDTO> updateSale(@RequestBody SaleDTO saleDTO){
+	public ResponseEntity<SaleDTO> updateSale(@RequestBody SaleDTO saleDTO) {
 		return this.saleResourceApi.updateSaleUsingPUT(saleDTO);
 	}
-	
+
 	@DeleteMapping("/sales/{id}")
 	public void deleteSale(@PathVariable Long id) {
-		this.ticketLineResourceApi.findAllTicketLinesBySaleIdUsingGET(id).getBody().forEach(ticket -> {this.deleteTicketline(ticket.getId());});
+		this.ticketLineResourceApi.findAllTicketLinesBySaleIdUsingGET(id).getBody().forEach(ticket -> {
+			this.deleteTicketline(ticket.getId());
+		});
 		this.saleResourceApi.deleteSaleUsingDELETE(id);
 	}
-	
+
 	@PostMapping("/ticket-lines")
 	public ResponseEntity<TicketLineDTO> createTickerLine(@RequestBody TicketLineDTO ticketLineDTO) {
 		return this.ticketLineResourceApi.createTicketLineUsingPOST(ticketLineDTO);
 	}
-	
+
 	@PutMapping("/ticket-lines")
-	public ResponseEntity<TicketLineDTO> updateTicketLine(@RequestBody TicketLineDTO ticketLineDTO){
+	public ResponseEntity<TicketLineDTO> updateTicketLine(@RequestBody TicketLineDTO ticketLineDTO) {
 		return ticketLineResourceApi.updateTicketLineUsingPUT(ticketLineDTO);
 	}
-	
+
 	@DeleteMapping("/ticket-lines/{id}")
-	public void deleteTicketline(@PathVariable Long id){
+	public void deleteTicketline(@PathVariable Long id) {
 		ticketLineResourceApi.deleteTicketLineUsingDELETE(id);
 	}
-	
+
 	@PutMapping("/uoms")
-	public ResponseEntity<UomDTO> updateUOM(@RequestBody UomDTO uomDTO){
+	public ResponseEntity<UomDTO> updateUOM(@RequestBody UomDTO uomDTO) {
 		return uomResourceApi.updateUomUsingPUT(uomDTO);
 	}
-	
+
 	@DeleteMapping("/uoms/{id}")
-	public void deleteUOM(@PathVariable  Long id){
+	public void deleteUOM(@PathVariable Long id) {
 		uomResourceApi.deleteUomUsingDELETE(id);
 	}
-	
+
 	@PostMapping("/stocklines")
 	public ResponseEntity<StockLineDTO> createStockLine(@RequestBody StockLineDTO stockLine) {
 		return this.stockLineResourceApi.createStockLineUsingPOST(stockLine);
 	}
-	
+
 	@PutMapping("/stocklines")
 	public ResponseEntity<StockLineDTO> updateStockLine(@RequestBody StockLineDTO stockLine) {
 		return this.stockLineResourceApi.updateStockLineUsingPUT(stockLine);
 	}
-	
+
 	@DeleteMapping("/stocklines/{id}")
 	public ResponseEntity<Void> deleteStockLine(@PathVariable Long id) {
 		return this.stockLineResourceApi.deleteStockLineUsingDELETE(id);
 	}
-	
+
 	@PostMapping("/stock-diaries")
 	public ResponseEntity<StockDiaryDTO> createStockCurrent(@RequestBody StockDiaryDTO stockDiary) {
 		return this.stockDiaryResourceApi.createStockDiaryUsingPOST(stockDiary);
 	}
-	
+
 	@PutMapping("/stock-diaries")
 	public ResponseEntity<StockDiaryDTO> updateStockDiary(@RequestBody StockDiaryDTO stockDiary) {
 		return this.stockDiaryResourceApi.updateStockDiaryUsingPUT(stockDiary);
 	}
-	
+
 	@PostMapping("/stock-currents")
 	public ResponseEntity<StockCurrentDTO> createStockCurrent(@RequestBody StockCurrentDTO stockCurrent) {
 		return this.stockCurrentResourceApi.createStockCurrentUsingPOST(stockCurrent);
 	}
-	
+
 	@PutMapping("/stock-currents")
 	public ResponseEntity<StockCurrentDTO> updateStockCurrent(@RequestBody StockCurrentDTO StockCurrent) {
 		return this.stockCurrentResourceApi.updateStockCurrentUsingPUT(StockCurrent);
 	}
-	
+
 	@PostMapping("/stock-of-product")
 	public ResponseEntity<StockDiaryDTO> createStockOfProduct(@RequestBody StockDiaryDTO stockDiaryDTO) {
 		return this.stockDiaryResourceApi.createStockOfProductUsingPOST(stockDiaryDTO);
 	}
-	
+
 	@PostMapping("/stores")
 	public ResponseEntity<StoreDTO> createStore(@RequestBody StoreDTO storeDTO) {
 		return this.storeResourceApi.createStoreUsingPOST(storeDTO);
 	}
-	
+
 	@PutMapping("/stores")
-	public ResponseEntity<StoreDTO> updateStore(@RequestBody StoreDTO storeDTO){
+	public ResponseEntity<StoreDTO> updateStore(@RequestBody StoreDTO storeDTO) {
 		return this.storeResourceApi.updateStoreUsingPUT(storeDTO);
 	}
-	
+
 	@DeleteMapping("/stores/{id}")
 	public ResponseEntity<Void> deleteStore(@PathVariable Long id) {
 		return this.storeResourceApi.deleteStoreUsingDELETE(id);
 	}
-	
+
 	@PostMapping("/replies")
 	public ResponseEntity<ReplyDTO> createReply(@RequestBody ReplyDTO replyDTO) {
 		return this.replyResourceApi.createReplyUsingPOST(replyDTO);
 	}
-	
+
 	@PutMapping("/replies")
-	public ResponseEntity<ReplyDTO> updateReply(@RequestBody ReplyDTO replyDTO){
+	public ResponseEntity<ReplyDTO> updateReply(@RequestBody ReplyDTO replyDTO) {
 		return this.replyResourceApi.updateReplyUsingPUT(replyDTO);
 	}
-	
+
 	@DeleteMapping("/replies/{id}")
 	public ResponseEntity<Void> deleteReply(@PathVariable Long id) {
 		return this.replyResourceApi.deleteReplyUsingDELETE(id);
 	}
-	
+
 	@PostMapping("/user-ratings")
 	public ResponseEntity<UserRatingDTO> createUserRating(@RequestBody UserRatingDTO userRatingDTO) {
 		return this.userRatingResourceApi.createUserRatingUsingPOST(userRatingDTO);
 	}
-	
+
 	@PutMapping("/user-ratings")
-	public ResponseEntity<UserRatingDTO> updateUserRating(@RequestBody UserRatingDTO userRatingDTO){
+	public ResponseEntity<UserRatingDTO> updateUserRating(@RequestBody UserRatingDTO userRatingDTO) {
 		return this.userRatingResourceApi.updateUserRatingUsingPUT(userRatingDTO);
 	}
-	
+
 	@DeleteMapping("/user-ratings/{id}")
 	public ResponseEntity<Void> deleteUserRating(@PathVariable Long id) {
 		return this.userRatingResourceApi.deleteUserRatingUsingDELETE(id);
 	}
-	
+
 	@PostMapping("/reviews")
 	public ResponseEntity<ReviewDTO> createUserRating(@RequestBody ReviewDTO reviewDTO) {
 		return this.reviewResourceApi.createReviewUsingPOST(reviewDTO);
 	}
-	
+
 	@PutMapping("/reviews")
-	public ResponseEntity<ReviewDTO> updateUserRating(@RequestBody ReviewDTO reviewDTO){
+	public ResponseEntity<ReviewDTO> updateUserRating(@RequestBody ReviewDTO reviewDTO) {
 		return this.reviewResourceApi.updateReviewUsingPUT(reviewDTO);
 	}
-	
+
 	@DeleteMapping("/reviews/{id}")
 	public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
 		return this.reviewResourceApi.deleteReviewUsingDELETE(id);
 	}
-	
-	 @PostMapping("/store-denormalized")
-	public ResponseEntity<Store> createDenormalizedStore(@RequestBody Store store){
+
+	@PostMapping("/stores-denormalized")
+	public ResponseEntity<StoreBundleDTO> createDeNormalizedStore(@RequestBody StoreBundleDTO storebundle)
+			throws URISyntaxException {
+
+		log.debug("REST request to save Store : {}", storebundle);
+
+		StoreBundleDTO bundle = new StoreBundleDTO();
+
+		DeliveryInfoDTO deliveryInfoDTO = storebundle.getDeliveryInfo();
 		
-		return storeResourceApi.createDeNormalizedStoreUsingPOST(store);
-		 
-	 }
-	
-	 @PutMapping("/store-denormalized")
-		public ResponseEntity<Store> updateDenormalizedStore(@RequestBody Store store){
-			return storeResourceApi.updateStoreDeNormalizedUsingPUT(store);
+		List<TypeDTO> typeDTO = storebundle.getTypeDTO();
+		
+		StoreDTO storeDTO = storebundle.getStore();
+
+		if (deliveryInfoDTO != null) {
+			DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfoDTO)
+					.getBody();
+
+			bundle.setDeliveryInfo(deliverydto);
 		}
-	 
+		if (storeDTO != null) {
+			StoreDTO store = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
+			bundle.setStore(store);
+		}
+
+		List<TypeDTO> typeList = new ArrayList<TypeDTO>();
+
+		for (TypeDTO t : typeDTO) {
+
+			if (t != null) {
+
+				typeList.add(typeResourceApi.createTypeUsingPOST(t).getBody());
+
+			}
+		}
+
+		bundle.setTypeDTO(typeList);
+
+		return ResponseEntity.ok().body(bundle);
+
+	}
+
+	@PutMapping("/store-denormalized")
+	public ResponseEntity<StoreBundleDTO> updateDenormalizedStore(@RequestBody StoreBundleDTO storebundle) {
+
+		log.debug("REST request to save Store : {}", storebundle);
+
+		StoreBundleDTO bundle = new StoreBundleDTO();
+
+		DeliveryInfoDTO deliveryInfoDTO = storebundle.getDeliveryInfo();
+		
+		List<TypeDTO> typeDTO = storebundle.getTypeDTO();
+		
+		StoreDTO storeDTO = storebundle.getStore();
+
+		if (deliveryInfoDTO != null) {
+			DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.updateDeliveryInfoUsingPUT(deliveryInfoDTO)
+					.getBody();
+
+			bundle.setDeliveryInfo(deliverydto);
+		}
+		if (storeDTO != null) {
+			StoreDTO store = storeResourceApi.updateStoreUsingPUT(storeDTO).getBody();
+			bundle.setStore(store);
+		}
+
+		List<TypeDTO> typeList = new ArrayList<TypeDTO>();
+
+		for (TypeDTO t : typeDTO) {
+
+			if (t != null) {
+
+				typeList.add(typeResourceApi.updateTypeUsingPUT(t).getBody());
+
+			}
+		}
+
+		bundle.setTypeDTO(typeList);
+
+		return ResponseEntity.ok().body(bundle);
+	}
+
 }
