@@ -23,11 +23,13 @@ import java.util.Objects;
 @Document(indexName = "store")
 public class Store implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
+
     private Long id;
 
     private String regNo;
 
-  
     private String name;
 
     @Lob
@@ -35,14 +37,14 @@ public class Store implements Serializable {
 
     private String imageContentType;
 
- 
+
     private Double totalRating;
 
-   @GeoPointField
+    @GeoPointField
     private String location;
 
-
     private Long contactNo;
+
 
     private String email;
 
@@ -51,18 +53,15 @@ public class Store implements Serializable {
 
     private Instant closingTime;
 
-
     private String info;
-
 
     private Propreitor propreitor;
 
     private Set<Review> reviews = new HashSet<>();
-
+ 
     private Set<UserRating> userRatings = new HashSet<>();
 
     private Set<DeliveryInfo> deliveryInfos = new HashSet<>();
-    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
