@@ -5,7 +5,7 @@
  */
 package com.diviso.graeshoppe.client.store.api;
 
-import com.diviso.graeshoppe.client.store.domain.Store;
+import com.diviso.graeshoppe.client.store.model.Store;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-30T12:03:55.028+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-01T10:44:22.363+05:30[Asia/Kolkata]")
 
 @Api(value = "StoreResource", description = "the StoreResource API")
 public interface StoreResourceApi {
