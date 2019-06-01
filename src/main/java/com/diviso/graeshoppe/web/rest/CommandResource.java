@@ -1,9 +1,6 @@
 package com.diviso.graeshoppe.web.rest;
 
-import java.net.URISyntaxException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,12 +41,9 @@ import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
 import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
-import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
-import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.ReviewDTO;
-import com.diviso.graeshoppe.client.store.model.StoreBundleDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import com.diviso.graeshoppe.client.store.model.TypeDTO;
 import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
@@ -241,7 +235,7 @@ public class CommandResource {
 		return this.stockDiaryResourceApi.updateStockDiaryUsingPUT(stockDiary);
 	}
 
-	@PostMapping("/stock-currents")
+
 	public ResponseEntity<StockCurrentDTO> createStockCurrent(@RequestBody StockCurrentDTO stockCurrent) {
 		return this.stockCurrentResourceApi.createStockCurrentUsingPOST(stockCurrent);
 	}
@@ -347,104 +341,6 @@ public class CommandResource {
 		return this.typeResourceApi.deleteTypeUsingDELETE(id);
 	}
 
-	@PostMapping("/stores-denormalized")
-	public ResponseEntity<StoreBundleDTO> createDeNormalizedStore(@RequestBody StoreBundleDTO storebundle, Integer page,
-			Integer size, ArrayList<String> sort)
-			throws URISyntaxException {
 
-		log.debug("REST request to save Store : {}", storebundle);
-
-		StoreBundleDTO bundle = new StoreBundleDTO();
-
-		List<DeliveryInfoDTO> deliveryInfoDTO = storebundle.getDeliveryInfos();
-
-		List<TypeDTO> typeDTO = storebundle.getTypes();
-
-		StoreDTO storeDTO = storebundle.getStore();
-
-		
-		if (storeDTO != null) {
-			
-			StoreDTO store = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
-			
-			log.info("...................save store...............................");
-			
-			bundle.setStore(store);
-		}
-
-		List<TypeDTO> typeList = typeResourceApi.getAllTypesUsingGET(page, size, sort).getBody();
-       
-	
-		
-		bundle.setTypes(typeList);
-		
-		if (deliveryInfoDTO != null) {
-
-			List<DeliveryInfoDTO> deliveryInfoList = new ArrayList<DeliveryInfoDTO>();
-
-			for (DeliveryInfoDTO delivery : deliveryInfoDTO) {
-
-				DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.createDeliveryInfoUsingPOST(delivery).getBody();
-				log.info("...................save deliveryinfos...............................");
-				deliveryInfoList.add(deliverydto);
-
-			}
-
-			bundle.setDeliveryInfos(deliveryInfoList);
-		}
-		
-
-		return ResponseEntity.ok().body(bundle);
-
-	}
-
-	@PutMapping("/store-denormalized")
-	public ResponseEntity<StoreBundleDTO> updateDenormalizedStore(@RequestBody StoreBundleDTO storebundle,Integer page,
-			Integer size, ArrayList<String> sort) {
-		log.debug("REST request to update Store : {}", storebundle);
-
-		StoreBundleDTO bundle = new StoreBundleDTO();
-
-		List<DeliveryInfoDTO> deliveryInfoDTO = storebundle.getDeliveryInfos();
-
-		List<TypeDTO> typeDTO = storebundle.getTypes();
-
-		StoreDTO storeDTO = storebundle.getStore();
-
-		
-		if (storeDTO != null) {
-			
-			StoreDTO store = storeResourceApi.updateStoreUsingPUT(storeDTO).getBody();
-			
-			log.info("...................update store...............................");
-			
-			bundle.setStore(store);
-		}
-
-		List<TypeDTO> typeList =  typeResourceApi.getAllTypesUsingGET(page, size, sort).getBody();
-       
-
-		bundle.setTypes(typeList);
-		
-		if (deliveryInfoDTO != null) {
-
-			List<DeliveryInfoDTO> deliveryInfoList = new ArrayList<DeliveryInfoDTO>();
-
-			for (DeliveryInfoDTO delivery : deliveryInfoDTO) {
-
-				DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.updateDeliveryInfoUsingPUT(delivery).getBody();
-				
-				log.info("...................update deliveryinfos...............................");
-				
-				deliveryInfoList.add(deliverydto);
-
-			}
-
-			bundle.setDeliveryInfos(deliveryInfoList);
-		}
-		
-
-		return ResponseEntity.ok().body(bundle);
-	}
 
 }
