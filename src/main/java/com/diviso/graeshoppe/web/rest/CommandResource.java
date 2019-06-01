@@ -358,7 +358,7 @@ public class CommandResource {
 
 		List<DeliveryInfoDTO> deliveryInfoDTO = storebundle.getDeliveryInfos();
 
-		List<TypeDTO> typeDTO = storebundle.getTypes();
+		//List<TypeDTO> typeDTO = storebundle.getTypes();
 
 		StoreDTO storeDTO = storebundle.getStore();
 
