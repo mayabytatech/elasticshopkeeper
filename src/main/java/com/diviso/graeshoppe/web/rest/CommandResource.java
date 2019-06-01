@@ -341,49 +341,4 @@ public class CommandResource {
 		return this.typeResourceApi.deleteTypeUsingDELETE(id);
 	}
 
-<<<<<<< HEAD
-	@PostMapping("/stores-denormalized")
-	public ResponseEntity<StoreBundleDTO> createDeNormalizedStore(@RequestBody StoreBundleDTO storebundle, Integer page,
-			Integer size, ArrayList<String> sort)
-			throws URISyntaxException {
-
-		log.debug("REST request to save Store : {}", storebundle);
-
-		StoreBundleDTO bundle = new StoreBundleDTO();
-
-		List<DeliveryInfoDTO> deliveryInfoDTO = storebundle.getDeliveryInfos();
-
-		//List<TypeDTO> typeDTO = storebundle.getTypes();
-
-		StoreDTO storeDTO = storebundle.getStore();
-
-		
-		if (storeDTO != null) {
-			
-			StoreDTO store = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
-			
-			log.info("...................save store...............................");
-			
-			bundle.setStore(store);
-		}
-
-		List<TypeDTO> typeList = typeResourceApi.getAllTypesUsingGET(page, size, sort).getBody();
-       
-	
-		
-		bundle.setTypes(typeList);
-		
-		if (deliveryInfoDTO != null) {
-
-			List<DeliveryInfoDTO> deliveryInfoList = new ArrayList<DeliveryInfoDTO>();
-
-			for (DeliveryInfoDTO delivery : deliveryInfoDTO) {
-
-				DeliveryInfoDTO deliverydto = deliveryInfoResourceApi.createDeliveryInfoUsingPOST(delivery).getBody();
-				log.info("...................save deliveryinfos...............................");
-				deliveryInfoList.add(deliverydto);
-=======
->>>>>>> 3fdc2f032b17109da41a1c34bc7338e8702067ff
-
-
 }
