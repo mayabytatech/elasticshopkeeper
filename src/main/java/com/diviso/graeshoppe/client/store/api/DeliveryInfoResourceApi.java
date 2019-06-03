@@ -5,7 +5,7 @@
  */
 package com.diviso.graeshoppe.client.store.api;
 
-import com.diviso.graeshoppe.client.store.model.DeliveryInfo;
+import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import java.util.List;
 import io.swagger.annotations.*;

@@ -21,6 +21,7 @@ import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
+import com.diviso.graeshoppe.client.product.api.LoadControllerApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockDiaryResourceApi;
@@ -46,6 +47,10 @@ import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
+import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
+import com.diviso.graeshoppe.client.store.model.StoreBundleDTO;
+import com.diviso.graeshoppe.client.store.model.StoreDTO;
+import com.diviso.graeshoppe.client.store.model.TypeDTO;
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
@@ -92,6 +97,10 @@ public class QueryResource {
 
 	@Autowired
 	TypeResourceApi typeResourceApi;
+	
+
+	@Autowired
+	LoadControllerApi loadControllerApi;
 
 	@GetMapping("/findAllProductByCategoryId/{categoryId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, Pageable pageable) {
@@ -306,8 +315,36 @@ public class QueryResource {
 		return this.queryService.findStoreByRegNo(regNo);
 	}
 
+	@GetMapping("/storeBundle/{regNo}")
+	public ResponseEntity<StoreBundleDTO> getStoreBundle(@PathVariable String regNo, Integer page, Integer size,
+			ArrayList<String> sort) {
 
+		Store store = queryService.findStoreByRegNo(regNo);
+
+		StoreDTO storeDTO = storeResourceApi.getStoreUsingGET(store.getId()).getBody();
+
+		List<DeliveryInfoDTO> deliveryDTOs = deliveryInfoResourceApi
+				.listToDtoUsingPOST(queryService.findDeliveryInfoByStoreId(storeDTO.getId()).getContent()).getBody();
+
+		List<TypeDTO> typeDTOs = typeResourceApi.getAllTypesUsingGET(page, size, sort).getBody();
+
+		StoreBundleDTO bundle = new StoreBundleDTO();
+
+		bundle.setStore(storeDTO);
+
+		bundle.setDeliveryInfos(deliveryDTOs);
+
+		bundle.setTypes(typeDTOs);
+
+		return ResponseEntity.ok().body(bundle);
+
+	}
 
 	
+
+	@GetMapping("/loadProducts")
+	public void loadProducts(){
+		loadControllerApi.loadUsingGET();
+	}
 	
 }
