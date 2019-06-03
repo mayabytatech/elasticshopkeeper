@@ -22,6 +22,8 @@ import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
+import com.diviso.graeshoppe.client.order.domain.Order;
+import com.diviso.graeshoppe.client.order.domain.OrderLine;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
@@ -67,13 +69,13 @@ public class QueryServiceImpl implements QueryService {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
 	}
-	
+
 	@Override
 	public Page<Product> findAllProduct(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
-	
+
 	@Override
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
@@ -82,29 +84,26 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 
 	}
-	
+
 	@Override
 	public Page<Product> findProductByCategoryId(Long categoryId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("categories.id", categoryId))
 				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
-	
-	
+
 	@Override
 	public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("product.name", name))
-				.build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("product.name", name)).build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
 	}
-	
+
 	@Override
 	public StockDiary findStockDiaryByProductId(Long productId) {
 		StringQuery searchQuery = new StringQuery(termQuery("product.id", productId).toString());
 		return elasticsearchOperations.queryForObject(searchQuery, StockDiary.class);
 	}
-	
-	
+
 	@Override
 	public Page<StockLine> findAllStockLines(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
@@ -124,8 +123,9 @@ public class QueryServiceImpl implements QueryService {
 
 				for (SearchResult.Hit<JsonObject, Void> searchHit : response.getHits(JsonObject.class)) {
 					Result result = new Result();
-					 System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+searchHit.source.get(JestResult.ES_METADATA_ID).getAsString());
-					//result.setName(searchHit.source.get("name").getAsString());
+					System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+							+ searchHit.source.get(JestResult.ES_METADATA_ID).getAsString());
+					// result.setName(searchHit.source.get("name").getAsString());
 
 					values.add(result);
 
@@ -145,31 +145,26 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
 
 	}
+
 	@Override
-	public List<String> findAllUom(Pageable pageable){
+	public List<String> findAllUom(Pageable pageable) {
 		List<String> uomList = new ArrayList<String>();
-		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				  .withQuery(matchAllQuery())
-				  .withSearchType(QUERY_THEN_FETCH)
-				  .withIndices("uom").withTypes("uom")
-				  .addAggregation(AggregationBuilders.terms("distinct_uom").field("name.keyword"))
-				  .build();
-	
-		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery())
+				.withSearchType(QUERY_THEN_FETCH).withIndices("uom").withTypes("uom")
+				.addAggregation(AggregationBuilders.terms("distinct_uom").field("name.keyword")).build();
+
 		AggregatedPage<Uom> result = elasticsearchTemplate.queryForPage(searchQuery, Uom.class);
 		TermsAggregation uomAgg = result.getAggregation("distinct_uom", TermsAggregation.class);
-		
-		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<"+uomAgg.getBuckets().size());
 
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<" + uomAgg.getBuckets().size());
 
-	for (int i=0;i<uomAgg.getBuckets().size();i++)
-	{
-		uomList.add(uomAgg.getBuckets().get(i).getKey());
-	}
+		for (int i = 0; i < uomAgg.getBuckets().size(); i++) {
+			uomList.add(uomAgg.getBuckets().get(i).getKey());
+		}
 
-		
 		return uomList;
 	}
+
 	@Override
 	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
@@ -178,26 +173,25 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<Sale> findSales(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("date")
-				.order(SortOrder.DESC)).withPageable(pageable).build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery())
+				.withSort(SortBuilders.fieldSort("date").order(SortOrder.DESC)).withPageable(pageable).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Sale.class);
-	
+
 	}
-	
+
 	@Override
 	public List<TicketLine> findTicketLinesBySaleId(Long saleId) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("sale.id", saleId))
-				.build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("sale.id", saleId)).build();
 		return elasticsearchOperations.queryForPage(searchQuery, TicketLine.class).getContent();
 	}
-	
+
 	@Override
 	public Page<StockCurrent> findAllStockCurrents(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("id")
-				.order(SortOrder.DESC)).withPageable(pageable).build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery())
+				.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC)).withPageable(pageable).build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
 	}
-	
+
 	@Override
 	public Page<StockDiary> findAllStockDiaries(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
@@ -206,11 +200,11 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<Product> findAllProducts(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withSort(SortBuilders.fieldSort("id")
-				.order(SortOrder.DESC)).withPageable(pageable).build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery())
+				.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC)).withPageable(pageable).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
-	
+
 	@Override
 	public Page<Review> findAllReviews(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
@@ -222,18 +216,18 @@ public class QueryServiceImpl implements QueryService {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, UserRating.class);
 	}
-	
+
 	@Override
 	public Store findStoreByRegNo(String regNo) {
 		StringQuery stringQuery = new StringQuery(termQuery("regNo", regNo).toString());
-				
+
 		return elasticsearchOperations.queryForObject(stringQuery, Store.class);
 	}
 
 	@Override
 	public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.categories.id", categoryId))
-				.build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(termQuery("product.categories.id", categoryId)).build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
 	}
 
@@ -243,15 +237,53 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForObject(searchQuery, StockCurrent.class);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findDeliveryInfoByStoreId(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findDeliveryInfoByStoreId(java
+	 * .lang.Long)
 	 */
 	@Override
 	public Page<DeliveryInfo> findDeliveryInfoByStoreId(Long id) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.id", id))
-				.build();
-	return elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
-		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.id", id)).build();
+		return elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
+
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findOrderLinesByStoreId(java.
+	 * lang.String)
+	 */
+	@Override
+	public Page<OrderLine> findOrderLinesByStoreId(String storeId) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("order.storeId", storeId)).build();
+		
+		Page<OrderLine> orderLinePage = elasticsearchOperations.queryForPage(searchQuery, OrderLine.class);
+
+		orderLinePage.forEach(orderline -> {
+			
+			orderline.setOrder(findOrderByStoreId(storeId));
+
+		});
+		
+		return orderLinePage;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findOrderByStoreId(java.lang.
+	 * String)
+	 */
+	@Override
+	public Order findOrderByStoreId(String storeId) {
+		StringQuery searchQuery = new StringQuery(termQuery("storeId", storeId).toString());
+		return elasticsearchOperations.queryForObject(searchQuery, Order.class);
+	}
+
 }

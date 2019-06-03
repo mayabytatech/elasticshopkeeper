@@ -1,0 +1,121 @@
+ /*
+ * Copyright 2002-2016 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.diviso.graeshoppe.client.order.model;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * TODO Provide a detailed description here 
+ * @author MayaSanjeev
+ * mayabytatech, maya.k.k@lxisoft.com
+ */
+public class OrderLineDTO implements Serializable {
+
+    private Long id;
+
+    private Long productId;
+
+    private Integer quantity;
+
+    private Double pricePerUnit;
+
+    private Double total;
+
+
+    private Long orderId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public void setPricePerUnit(Double pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        OrderLineDTO orderLineDTO = (OrderLineDTO) o;
+        if (orderLineDTO.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), orderLineDTO.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "OrderLineDTO{" +
+            "id=" + getId() +
+            ", productId=" + getProductId() +
+            ", quantity=" + getQuantity() +
+            ", pricePerUnit=" + getPricePerUnit() +
+            ", total=" + getTotal() +
+            ", order=" + getOrderId() +
+            "}";
+    }
+}

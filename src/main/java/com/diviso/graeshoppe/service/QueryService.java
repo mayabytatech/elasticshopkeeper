@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
+import com.diviso.graeshoppe.client.order.domain.Order;
+import com.diviso.graeshoppe.client.order.domain.OrderLine;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
@@ -52,5 +54,11 @@ public Store findStoreByRegNo(String regNo);
  * @return
  */
 public Page<DeliveryInfo> findDeliveryInfoByStoreId(Long id);
+/**
+ * @param storeId
+ */
+public Page<OrderLine> findOrderLinesByStoreId(String storeId);
+
+public Order findOrderByStoreId(String storeId);
 
 }

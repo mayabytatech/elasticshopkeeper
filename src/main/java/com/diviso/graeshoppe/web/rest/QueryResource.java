@@ -20,6 +20,7 @@ import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
+import com.diviso.graeshoppe.client.order.domain.OrderLine;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.LoadControllerApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
@@ -97,7 +98,6 @@ public class QueryResource {
 
 	@Autowired
 	TypeResourceApi typeResourceApi;
-	
 
 	@Autowired
 	LoadControllerApi loadControllerApi;
@@ -340,11 +340,16 @@ public class QueryResource {
 
 	}
 
-	
-
 	@GetMapping("/loadProducts")
-	public void loadProducts(){
+	public void loadProducts() {
+		// upload and save the file then load
 		loadControllerApi.loadUsingGET();
 	}
-	
+
+	@GetMapping("/order-lines/{storeId}")
+	public Page<OrderLine> findOrderLineByStoreId(@PathVariable String storeId) {
+
+		return queryService.findOrderLinesByStoreId(storeId);
+
+	}
 }
