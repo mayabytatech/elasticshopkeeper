@@ -57,8 +57,13 @@ public Page<DeliveryInfo> findDeliveryInfoByStoreId(Long id);
 /**
  * @param storeId
  */
-public Page<OrderLine> findOrderLinesByStoreId(String storeId);
+public Page<Order> findOrderByStoreId(String storeId);
 
-public Order findOrderByStoreId(String storeId);
+
+/**
+ * @param orderId
+ * @return
+ */
+List<OrderLine> findOrderLinesByOrderId(Long orderId);
 
 }

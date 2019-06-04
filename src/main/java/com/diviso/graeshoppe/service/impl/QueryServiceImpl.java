@@ -6,7 +6,9 @@ import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -259,18 +261,18 @@ public class QueryServiceImpl implements QueryService {
 	 * lang.String)
 	 */
 	@Override
-	public Page<OrderLine> findOrderLinesByStoreId(String storeId) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("order.storeId", storeId)).build();
+	public Page<Order> findOrderByStoreId(String storeId) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("storeId", storeId)).build();
 		
-		Page<OrderLine> orderLinePage = elasticsearchOperations.queryForPage(searchQuery, OrderLine.class);
+		Page<Order> orderPage = elasticsearchOperations.queryForPage(searchQuery, Order.class);
 
-		orderLinePage.forEach(orderline -> {
+		orderPage.forEach(order-> {
 			
-			orderline.setOrder(findOrderByStoreId(storeId));
+			order.setOrderLines(new HashSet<OrderLine>(findOrderLinesByOrderId(order.getId())));
 
 		});
 		
-		return orderLinePage;
+		return orderPage;
 	}
 
 	/*
@@ -281,9 +283,11 @@ public class QueryServiceImpl implements QueryService {
 	 * String)
 	 */
 	@Override
-	public Order findOrderByStoreId(String storeId) {
-		StringQuery searchQuery = new StringQuery(termQuery("storeId", storeId).toString());
-		return elasticsearchOperations.queryForObject(searchQuery, Order.class);
+	public List<OrderLine> findOrderLinesByOrderId(Long orderId) {
+		StringQuery searchQuery = new StringQuery(termQuery("order.id", orderId).toString());
+		return elasticsearchOperations.queryForList(searchQuery, OrderLine.class);
 	}
+
+	
 
 }
