@@ -11,9 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
@@ -341,7 +343,7 @@ public class QueryResource {
 	}
 
 	@GetMapping("/loadProducts")
-	public void loadProducts() {
+	public void loadProducts(@RequestBody MultipartFile file) {
 		// upload and save the file then load
 		loadControllerApi.loadUsingGET();
 	}
