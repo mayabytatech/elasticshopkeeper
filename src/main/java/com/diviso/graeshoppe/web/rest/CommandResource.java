@@ -226,7 +226,7 @@ public class CommandResource {
 	}
 
 	@PostMapping("/stock-diaries")
-	public ResponseEntity<StockDiaryDTO> createStockCurrent(@RequestBody StockDiaryDTO stockDiary) {
+	public ResponseEntity<StockDiaryDTO> createStockDiary(@RequestBody StockDiaryDTO stockDiary) {
 		return this.stockDiaryResourceApi.createStockDiaryUsingPOST(stockDiary);
 	}
 
@@ -235,7 +235,7 @@ public class CommandResource {
 		return this.stockDiaryResourceApi.updateStockDiaryUsingPUT(stockDiary);
 	}
 
-
+	@PostMapping("/stock-currents")
 	public ResponseEntity<StockCurrentDTO> createStockCurrent(@RequestBody StockCurrentDTO stockCurrent) {
 		return this.stockCurrentResourceApi.createStockCurrentUsingPOST(stockCurrent);
 	}
