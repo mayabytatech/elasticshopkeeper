@@ -350,9 +350,9 @@ public class QueryResource {
 	}
 
 	@GetMapping("/ordersbystoreId/{storeId}")
-	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId) {
+	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId,Pageable pageable) {
 
-		return queryService.findOrderByStoreId(storeId);
+		return queryService.findOrderByStoreId(storeId,pageable);
 
 	}
 }

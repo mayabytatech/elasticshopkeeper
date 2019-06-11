@@ -57,7 +57,7 @@ public Page<DeliveryInfo> findDeliveryInfoByStoreId(Long id);
 /**
  * @param storeId
  */
-public Page<Order> findOrderByStoreId(String storeId);
+public Page<Order> findOrderByStoreId(String storeId,Pageable pageable );
 
 
 /**
