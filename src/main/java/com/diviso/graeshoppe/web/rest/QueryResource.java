@@ -105,36 +105,43 @@ public class QueryResource {
 	@Autowired
 	LoadControllerApi loadControllerApi;
 
-	@GetMapping("/findAllProductByCategoryId/{categoryId}")
-	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, Pageable pageable) {
-		return queryService.findProductByCategoryId(categoryId, pageable);
+	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
+	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
+			Pageable pageable) {
+		return queryService.findProductByCategoryId(categoryId, storeId, pageable);
 	}
 
-	@GetMapping("/findAllStockCurrentByProductName/{name}")
-	public Page<StockCurrent> findAllStockCurrentByProductName(@PathVariable String name, Pageable pageable) {
-		return queryService.findStockCurrentByProductName(name, pageable);
+	@GetMapping("/findAllStockCurrentByProductName/{name}/{storeId}")
+	public Page<StockCurrent> findAllStockCurrentByProductName(@PathVariable String name, @PathVariable String storeId,
+			Pageable pageable) {
+		return queryService.findStockCurrentByProductName(name, storeId, pageable);
 	}
 
-	@GetMapping("/findStockDiaryByProductId/{productId}")
-	public ResponseEntity<StockDiary> findStockDiaryByProductId(@PathVariable Long productId) {
-		return ResponseEntity.ok().body(queryService.findStockDiaryByProductId(productId));
+	@GetMapping("/findStockDiaryByProductId/{productId}/{storeId}")
+	public ResponseEntity<StockDiary> findStockDiaryByProductId(@PathVariable Long productId,
+			@PathVariable String storeId) {
+		return ResponseEntity.ok().body(queryService.findStockDiaryByProductId(productId, storeId));
 	}
 
-	@GetMapping("/findAllStockCurrentsByCategoryId/{categoryId}")
-	public Page<StockCurrent> findAllStockCurrentByCategory(@PathVariable Long categoryId, Pageable pageable) {
-		return queryService.findAllStockCurrentByCategoryId(categoryId, pageable);
+	@GetMapping("/findAllStockCurrentsByCategoryId/{categoryId}/{storeId}")
+	public Page<StockCurrent> findAllStockCurrentByCategory(@PathVariable Long categoryId, @PathVariable String storeId,
+			Pageable pageable) {
+		return queryService.findAllStockCurrentByCategoryId(categoryId, storeId, pageable);
 	}
 
-	@GetMapping("/findStockCurrentByProductId/{productId}")
-	public ResponseEntity<StockCurrent> findStockCurrentByProductId(@PathVariable Long productId) {
-		return ResponseEntity.ok().body(queryService.findStockCurrentByProductId(productId));
+	@GetMapping("/findStockCurrentByProductId/{productId}/{storeId}")
+	public ResponseEntity<StockCurrent> findStockCurrentByProductId(@PathVariable Long productId,
+			@PathVariable String storeId) {
+		return ResponseEntity.ok().body(queryService.findStockCurrentByProductId(productId, storeId));
 	}
 
+	/**/
 	@GetMapping("/findStockCurrentDTOByProductId/{productId}")
 	public ResponseEntity<StockCurrentDTO> findStockCurrentDTOByProductId(@PathVariable Long productId) {
 		return this.stockCurrentResourceApi.getStockCurrentByProductIdUsingGET(productId);
 	}
 
+	/**/
 	@GetMapping("/findProductBySearchTerm/{searchTerm}")
 	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
 		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
@@ -245,6 +252,7 @@ public class QueryResource {
 		return this.saleResourceApi.getSaleUsingGET(id);
 	}
 
+	/**/
 	@GetMapping("/sales")
 	public Page<Sale> findSales(Pageable pageable) {
 		return queryService.findSales(pageable);
@@ -350,9 +358,9 @@ public class QueryResource {
 	}
 
 	@GetMapping("/ordersbystoreId/{storeId}")
-	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId,Pageable pageable) {
+	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId, Pageable pageable) {
 
-		return queryService.findOrderByStoreId(storeId,pageable);
+		return queryService.findOrderByStoreId(storeId, pageable);
 
 	}
 }

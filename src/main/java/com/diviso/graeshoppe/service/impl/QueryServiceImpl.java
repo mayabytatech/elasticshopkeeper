@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
@@ -88,22 +89,29 @@ public class QueryServiceImpl implements QueryService {
 	}
 
 	@Override
-	public Page<Product> findProductByCategoryId(Long categoryId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("categories.id", categoryId))
+	public Page<Product> findProductByCategoryId(Long categoryId, String storeId, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("categories.id", categoryId))
+						.must(QueryBuilders.matchQuery("userId", storeId)))
 				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
 
 	@Override
-	public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("product.name", name)).build();
+	public Page<StockCurrent> findStockCurrentByProductName(String name, String storeId, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("product.name", name))
+						.must(QueryBuilders.matchQuery("product.userId", storeId)))
+				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
 	}
 
 	@Override
-	public StockDiary findStockDiaryByProductId(Long productId) {
-		StringQuery searchQuery = new StringQuery(termQuery("product.id", productId).toString());
-		return elasticsearchOperations.queryForObject(searchQuery, StockDiary.class);
+	public StockDiary findStockDiaryByProductId(Long productId, String storeId) {
+		StringQuery stringQuery = new StringQuery(
+				QueryBuilders.boolQuery().must(QueryBuilders.termQuery("product.id", productId))
+						.must(QueryBuilders.termQuery("product.userId", storeId)).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, StockDiary.class);
 	}
 
 	@Override
@@ -227,16 +235,20 @@ public class QueryServiceImpl implements QueryService {
 	}
 
 	@Override
-	public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId, Pageable pageable) {
+	public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId, String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(termQuery("product.categories.id", categoryId)).build();
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("product.categories.id", categoryId))
+						.must(QueryBuilders.matchQuery("product.userId", storeId)))
+				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
 	}
 
 	@Override
-	public StockCurrent findStockCurrentByProductId(Long productId) {
-		StringQuery searchQuery = new StringQuery(termQuery("product.id", productId).toString());
-		return elasticsearchOperations.queryForObject(searchQuery, StockCurrent.class);
+	public StockCurrent findStockCurrentByProductId(Long productId, String storeId) {
+		StringQuery stringQuery = new StringQuery(
+				QueryBuilders.boolQuery().must(QueryBuilders.termQuery("product.id", productId))
+						.must(QueryBuilders.termQuery("product.userId", storeId)).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, StockCurrent.class);
 	}
 
 	/*
@@ -261,17 +273,17 @@ public class QueryServiceImpl implements QueryService {
 	 * lang.String)
 	 */
 	@Override
-	public Page<Order> findOrderByStoreId(String storeId,Pageable pageable) {
+	public Page<Order> findOrderByStoreId(String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("storeId", storeId)).build();
-		
+
 		Page<Order> orderPage = elasticsearchOperations.queryForPage(searchQuery, Order.class);
 
-		orderPage.forEach(order-> {
-			
+		orderPage.forEach(order -> {
+
 			order.setOrderLines(new HashSet<OrderLine>(findOrderLinesByOrderId(order.getId())));
 
 		});
-		
+
 		return orderPage;
 	}
 
@@ -287,7 +299,5 @@ public class QueryServiceImpl implements QueryService {
 		StringQuery searchQuery = new StringQuery(termQuery("order.id", orderId).toString());
 		return elasticsearchOperations.queryForList(searchQuery, OrderLine.class);
 	}
-
-	
 
 }

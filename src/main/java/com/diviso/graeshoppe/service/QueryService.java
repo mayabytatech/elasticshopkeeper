@@ -23,7 +23,7 @@ import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 
 public interface QueryService {
 public Page<Category> findAllCategories(Pageable pageable);
-public Page<Product> findProductByCategoryId(Long categoryId,Pageable pageable);
+public Page<Product> findProductByCategoryId(Long categoryId,String storeId ,Pageable pageable);
 public Page<Customer> findAllCustomers(String searchTerm, Pageable pageable);
 public List<String> findAllUom(Pageable pageable);
 public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
@@ -41,10 +41,10 @@ public List<TicketLine> findTicketLinesBySaleId(Long saleId);
 public Page<StockCurrent> findAllStockCurrents(Pageable pageable);
 public Page<StockDiary> findAllStockDiaries(Pageable pageable);
 public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable);
-public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId, Pageable pageable);
-public StockCurrent findStockCurrentByProductId(Long productId);
-public StockDiary findStockDiaryByProductId(Long productId);
-public Page<StockCurrent> findStockCurrentByProductName(String name, Pageable pageable);
+public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId,String storeId, Pageable pageable);
+public StockCurrent findStockCurrentByProductId(Long productId,String storeId);
+public StockDiary findStockDiaryByProductId(Long productId,String storeId);
+public Page<StockCurrent> findStockCurrentByProductName(String name, String storeId,Pageable pageable);
 public Page<Product> findAllProducts(Pageable pageable);
 public Page<Review> findAllReviews(Pageable pageable);
 public Page<UserRating> findAllUserRatings(Pageable pageable);
