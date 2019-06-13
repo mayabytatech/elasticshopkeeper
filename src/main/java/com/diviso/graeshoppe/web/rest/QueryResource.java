@@ -142,13 +142,13 @@ public class QueryResource {
 	}
 
 	/**/
-	@GetMapping("/findProductBySearchTerm/{searchTerm}")
-	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm, Pageable pageable) {
-		return queryService.findAllProductBySearchTerm(searchTerm, pageable);
+	@GetMapping("/findProductBySearchTerm/{searchTerm}/{storeId}")
+	public Page<Product> findAllProductBySearchTerm(@PathVariable String searchTerm,@PathVariable String storeId, Pageable pageable) {
+		return queryService.findAllProductBySearchTerm(searchTerm,storeId, pageable);
 	}
 
 	@GetMapping("/findAllCustomer/{searchTerm}")
-	public Page<Customer> findAllCustomers(@PathVariable String searchTerm, Pageable pageable) {
+	public Page<Customer> findAllCustomers(@PathVariable String searchTerm,@PathVariable String storeId, Pageable pageable) {
 		return queryService.findAllCustomers(searchTerm, pageable);
 	}
 
@@ -157,9 +157,9 @@ public class QueryResource {
 		return queryService.findAllCustomersWithoutSearch(pageable);
 	}
 
-	@GetMapping("/findAllProducts")
-	public Page<Product> findAllProducts(Pageable pageable) {
-		return queryService.findAllProducts(pageable);
+	@GetMapping("/findAllProducts/{storeId}")
+	public Page<Product> findAllProducts(@PathVariable String storeId,Pageable pageable) {
+		return queryService.findAllProducts(storeId,pageable);
 	}
 
 	@GetMapping("/customers/{id}")
@@ -199,9 +199,9 @@ public class QueryResource {
 				}).collect(Collectors.toList()));
 	}
 
-	@GetMapping("/products")
-	public ResponseEntity<List<ProductDTO>> findAllProduct(Pageable page) {
-		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(page).getContent());
+	@GetMapping("/products/{storeId}")
+	public ResponseEntity<List<ProductDTO>> findAllProduct(@PathVariable String storeId, Pageable page) {
+		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(storeId,page).getContent());
 	}
 
 	@GetMapping("/ticket-lines")
@@ -253,20 +253,20 @@ public class QueryResource {
 	}
 
 	/**/
-	@GetMapping("/sales")
-	public Page<Sale> findSales(Pageable pageable) {
-		return queryService.findSales(pageable);
+	@GetMapping("/sales/{storeId}")
+	public Page<Sale> findSales(@PathVariable String storeId,Pageable pageable) {
+		return queryService.findSales(storeId,pageable);
 	}
 
-	@GetMapping("/stocklines")
-	public ResponseEntity<List<StockLine>> findAllStockLines(Pageable pageable) {
-		return ResponseEntity.ok().body(this.queryService.findAllStockLines(pageable).getContent());
+	@GetMapping("/stocklines/{storeId}")
+	public ResponseEntity<List<StockLine>> findAllStockLines(@PathVariable String storeId,Pageable pageable) {
+		return ResponseEntity.ok().body(this.queryService.findAllStockLines(storeId,pageable).getContent());
 	}
 
-	@GetMapping("/sales/combined")
-	public ResponseEntity<Page<SaleAggregate>> findAllSaleAggregates(Pageable pageable) {
+	@GetMapping("/sales/combined/{storeId}")
+	public ResponseEntity<Page<SaleAggregate>> findAllSaleAggregates(@PathVariable String storeId,Pageable pageable) {
 		List<SaleAggregate> sales = new ArrayList<SaleAggregate>();
-		this.findSales(pageable).getContent().forEach(sale -> {
+		this.findSales(storeId,pageable).getContent().forEach(sale -> {
 			SaleAggregate saleAgg = new SaleAggregate();
 			saleAgg.setSale(sale);
 			sales.add(saleAgg);
@@ -279,9 +279,9 @@ public class QueryResource {
 		return ResponseEntity.ok().body(res);
 	}
 
-	@GetMapping("/stock-currents")
-	public ResponseEntity<List<StockCurrent>> getAllStockCurrents(Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findAllStockCurrents(pageable).getContent());
+	@GetMapping("/stock-currents/{storeId}")
+	public ResponseEntity<Page<StockCurrent>> getAllStockCurrents(@PathVariable String storeId, Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllStockCurrents(storeId,pageable));
 	}
 
 	@GetMapping("/stock-currents/{id}")
@@ -289,9 +289,9 @@ public class QueryResource {
 		return this.stockCurrentResourceApi.getStockCurrentUsingGET(id);
 	}
 
-	@GetMapping("/stock-diaries")
-	public ResponseEntity<List<StockDiary>> findAllStockDiaries(Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findAllStockDiaries(pageable).getContent());
+	@GetMapping("/stock-diaries/{storeId}")
+	public ResponseEntity<List<StockDiary>> findAllStockDiaries(@PathVariable String storeId,Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllStockDiaries(storeId,pageable).getContent());
 	}
 
 	@GetMapping("/stock-diaries/{id}")
@@ -312,13 +312,13 @@ public class QueryResource {
 	}
 
 	@GetMapping("/reviews")
-	public ResponseEntity<List<Review>> findAllReviews(Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findAllReviews(pageable).getContent());
+	public ResponseEntity<List<Review>> findAllReviews(@PathVariable String storeId,Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllReviews(storeId,pageable).getContent());
 	}
 
 	@GetMapping("/user-ratings")
-	public ResponseEntity<List<UserRating>> findAllUserRatings(Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findAllUserRatings(pageable).getContent());
+	public ResponseEntity<List<UserRating>> findAllUserRatings(@PathVariable String storeId,Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllUserRatings(storeId,pageable).getContent());
 	}
 
 	@GetMapping("/stores/{regNo}")

@@ -35,17 +35,18 @@ public class Sale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-  
+    
     private Long id;
 
-   
+    private String userId;
+
     private Long customerId;
 
-    private Double grandTotal;
-    
-    private Instant date ;
-
    
+    private Instant date;
+
+    private Double grandTotal;
+
     private Set<TicketLine> ticketLines = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -54,6 +55,19 @@ public class Sale implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Sale userId(String userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Long getCustomerId() {
@@ -67,6 +81,19 @@ public class Sale implements Serializable {
 
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
+    }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public Sale date(Instant date) {
+        this.date = date;
+        return this;
+    }
+
+    public void setDate(Instant date) {
+        this.date = date;
     }
 
     public Double getGrandTotal() {
@@ -132,16 +159,10 @@ public class Sale implements Serializable {
     public String toString() {
         return "Sale{" +
             "id=" + getId() +
+            ", userId='" + getUserId() + "'" +
             ", customerId=" + getCustomerId() +
+            ", date='" + getDate() + "'" +
             ", grandTotal=" + getGrandTotal() +
             "}";
     }
-
-	public Instant getDate() {
-		return date;
-	}
-
-	public void setDate(Instant date) {
-		this.date = date;
-	}
 }

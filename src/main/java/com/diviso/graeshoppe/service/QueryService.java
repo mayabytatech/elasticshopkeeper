@@ -24,30 +24,30 @@ import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 public interface QueryService {
 public Page<Category> findAllCategories(Pageable pageable);
 public Page<Product> findProductByCategoryId(Long categoryId,String storeId ,Pageable pageable);
-public Page<Customer> findAllCustomers(String searchTerm, Pageable pageable);
+public Page<Customer> findAllCustomers(String searchTerm,Pageable pageable);
 public List<String> findAllUom(Pageable pageable);
 public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
 /**
  * @param pageable
  * @return
  */
-public Page<Product> findAllProduct(Pageable pageable);
-public Page<StockLine> findAllStockLines(Pageable pageable);
+public Page<Product> findAllProduct(String storeId,Pageable pageable);
+public Page<StockLine> findAllStockLines(String storeId,Pageable pageable);
 /**
  * @return
  */
-public Page<Sale> findSales(Pageable pageable);
+public Page<Sale> findSales(String storeId,Pageable pageable);
 public List<TicketLine> findTicketLinesBySaleId(Long saleId);
-public Page<StockCurrent> findAllStockCurrents(Pageable pageable);
-public Page<StockDiary> findAllStockDiaries(Pageable pageable);
-public Page<Product> findAllProductBySearchTerm(String searchTerm, Pageable pageable);
+public Page<StockCurrent> findAllStockCurrents(String storeId,Pageable pageable);
+public Page<StockDiary> findAllStockDiaries(String storeId,Pageable pageable);
+public Page<Product> findAllProductBySearchTerm(String searchTerm,String storeId, Pageable pageable);
 public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId,String storeId, Pageable pageable);
 public StockCurrent findStockCurrentByProductId(Long productId,String storeId);
 public StockDiary findStockDiaryByProductId(Long productId,String storeId);
 public Page<StockCurrent> findStockCurrentByProductName(String name, String storeId,Pageable pageable);
-public Page<Product> findAllProducts(Pageable pageable);
-public Page<Review> findAllReviews(Pageable pageable);
-public Page<UserRating> findAllUserRatings(Pageable pageable);
+public Page<Product> findAllProducts(String storeId,Pageable pageable);
+public Page<Review> findAllReviews(String storeId,Pageable pageable);
+public Page<UserRating> findAllUserRatings(String storeId,Pageable pageable);
 public Store findStoreByRegNo(String regNo);
 /**
  * @param id
