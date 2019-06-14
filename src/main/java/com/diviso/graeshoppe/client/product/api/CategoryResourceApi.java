@@ -5,6 +5,7 @@
  */
 package com.diviso.graeshoppe.client.product.api;
 
+import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -103,5 +104,18 @@ public interface CategoryResourceApi {
         consumes = "application/json",
         method = RequestMethod.PUT)
     ResponseEntity<CategoryDTO> updateCategoryUsingPUT(@ApiParam(value = "categoryDTO" ,required=true )  @Valid @RequestBody CategoryDTO categoryDTO);
+
+    
+    @ApiOperation(value = "ListToDTo", nickname = "listToDToUsingPOST", notes = "", response = CategoryDTO.class, responseContainer = "List", tags={ "category-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = CategoryDTO.class, responseContainer = "List"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/category/listToDTO",
+        produces = "*/*", 
+        method = RequestMethod.POST)
+    ResponseEntity<List<CategoryDTO>> listToDToUsingPOST(@ApiParam(value = "categoryList") @Valid @RequestParam(value = "categoryList", required = false) List<Category> categoryList);
 
 }

@@ -65,5 +65,9 @@ public Page<Order> findOrderByStoreId(String storeId,Pageable pageable );
  * @return
  */
 List<OrderLine> findOrderLinesByOrderId(Long orderId);
+/**
+ * @param storeId
+ */
+public Page<Category> findAllCategories(String storeId);
 
 }

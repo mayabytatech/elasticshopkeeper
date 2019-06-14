@@ -318,4 +318,25 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForList(searchQuery, OrderLine.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(java.lang.String)
+	 */
+	@Override
+	public Page<Category> findAllCategories(String storeId) {
+		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("userId",storeId)).build();
+		
+		Page<Product> productPage = elasticsearchOperations.queryForPage(searchQuery, Product.class);
+		
+		List<Category> categoryList=new ArrayList<Category>();
+		
+		productPage.forEach(product->{
+			
+			categoryList.addAll(product.getCategories());
+			
+		});
+		
+		return new PageImpl(categoryList);
+	}
+
 }
