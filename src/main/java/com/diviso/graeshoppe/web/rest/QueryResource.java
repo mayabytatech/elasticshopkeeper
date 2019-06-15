@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -104,6 +106,9 @@ public class QueryResource {
 
 	@Autowired
 	LoadControllerApi loadControllerApi;
+	
+
+    private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
 	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
@@ -185,6 +190,8 @@ public class QueryResource {
 	@GetMapping("/findAllCateogories/{storeId}")
 	public ResponseEntity<List<CategoryDTO>> findAllCategories(@PathVariable String storeId) {
 
+		log.info("List categories   >>>>>>>>>>>>>>>>>>>  "+queryService.findAllCategories(storeId).getContent());
+		log.info("DTO LIST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.    "+	categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId).getContent()));
 		return categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId).getContent());
 
 	}
