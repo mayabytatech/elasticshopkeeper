@@ -115,7 +115,7 @@ public interface CategoryResourceApi {
         @ApiResponse(code = 404, message = "Not Found") })
     @RequestMapping(value = "/api/category/listToDTO",
         produces = "*/*", 
+        consumes = "application/json",
         method = RequestMethod.POST)
-    ResponseEntity<List<CategoryDTO>> listToDToUsingPOST(@ApiParam(value = "categoryList") @Valid @RequestParam(value = "categoryList", required = false) List<Category> categoryList);
-
+    ResponseEntity<List<CategoryDTO>> listToDToUsingPOST(@ApiParam(value = "categoryList" ,required=true )  @Valid @RequestBody List<Category> category);
 }
