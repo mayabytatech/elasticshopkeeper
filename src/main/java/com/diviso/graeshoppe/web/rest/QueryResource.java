@@ -287,7 +287,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(res);
 	}
 
-	@GetMapping("/stock-current/{storeId}")
+	@GetMapping("/stockcurrentByStoreId/{storeId}")
 	public ResponseEntity<Page<StockCurrent>> getAllStockCurrents(@PathVariable String storeId, Pageable pageable) {
 		return ResponseEntity.ok().body(queryService.findAllStockCurrents(storeId, pageable));
 	}
