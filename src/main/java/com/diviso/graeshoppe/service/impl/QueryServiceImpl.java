@@ -203,10 +203,10 @@ public class QueryServiceImpl implements QueryService {
 	public Page<StockCurrent> findAllStockCurrents(String storeId,Pageable pageable) {
 		
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("userId", storeId)).build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.userId", storeId)).build();
 		
-	    List<Product> productList =	elasticsearchOperations.queryForPage(searchQuery, Product.class).getContent();
-	    
+	 return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
+	    /*
 	    List<StockCurrent> stockCurrentList=new ArrayList<StockCurrent>();
 	    
 	    productList.forEach(product->{
@@ -214,9 +214,9 @@ public class QueryServiceImpl implements QueryService {
 	    	stockCurrentList.add(product.getStockCurrent());
 	    	
 	    }
-	    );
-		
-		return new PageImpl(stockCurrentList);
+	    );*/
+	
+	 
 	}
 
 	@Override
