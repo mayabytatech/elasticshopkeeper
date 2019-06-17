@@ -207,7 +207,7 @@ public class QueryResource {
 				}).collect(Collectors.toList()));
 	}
 
-	@GetMapping("/products/{storeId}")
+	@GetMapping("/productByStoreId/{storeId}")
 	public ResponseEntity<List<ProductDTO>> findAllProduct(@PathVariable String storeId, Pageable page) {
 		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(storeId, page).getContent());
 	}
