@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -358,7 +359,7 @@ public class CommandResource {
 	
 
 	@PostMapping(value="/load-products",consumes = "multipart/form-data")
-	public void loadProducts(@RequestPart("file") MultipartFile file) {
+	public void loadProducts(@RequestParam("file") MultipartFile file) {
 		// upload and save the file then load
 		log.info("::::::::::::::::::file:::::::::::::::::::::: "+ file);
 		loadControllerApi.loadUsingPOST(file);
