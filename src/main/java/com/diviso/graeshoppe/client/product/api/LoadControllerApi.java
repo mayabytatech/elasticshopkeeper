@@ -28,8 +28,7 @@ import java.util.Optional;
 
 @Api(value = "LoadController", description = "the LoadController API")
 public interface LoadControllerApi {
-
-	 @ApiOperation(value = "load", nickname = "loadUsingPOST", notes = "", response = String.class, tags={ "load-controller", })
+	   @ApiOperation(value = "load", nickname = "loadUsingPOST", notes = "", response = String.class, tags={ "load-controller", })
 	    @ApiResponses(value = { 
 	        @ApiResponse(code = 200, message = "OK", response = String.class),
 	        @ApiResponse(code = 201, message = "Created"),
