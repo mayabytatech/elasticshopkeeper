@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.web.rest;
 
+import java.io.IOException;
 import java.time.Instant;
 
 import javax.servlet.MultipartConfigElement;
@@ -358,11 +359,11 @@ public class CommandResource {
 	
 	
 
-	@PostMapping(value="/load-products",consumes = "multipart/form-data")
-	public void loadProducts(@RequestParam("file") MultipartFile file) {
+	@PostMapping(value="/load-products")
+	public void loadProducts(@RequestParam("file") MultipartFile file) throws IOException {
 		// upload and save the file then load
 		log.info("::::::::::::::::::file:::::::::::::::::::::: "+ file);
-		loadControllerApi.loadUsingPOST(file);
+		loadControllerApi.loadUsingPOST(file.getBytes());
 	}
 
 }

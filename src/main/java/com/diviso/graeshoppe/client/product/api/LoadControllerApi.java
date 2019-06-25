@@ -39,8 +39,8 @@ public interface LoadControllerApi {
         @ApiResponse(code = 404, message = "Not Found") })
     @RequestMapping(value = "/api/load-products",
         produces = "*/*", 
-        consumes = "multipart/form-data",
+        consumes = "application/json",
         method = RequestMethod.POST)
-    ResponseEntity<String> loadUsingPOST(@ApiParam(value = "file detail") @RequestParam("file") MultipartFile file);
+    ResponseEntity<String> loadUsingPOST(@ApiParam(value = "file" ,required=true )  @Valid @RequestBody byte[] body);
 
 }
