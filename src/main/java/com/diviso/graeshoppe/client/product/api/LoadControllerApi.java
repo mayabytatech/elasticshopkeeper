@@ -28,18 +28,19 @@ import java.util.Optional;
 
 @Api(value = "LoadController", description = "the LoadController API")
 public interface LoadControllerApi {
-	   @ApiOperation(value = "load", nickname = "loadUsingPOST", notes = "", response = String.class, tags={ "load-controller", })
-	    @ApiResponses(value = { 
-	        @ApiResponse(code = 200, message = "OK", response = String.class),
-	        @ApiResponse(code = 201, message = "Created"),
-	        @ApiResponse(code = 401, message = "Unauthorized"),
-	        @ApiResponse(code = 403, message = "Forbidden"),
-	        @ApiResponse(code = 404, message = "Not Found") })
-	    @RequestMapping(value = "/api/load-products",
-	        produces = "*/*", 
-	        consumes = "multipart/form-data",
-	        method = RequestMethod.POST)
-	    ResponseEntity<String> loadUsingPOST(@ApiParam(value = "file detail") @RequestParam("file") MultipartFile file);
+
+    @ApiOperation(value = "load", nickname = "loadUsingPOST", notes = "", response = String.class, tags={ "load-controller", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/load-products",
+        produces = "*/*", 
+        consumes = "multipart/form-data",
+        method = RequestMethod.POST)
+    ResponseEntity<String> loadUsingPOST(@ApiParam(value = "file detail") @RequestParam("file") MultipartFile file);
 
 
 }
