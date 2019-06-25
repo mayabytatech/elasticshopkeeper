@@ -362,7 +362,7 @@ public class QueryResource {
 	}
 
 	@PostMapping("/loadProducts")
-	public void loadProducts(@RequestBody MultipartFile file) {
+	public void loadProducts(@RequestParam MultipartFile file) {
 		// upload and save the file then load
 		log.info("::::::::::::::::::file:::::::::::::::::::::: "+ file);
 		loadControllerApi.loadUsingPOST(file);
