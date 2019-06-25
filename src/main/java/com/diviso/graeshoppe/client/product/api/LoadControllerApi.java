@@ -42,4 +42,5 @@ public interface LoadControllerApi {
 	        method = RequestMethod.POST)
 	    ResponseEntity<String> loadUsingPOST(@ApiParam(value = "file detail") @RequestParam("file") MultipartFile file);
 
+
 }
