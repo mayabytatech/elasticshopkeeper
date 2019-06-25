@@ -360,9 +360,9 @@ public class QueryResource {
 	}
 
 	@GetMapping("/loadProducts")
-	public void loadProducts(@RequestBody MultipartFile file) {
+	public void loadProducts(@RequestBody List<MultipartFile> file) {
 		// upload and save the file then load
-		loadControllerApi.loadUsingGET();
+		loadControllerApi.loadUsingPOST(file);
 	}
 
 	@GetMapping("/ordersbystoreId/{storeId}")
