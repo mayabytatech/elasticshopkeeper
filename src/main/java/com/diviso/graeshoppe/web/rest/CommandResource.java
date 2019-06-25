@@ -2,9 +2,12 @@ package com.diviso.graeshoppe.web.rest;
 
 import java.time.Instant;
 
+import javax.servlet.MultipartConfigElement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartResolver;
 
 import com.diviso.graeshoppe.client.aggregators.CustomerAggregator;
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
@@ -20,6 +26,7 @@ import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
+import com.diviso.graeshoppe.client.product.api.LoadControllerApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockDiaryResourceApi;
@@ -93,7 +100,24 @@ public class CommandResource {
 	@Autowired
 	TypeResourceApi typeResourceApi;
 
+	@Autowired
+	LoadControllerApi loadControllerApi;
+	
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
+	
+	
+	   
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        return new MultipartConfigElement("");
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1000000);
+        return multipartResolver;
+    }
 
 	@PostMapping("/customers/register-customer")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerAggregator customerAggregator) {
@@ -339,6 +363,15 @@ public class CommandResource {
 	@DeleteMapping("/types/{id}")
 	public ResponseEntity<Void> deleteType(@PathVariable Long id) {
 		return this.typeResourceApi.deleteTypeUsingDELETE(id);
+	}
+	
+	
+
+	@PostMapping(value="/load-products",consumes = "multipart/form-data")
+	public void loadProducts(@RequestPart("file") MultipartFile file) {
+		// upload and save the file then load
+		log.info("::::::::::::::::::file:::::::::::::::::::::: "+ file);
+		loadControllerApi.loadUsingPOST(file);
 	}
 
 }

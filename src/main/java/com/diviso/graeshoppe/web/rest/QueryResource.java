@@ -106,8 +106,7 @@ public class QueryResource {
 	@Autowired
 	TypeResourceApi typeResourceApi;
 
-	@Autowired
-	LoadControllerApi loadControllerApi;
+
 	
 
     private final Logger log = LoggerFactory.getLogger(QueryResource.class);
@@ -361,12 +360,6 @@ public class QueryResource {
 
 	}
 
-	@PostMapping("/loadProducts")
-	public void loadProducts(@RequestPart("file") MultipartFile file) {
-		// upload and save the file then load
-		log.info("::::::::::::::::::file:::::::::::::::::::::: "+ file);
-		loadControllerApi.loadUsingPOST(file);
-	}
 
 	@GetMapping("/ordersbystoreId/{storeId}")
 	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId, Pageable pageable) {
