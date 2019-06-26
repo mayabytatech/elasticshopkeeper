@@ -358,7 +358,7 @@ public class CommandResource {
 	
 	
 
-	@PostMapping(value="/load-products")
+	@PostMapping("/load-products")
 	public void loadProducts(@RequestParam MultipartFile file) {
 		// upload and save the file then load
 		log.info("::::::::::::::::::file:::::::::::::::::::::: "+ file);
