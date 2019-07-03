@@ -44,6 +44,9 @@
             },
             "store": {
                 "spec": "http://localhost:8071/v2/api-docs"
+            },
+            "prod": {
+                "spec": "http://34.73.191.107:8084/v2/api-docs"
             }
         }
     }

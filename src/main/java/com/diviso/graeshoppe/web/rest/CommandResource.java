@@ -356,7 +356,6 @@ public class CommandResource {
 		return this.typeResourceApi.deleteTypeUsingDELETE(id);
 	}
 	
-	
 
 	@PostMapping("/load-products")
 	public void loadProducts(@RequestParam("file") MultipartFile file) {

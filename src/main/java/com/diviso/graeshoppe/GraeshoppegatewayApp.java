@@ -37,6 +37,9 @@ import java.util.Collection;
 @ComponentScan( excludeFilters = {
     @ComponentScan.Filter(com.diviso.graeshoppe.client.ExcludeFromComponentScan.class)
 })
+@ComponentScan( excludeFilters = {
+    @ComponentScan.Filter(com.diviso.graeshoppe.client.ExcludeFromComponentScan.class)
+})
 @SpringBootApplication
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
 @EnableDiscoveryClient
