@@ -292,7 +292,7 @@ public class QueryServiceImpl implements QueryService {
 	 */
 	@Override
 	public Page<Order> findOrderByStoreId(String storeId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("storeId", storeId)).build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("storeId", storeId)).withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC)).build();
 
 		Page<Order> orderPage = elasticsearchOperations.queryForPage(searchQuery, Order.class);
 
