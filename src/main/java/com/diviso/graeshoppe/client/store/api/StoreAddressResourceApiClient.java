@@ -4,5 +4,5 @@ import org.springframework.cloud.openfeign.FeignClient;
 import com.diviso.graeshoppe.client.store.StoreClientConfiguration;
 
 @FeignClient(name="${store.name:store}", url="${store.url}", configuration = StoreClientConfiguration.class)
-public interface ReviewResourceApiClient extends ReviewResourceApi {
+public interface StoreAddressResourceApiClient extends StoreAddressResourceApi {
 }

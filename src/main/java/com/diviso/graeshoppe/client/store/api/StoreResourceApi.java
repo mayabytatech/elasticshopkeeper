@@ -26,7 +26,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-01T10:44:22.363+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-15T15:10:17.242+05:30[Asia/Calcutta]")
 
 @Api(value = "StoreResource", description = "the StoreResource API")
 public interface StoreResourceApi {
@@ -57,6 +57,18 @@ public interface StoreResourceApi {
         consumes = "application/json",
         method = RequestMethod.POST)
     ResponseEntity<StoreDTO> createStoreUsingPOST(@ApiParam(value = "storeDTO" ,required=true )  @Valid @RequestBody StoreDTO storeDTO);
+
+
+    @ApiOperation(value = "create", nickname = "createUsingPOST", notes = "", tags={ "store-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/createStores",
+        method = RequestMethod.POST)
+    ResponseEntity<Void> createUsingPOST();
 
 
     @ApiOperation(value = "deleteStore", nickname = "deleteStoreUsingDELETE", notes = "", tags={ "store-resource", })

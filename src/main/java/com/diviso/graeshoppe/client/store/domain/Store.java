@@ -25,42 +25,69 @@ public class Store implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "reg_no")
     private String regNo;
 
+    @Column(name = "name")
     private String name;
 
     @Lob
+    @Column(name = "image")
     private byte[] image;
 
+    @Column(name = "image_content_type")
     private String imageContentType;
 
-
+    @Column(name = "total_rating")
     private Double totalRating;
 
-    @GeoPointField
+    @Column(name = "location")
     private String location;
 
+    @Column(name = "location_name")
+    private String locationName;
+
+    @Column(name = "contact_no")
     private Long contactNo;
 
-
-    private String email;
-
-
+    @Column(name = "opening_time")
     private Instant openingTime;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "closing_time")
     private Instant closingTime;
 
+    @Column(name = "info")
     private String info;
 
+    @Column(name = "min_amount")
+    private Double minAmount;
+
+    @Column(name = "max_delivery_time")
+    private Instant maxDeliveryTime;
+
+    @OneToOne
+    @JoinColumn(unique = true)
     private Propreitor propreitor;
 
-    private Set<Review> reviews = new HashSet<>();
- 
-    private Set<UserRating> userRatings = new HashSet<>();
+    @OneToOne
+    @JoinColumn(unique = true)
+    private StoreAddress storeAddress;
 
+    @OneToMany(mappedBy = "store")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Review> reviews = new HashSet<>();
+    @OneToMany(mappedBy = "store")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<UserRating> userRatings = new HashSet<>();
+    @OneToMany(mappedBy = "store")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<DeliveryInfo> deliveryInfos = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -149,6 +176,19 @@ public class Store implements Serializable {
         this.location = location;
     }
 
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public Store locationName(String locationName) {
+        this.locationName = locationName;
+        return this;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
     public Long getContactNo() {
         return contactNo;
     }
@@ -162,19 +202,6 @@ public class Store implements Serializable {
         this.contactNo = contactNo;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public Store email(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Instant getOpeningTime() {
         return openingTime;
     }
@@ -186,6 +213,19 @@ public class Store implements Serializable {
 
     public void setOpeningTime(Instant openingTime) {
         this.openingTime = openingTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Store email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Instant getClosingTime() {
@@ -214,6 +254,32 @@ public class Store implements Serializable {
         this.info = info;
     }
 
+    public Double getMinAmount() {
+        return minAmount;
+    }
+
+    public Store minAmount(Double minAmount) {
+        this.minAmount = minAmount;
+        return this;
+    }
+
+    public void setMinAmount(Double minAmount) {
+        this.minAmount = minAmount;
+    }
+
+    public Instant getMaxDeliveryTime() {
+        return maxDeliveryTime;
+    }
+
+    public Store maxDeliveryTime(Instant maxDeliveryTime) {
+        this.maxDeliveryTime = maxDeliveryTime;
+        return this;
+    }
+
+    public void setMaxDeliveryTime(Instant maxDeliveryTime) {
+        this.maxDeliveryTime = maxDeliveryTime;
+    }
+
     public Propreitor getPropreitor() {
         return propreitor;
     }
@@ -225,6 +291,19 @@ public class Store implements Serializable {
 
     public void setPropreitor(Propreitor propreitor) {
         this.propreitor = propreitor;
+    }
+
+    public StoreAddress getStoreAddress() {
+        return storeAddress;
+    }
+
+    public Store storeAddress(StoreAddress storeAddress) {
+        this.storeAddress = storeAddress;
+        return this;
+    }
+
+    public void setStoreAddress(StoreAddress storeAddress) {
+        this.storeAddress = storeAddress;
     }
 
     public Set<Review> getReviews() {
@@ -333,11 +412,14 @@ public class Store implements Serializable {
             ", imageContentType='" + getImageContentType() + "'" +
             ", totalRating=" + getTotalRating() +
             ", location='" + getLocation() + "'" +
+            ", locationName='" + getLocationName() + "'" +
             ", contactNo=" + getContactNo() +
-            ", email='" + getEmail() + "'" +
             ", openingTime='" + getOpeningTime() + "'" +
+            ", email='" + getEmail() + "'" +
             ", closingTime='" + getClosingTime() + "'" +
             ", info='" + getInfo() + "'" +
+            ", minAmount=" + getMinAmount() +
+            ", maxDeliveryTime='" + getMaxDeliveryTime() + "'" +
             "}";
     }
 }
