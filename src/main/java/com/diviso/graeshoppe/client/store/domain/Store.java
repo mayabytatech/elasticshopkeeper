@@ -19,7 +19,6 @@ import java.util.Objects;
 /**
  * A Store.
  */
-
 @Document(indexName = "store")
 public class Store implements Serializable {
 
@@ -81,13 +80,12 @@ public class Store implements Serializable {
     private StoreAddress storeAddress;
 
     @OneToMany(mappedBy = "store")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Review> reviews = new HashSet<>();
     @OneToMany(mappedBy = "store")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<UserRating> userRatings = new HashSet<>();
     @OneToMany(mappedBy = "store")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Banner> banners = new HashSet<>();
+    @OneToMany(mappedBy = "store")
     private Set<DeliveryInfo> deliveryInfos = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -354,6 +352,31 @@ public class Store implements Serializable {
 
     public void setUserRatings(Set<UserRating> userRatings) {
         this.userRatings = userRatings;
+    }
+
+    public Set<Banner> getBanners() {
+        return banners;
+    }
+
+    public Store banners(Set<Banner> banners) {
+        this.banners = banners;
+        return this;
+    }
+
+    public Store addBanner(Banner banner) {
+        this.banners.add(banner);
+        banner.setStore(this);
+        return this;
+    }
+
+    public Store removeBanner(Banner banner) {
+        this.banners.remove(banner);
+        banner.setStore(null);
+        return this;
+    }
+
+    public void setBanners(Set<Banner> banners) {
+        this.banners = banners;
     }
 
     public Set<DeliveryInfo> getDeliveryInfos() {
