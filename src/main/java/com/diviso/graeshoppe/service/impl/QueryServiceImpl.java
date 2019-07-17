@@ -328,13 +328,16 @@ public class QueryServiceImpl implements QueryService {
 		
 		Page<Product> productPage = elasticsearchOperations.queryForPage(searchQuery, Product.class);
 		
-		List<Category> categoryList=new ArrayList<Category>();
+		Set<Category> categorySet=new HashSet<Category>();
 		
 		productPage.forEach(product->{
 			
-			categoryList.addAll(product.getCategories());
+			
+			categorySet.addAll(product.getCategories());
 			
 		});
+		
+		List<Category> categoryList=new ArrayList<Category>(categorySet);
 		
 		return new PageImpl(categoryList);
 	}
