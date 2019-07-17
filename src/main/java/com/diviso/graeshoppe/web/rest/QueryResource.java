@@ -198,11 +198,9 @@ public class QueryResource {
 	}
 
 	@GetMapping("/findAllCategoriesWithOutImage")
-	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(@RequestParam(required = false) Integer page,
-			@RequestParam(required = false) Integer size,
-			@RequestParam(value = "sort", required = false) ArrayList<String> sort) {
+	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(@PathVariable String storeId ) {
 		return ResponseEntity.ok()
-				.body(categoryResourceApi.getAllCategoriesUsingGET(page, size, sort).getBody().stream().map(c -> {
+				.body(categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId).getContent()).getBody().stream().map(c -> {
 					c.setImage(null);
 					return c;
 				}).collect(Collectors.toList()));
