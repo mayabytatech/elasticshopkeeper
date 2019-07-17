@@ -197,7 +197,7 @@ public class QueryResource {
 
 	}
 
-	@GetMapping("/findAllCategoriesWithOutImage")
+	@GetMapping("/findAllCategoriesWithOutImage/{storeId}")
 	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(@PathVariable String storeId ) {
 		return ResponseEntity.ok()
 				.body(categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId).getContent()).getBody().stream().map(c -> {
