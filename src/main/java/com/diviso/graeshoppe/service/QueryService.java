@@ -11,8 +11,7 @@ import com.diviso.graeshoppe.client.order.domain.OrderLine;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
-import com.diviso.graeshoppe.client.product.model.StockDiary;
-import com.diviso.graeshoppe.client.product.model.StockLine;
+
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
@@ -32,18 +31,18 @@ public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable);
  * @return
  */
 public Page<Product> findAllProduct(String storeId,Pageable pageable);
-public Page<StockLine> findAllStockLines(String storeId,Pageable pageable);
+/*public Page<StockLine> findAllStockLines(String storeId,Pageable pageable);*/
 /**
  * @return
  */
 public Page<Sale> findSales(String storeId,Pageable pageable);
 public List<TicketLine> findTicketLinesBySaleId(Long saleId);
 public Page<StockCurrent> findAllStockCurrents(String storeId,Pageable pageable);
-public Page<StockDiary> findAllStockDiaries(String storeId,Pageable pageable);
+/*public Page<StockDiary> findAllStockDiaries(String storeId,Pageable pageable);*/
 public Page<Product> findAllProductBySearchTerm(String searchTerm,String storeId, Pageable pageable);
 public Page<StockCurrent> findAllStockCurrentByCategoryId(Long categoryId,String storeId, Pageable pageable);
 public StockCurrent findStockCurrentByProductId(Long productId,String storeId);
-public StockDiary findStockDiaryByProductId(Long productId,String storeId);
+/*public StockDiary findStockDiaryByProductId(Long productId,String storeId);*/
 public Page<StockCurrent> findStockCurrentByProductName(String name, String storeId,Pageable pageable);
 public Page<Product> findAllProducts(String storeId,Pageable pageable);
 public Page<Review> findAllReviews(String storeId,Pageable pageable);
@@ -69,5 +68,7 @@ List<OrderLine> findOrderLinesByOrderId(Long orderId);
  * @param storeId
  */
 public Page<Category> findAllCategories(String storeId);
+
+
 
 }

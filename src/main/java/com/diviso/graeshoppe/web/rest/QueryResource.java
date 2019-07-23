@@ -29,20 +29,17 @@ import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.order.domain.Order;
 import com.diviso.graeshoppe.client.order.domain.OrderLine;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
-import com.diviso.graeshoppe.client.product.api.LoadControllerApi;
+
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
-import com.diviso.graeshoppe.client.product.api.StockDiaryResourceApi;
+
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
-import com.diviso.graeshoppe.client.product.model.StockDiary;
-import com.diviso.graeshoppe.client.product.model.StockDiaryDTO;
-import com.diviso.graeshoppe.client.product.model.StockLine;
-import com.diviso.graeshoppe.client.product.model.UomDTO;
+import com.diviso.graeshoppe.client.product.model.UOMDTO;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
@@ -94,9 +91,9 @@ public class QueryResource {
 	@Autowired
 	private StockCurrentResourceApi stockCurrentResourceApi;
 
-	@Autowired
+	/*@Autowired
 	private StockDiaryResourceApi stockDiaryResourceApi;
-
+*/
 	@Autowired
 	private StoreResourceApi storeResourceApi;
 
@@ -123,12 +120,12 @@ public class QueryResource {
 		return queryService.findStockCurrentByProductName(name, storeId, pageable);
 	}
 
-	@GetMapping("/findStockDiaryByProductId/{productId}/{storeId}")
+/*	@GetMapping("/findStockDiaryByProductId/{productId}/{storeId}")
 	public ResponseEntity<StockDiary> findStockDiaryByProductId(@PathVariable Long productId,
 			@PathVariable String storeId) {
 		return ResponseEntity.ok().body(queryService.findStockDiaryByProductId(productId, storeId));
 	}
-
+*/
 	@GetMapping("/findAllStockCurrentsByCategoryId/{categoryId}/{storeId}")
 	public Page<StockCurrent> findAllStockCurrentByCategory(@PathVariable Long categoryId, @PathVariable String storeId,
 			Pageable pageable) {
@@ -181,11 +178,11 @@ public class QueryResource {
 	}
 
 	@GetMapping("/findAllUom")
-	public ResponseEntity<List<UomDTO>> findAllUom(@RequestParam(required = false) Integer page,
+	public ResponseEntity<List<UOMDTO>> findAllUom(@RequestParam(required = false) Integer page,
 			@RequestParam(required = false) Integer size,
 			@RequestParam(value = "sort", required = false) ArrayList<String> sort) {
 
-		return uomResourceApi.getAllUomsUsingGET(page, size, sort);
+		return uomResourceApi.getAllUOMSUsingGET(page, size, sort);
 	}
 
 	@GetMapping("/findAllCateogories/{storeId}")
@@ -231,7 +228,7 @@ public class QueryResource {
 		return this.productResourceApi.getProductUsingGET(id);
 	}
 
-	@GetMapping("/products/export")
+	/*@GetMapping("/products/export")
 	public ResponseEntity<PdfDTO> exportProducts() {
 		PdfDTO pdf = new PdfDTO();
 		pdf.setPdf(this.productResourceApi.getProductsPriceAsPdfUsingGET().getBody());
@@ -244,7 +241,7 @@ public class QueryResource {
 
 		return this.productResourceApi.getProductsPriceAsPdfUsingGET();
 
-	}
+	}*/
 
 	@GetMapping("/customers/export")
 	public ResponseEntity<PdfDTO> exportCustomers() {
@@ -265,10 +262,10 @@ public class QueryResource {
 		return queryService.findSales(storeId, pageable);
 	}
 
-	@GetMapping("/stocklines/{storeId}")
+	/*@GetMapping("/stocklines/{storeId}")
 	public ResponseEntity<List<StockLine>> findAllStockLines(@PathVariable String storeId, Pageable pageable) {
 		return ResponseEntity.ok().body(this.queryService.findAllStockLines(storeId, pageable).getContent());
-	}
+	}*/
 
 	@GetMapping("/sales/combined/{storeId}")
 	public ResponseEntity<Page<SaleAggregate>> findAllSaleAggregates(@PathVariable String storeId, Pageable pageable) {
@@ -296,7 +293,7 @@ public class QueryResource {
 		return this.stockCurrentResourceApi.getStockCurrentUsingGET(id);
 	}
 
-	@GetMapping("/stock-diaries/{storeId}")
+	/*@GetMapping("/stock-diaries/{storeId}")
 	public ResponseEntity<List<StockDiary>> findAllStockDiaries(@PathVariable String storeId, Pageable pageable) {
 		return ResponseEntity.ok().body(queryService.findAllStockDiaries(storeId, pageable).getContent());
 	}
@@ -304,7 +301,7 @@ public class QueryResource {
 	@GetMapping("/stock-diaries/{id}")
 	public ResponseEntity<StockDiaryDTO> findOneStockDiary(@PathVariable Long id) {
 		return this.stockDiaryResourceApi.getStockDiaryUsingGET(id);
-	}
+	}*/
 
 	@GetMapping("/stock-current/{searchTerm}")
 	public ResponseEntity<List<StockCurrentDTO>> searchStockCurrents(@PathVariable String searchTerm, Integer page,
@@ -312,11 +309,11 @@ public class QueryResource {
 		return this.stockCurrentResourceApi.searchStockCurrentsUsingGET(searchTerm, page, size, sort);
 	}
 
-	@GetMapping("/stock-diary/{searchTerm}")
+	/*@GetMapping("/stock-diary/{searchTerm}")
 	public ResponseEntity<List<StockDiaryDTO>> searchStockDiaries(@PathVariable String searchTerm, Integer page,
 			Integer size, ArrayList<String> sort) {
 		return this.stockDiaryResourceApi.searchStockDiariesUsingGET(searchTerm, page, size, sort);
-	}
+	}*/
 
 	@GetMapping("/reviews")
 	public ResponseEntity<List<Review>> findAllReviews(@PathVariable String storeId, Pageable pageable) {
