@@ -351,7 +351,7 @@ public class QueryResource {
 
 		bundle.setTypes(typeDTOs);
 
-		return ResponseEntity.ok().body(bundle);
+		return ResponseEntity.ok().body(bundle);  
 
 	}
 
