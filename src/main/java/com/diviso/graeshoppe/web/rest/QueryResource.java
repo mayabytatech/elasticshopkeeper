@@ -188,19 +188,19 @@ public class QueryResource {
 		return uomResourceApi.getAllUomsUsingGET(page, size, sort);
 	}
 
-	@GetMapping("/findAllCateogories/{storeId}")
-	public ResponseEntity<List<CategoryDTO>> findAllCategories(@PathVariable String storeId) {
+	@GetMapping("/findAllCateogories")
+	public ResponseEntity<List<CategoryDTO>> findAllCategories(Pageable pageable) {
 
-		log.info("List categories   >>>>>>>>>>>>>>>>>>>  "+queryService.findAllCategories(storeId).getContent());
-		log.info("DTO LIST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.    "+	categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId).getContent()));
-		return categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId).getContent());
+		log.info("List categories   >>>>>>>>>>>>>>>>>>>  "+queryService.findAllCategories(pageable).getContent());
+		log.info("DTO LIST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.    "+	categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(pageable).getContent()));
+		return categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(pageable).getContent());
 
 	}
 
-	@GetMapping("/findAllCategoriesWithOutImage/{storeId}")
-	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(@PathVariable String storeId ) {
+	@GetMapping("/findAllCategoriesWithOutImage")
+	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(Pageable pageable ) {
 		return ResponseEntity.ok()
-				.body(categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId).getContent()).getBody().stream().map(c -> {
+				.body(categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(pageable).getContent()).getBody().stream().map(c -> {
 					c.setImage(null);
 					return c;
 				}).collect(Collectors.toList()));

@@ -68,6 +68,6 @@ List<OrderLine> findOrderLinesByOrderId(Long orderId);
 /**
  * @param storeId
  */
-public Page<Category> findAllCategories(String storeId);
+	/* public Page<Category> findAllCategories(String storeId); */
 
 }

@@ -69,6 +69,8 @@ public class QueryServiceImpl implements QueryService {
 	@Autowired
 	ElasticsearchOperations elasticsearchOperations;
 
+
+	
 	@Override
 	public Page<Category> findAllCategories(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
@@ -318,28 +320,35 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForList(searchQuery, OrderLine.class);
 	}
 
+
+
+
+
 	/* (non-Javadoc)
 	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(java.lang.String)
 	 */
-	@Override
-	public Page<Category> findAllCategories(String storeId) {
-		
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("userId",storeId)).build();
-		
-		Page<Product> productPage = elasticsearchOperations.queryForPage(searchQuery, Product.class);
-		
-		Set<Category> categorySet=new HashSet<Category>();
-		
-		productPage.forEach(product->{
-			
-			
-			categorySet.addAll(product.getCategories());
-			
-		});
-		
-		List<Category> categoryList=new ArrayList<Category>(categorySet);
-		
-		return new PageImpl(categoryList);
-	}
+	/*
+	 * @Override public Page<Category> findAllCategories(String storeId) {
+	 * 
+	 * SearchQuery searchQuery = new
+	 * NativeSearchQueryBuilder().withQuery(termQuery("userId",storeId)).build();
+	 * 
+	 * Page<Product> productPage = elasticsearchOperations.queryForPage(searchQuery,
+	 * Product.class);
+	 * 
+	 * Set<Category> categorySet=new HashSet<Category>();
+	 * 
+	 * productPage.forEach(product->{
+	 * 
+	 * 
+	 * categorySet.addAll(product.getCategories());
+	 * 
+	 * });
+	 * 
+	 * List<Category> categoryList=new ArrayList<Category>(categorySet);
+	 * 
+	 * return new PageImpl(categoryList); }
+	 * 
+	 */
 
 }
