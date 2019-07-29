@@ -7,6 +7,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,12 +20,13 @@ import java.util.Objects;
 @Document(indexName = "type")
 public class Type implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
+	 
+   
     private Long id;
 
     private String name;
 
+    private Store store;
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -43,6 +47,19 @@ public class Type implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public Type store(Store store) {
+        this.store = store;
+        return this;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
