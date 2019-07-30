@@ -32,13 +32,16 @@ import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
-
+import com.diviso.graeshoppe.client.product.api.StockEntryResourceApi;
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
+import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
+import com.diviso.graeshoppe.client.product.model.StockEntry;
+import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
@@ -91,9 +94,9 @@ public class QueryResource {
 	@Autowired
 	private StockCurrentResourceApi stockCurrentResourceApi;
 
-	/*@Autowired
-	private StockDiaryResourceApi stockDiaryResourceApi;
-*/
+	@Autowired
+	private StockEntryResourceApi stockEntryResourceApi;
+
 	@Autowired
 	private StoreResourceApi storeResourceApi;
 
@@ -120,12 +123,12 @@ public class QueryResource {
 		return queryService.findStockCurrentByProductName(name, storeId, pageable);
 	}
 
-/*	@GetMapping("/findStockDiaryByProductId/{productId}/{storeId}")
-	public ResponseEntity<StockDiary> findStockDiaryByProductId(@PathVariable Long productId,
+	@GetMapping("/findStockEntryByProductId/{productId}/{storeId}")
+	public ResponseEntity<StockEntry> findStockEntryByProductId(@PathVariable Long productId,
 			@PathVariable String storeId) {
-		return ResponseEntity.ok().body(queryService.findStockDiaryByProductId(productId, storeId));
+		return ResponseEntity.ok().body(queryService.findStockEntryByProductId(productId, storeId));
 	}
-*/
+
 	@GetMapping("/findAllStockCurrentsByCategoryId/{categoryId}/{storeId}")
 	public Page<StockCurrent> findAllStockCurrentByCategory(@PathVariable Long categoryId, @PathVariable String storeId,
 			Pageable pageable) {
@@ -262,10 +265,10 @@ public class QueryResource {
 		return queryService.findSales(storeId, pageable);
 	}
 
-	/*@GetMapping("/stocklines/{storeId}")
-	public ResponseEntity<List<StockLine>> findAllStockLines(@PathVariable String storeId, Pageable pageable) {
-		return ResponseEntity.ok().body(this.queryService.findAllStockLines(storeId, pageable).getContent());
-	}*/
+	@GetMapping("/entryLineItem/{storeId}")
+	public ResponseEntity<List<EntryLineItem>> findAllEntryLineItems(@PathVariable String storeId, Pageable pageable) {
+		return ResponseEntity.ok().body(this.queryService.findAllEntryLineItems(storeId, pageable).getContent());
+	}
 
 	@GetMapping("/sales/combined/{storeId}")
 	public ResponseEntity<Page<SaleAggregate>> findAllSaleAggregates(@PathVariable String storeId, Pageable pageable) {
@@ -293,15 +296,15 @@ public class QueryResource {
 		return this.stockCurrentResourceApi.getStockCurrentUsingGET(id);
 	}
 
-	/*@GetMapping("/stock-diaries/{storeId}")
-	public ResponseEntity<List<StockDiary>> findAllStockDiaries(@PathVariable String storeId, Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findAllStockDiaries(storeId, pageable).getContent());
+	@GetMapping("/stock-entries/{storeId}")
+	public ResponseEntity<List<StockEntry>> findAllStockDiaries(@PathVariable String storeId, Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllStockEntries(storeId, pageable).getContent());
 	}
 
-	@GetMapping("/stock-diaries/{id}")
-	public ResponseEntity<StockDiaryDTO> findOneStockDiary(@PathVariable Long id) {
-		return this.stockDiaryResourceApi.getStockDiaryUsingGET(id);
-	}*/
+	@GetMapping("/stock-entries/{id}")
+	public ResponseEntity<StockEntryDTO> findOneStockEntry(@PathVariable Long id) {
+		return this.stockEntryResourceApi.getStockEntryUsingGET(id);
+	}
 
 	@GetMapping("/stock-current/{searchTerm}")
 	public ResponseEntity<List<StockCurrentDTO>> searchStockCurrents(@PathVariable String searchTerm, Integer page,
