@@ -34,6 +34,7 @@ import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockEntryResourceApi;
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
+import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
@@ -188,12 +189,10 @@ public class QueryResource {
 		return uomResourceApi.getAllUOMSUsingGET(page, size, sort);
 	}
 
-	@GetMapping("/findAllCateogories")
-	public ResponseEntity<List<CategoryDTO>> findAllCategories(Pageable pageable) {
+	@GetMapping("/findAllCateogories/{storeId}")
+	public ResponseEntity<Page<Category>> findAllCategories(@PathVariable String storeId,Pageable pageable) {
 
-		log.info("List categories   >>>>>>>>>>>>>>>>>>>  "+queryService.findAllCategories(pageable).getContent());
-		log.info("DTO LIST>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.    "+	categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(pageable).getContent()));
-		return categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(pageable).getContent());
+		return ResponseEntity.ok().body(queryService.findAllCategories(storeId, pageable));
 
 	}
 

@@ -88,7 +88,11 @@ public interface QueryService {
 
 	/**
 	 * @param storeId
+	 * @param pageable
+	 * @return
 	 */
-	public Page<Category> findAllCategories(String storeId);
+	Page<Category> findAllCategories(String storeId, Pageable pageable);
 
+	
+	
 }
