@@ -197,9 +197,9 @@ public class QueryResource {
 	}
 
 	@GetMapping("/findAllCategoriesWithOutImage")
-	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(Pageable pageable ) {
+	public ResponseEntity<List<CategoryDTO>> findAllCategoriesWithOutImage(@PathVariable String storeId,Pageable pageable ) {
 		return ResponseEntity.ok()
-				.body(categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(pageable).getContent()).getBody().stream().map(c -> {
+				.body(categoryResourceApi.listToDToUsingPOST(queryService.findAllCategories(storeId,pageable).getContent()).getBody().stream().map(c -> {
 					c.setImage(null);
 					return c;
 				}).collect(Collectors.toList()));
