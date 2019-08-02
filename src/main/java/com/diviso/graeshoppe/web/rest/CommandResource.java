@@ -27,13 +27,16 @@ import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
+import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
-
+import com.diviso.graeshoppe.client.product.api.ComboLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
+import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
+import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
@@ -98,6 +101,13 @@ public class CommandResource {
 
 	@Autowired
 	TypeResourceApi typeResourceApi;
+	
+	@Autowired
+	AuxilaryLineItemResourceApi auxilaryLineItemResourceApi;
+	
+	@Autowired
+	ComboLineItemResourceApi comboLineItemResourceApi;
+	
 /*
 	@Autowired
 	LoadControllerApi loadControllerApi;*/
@@ -360,5 +370,15 @@ public class CommandResource {
 		log.info("::::::::::::::::::file:::::::::::::::::::::: "+ file);
 		loadControllerApi.loadUsingPOST(file.getBytes());
 	}*/
+	
+	@PostMapping("/auxilarylineitem")
+	public ResponseEntity<AuxilaryLineItemDTO> createAuxilaryLineItem(@RequestBody AuxilaryLineItemDTO auxilaryLineItemDTO) {
+		return this.auxilaryLineItemResourceApi.createAuxilaryLineItemUsingPOST(auxilaryLineItemDTO);
+	}
+	
+	@PostMapping("/combolineitem")
+	public ResponseEntity<ComboLineItemDTO> createComboLineItem(@RequestBody ComboLineItemDTO comboLineItemDTO) {
+		return this.comboLineItemResourceApi.createComboLineItemUsingPOST(comboLineItemDTO);
+	}
 
 }
