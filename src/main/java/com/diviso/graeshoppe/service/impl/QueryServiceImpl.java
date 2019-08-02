@@ -8,7 +8,6 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -17,10 +16,8 @@ import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.query.FetchSourceFilterBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
@@ -35,14 +32,12 @@ import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.UOM;
-
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
-import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import com.diviso.graeshoppe.domain.Result;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
@@ -71,15 +66,15 @@ public class QueryServiceImpl implements QueryService {
 	ElasticsearchOperations elasticsearchOperations;
 
 	@Override
-	public Page<Category> findAllCategories(String storeId,Pageable pageable) {
+	public Page<Category> findAllCategories(String iDPcode, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("iDPcode", storeId))).build();
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("iDPcode", iDPcode))).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
 	}
 
 	@Override
-	public Page<Product> findAllProduct(String storeId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", storeId)).build();
+	public Page<Product> findAllProduct(String iDPcode, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", iDPcode)).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
 
@@ -308,20 +303,25 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForList(searchQuery, OrderLine.class);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(org.springframework.data.domain.Pageable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(org.
+	 * springframework.data.domain.Pageable)
 	 */
 	@Override
 	public Page<Category> findAllCategories(Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(org.springframework.data.domain.Pageable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(org.
+	 * springframework.data.domain.Pageable)
 	 */
-	
 
 	/*
 	 * (non-Javadoc)
@@ -329,8 +329,6 @@ public class QueryServiceImpl implements QueryService {
 	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(java.lang.
 	 * String)
 	 */
-
-	
 
 	/*
 	 * @Override public Page<Category> findAllCategories(String storeId) {
