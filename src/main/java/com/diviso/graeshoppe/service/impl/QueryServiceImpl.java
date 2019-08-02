@@ -71,8 +71,9 @@ public class QueryServiceImpl implements QueryService {
 	ElasticsearchOperations elasticsearchOperations;
 
 	@Override
-	public Page<Category> findAllCategories(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+	public Page<Category> findAllCategories(String storeId,Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("iDPcode", storeId))).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
 	}
 
@@ -307,6 +308,21 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForList(searchQuery, OrderLine.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<Category> findAllCategories(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(org.springframework.data.domain.Pageable)
+	 */
+	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -314,14 +330,7 @@ public class QueryServiceImpl implements QueryService {
 	 * String)
 	 */
 
-	@Override
-	public Page<Category> findAllCategories(String storeId) {
-
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", storeId)).build();
-
-		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
-
-	}
+	
 
 	/*
 	 * @Override public Page<Category> findAllCategories(String storeId) {

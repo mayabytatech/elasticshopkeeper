@@ -10,19 +10,22 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Propreitor
+ * StoreTypeDTO
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-30T16:33:54.740+05:30[Asia/Calcutta]")
 
-public class Propreitor   {
+public class StoreTypeDTO   {
   @JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("name")
   private String name = null;
 
-  public Propreitor id(Long id) {
+  @JsonProperty("storeId")
+  private Long storeId = null;
+
+  public StoreTypeDTO id(Long id) {
     this.id = id;
     return this;
   }
@@ -42,7 +45,7 @@ public class Propreitor   {
     this.id = id;
   }
 
-  public Propreitor name(String name) {
+  public StoreTypeDTO name(String name) {
     this.name = name;
     return this;
   }
@@ -62,6 +65,26 @@ public class Propreitor   {
     this.name = name;
   }
 
+  public StoreTypeDTO storeId(Long storeId) {
+    this.storeId = storeId;
+    return this;
+  }
+
+  /**
+   * Get storeId
+   * @return storeId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getStoreId() {
+    return storeId;
+  }
+
+  public void setStoreId(Long storeId) {
+    this.storeId = storeId;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -71,23 +94,25 @@ public class Propreitor   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Propreitor propreitor = (Propreitor) o;
-    return Objects.equals(this.id, propreitor.id) &&
-        Objects.equals(this.name, propreitor.name);
+    StoreTypeDTO storeTypeDTO = (StoreTypeDTO) o;
+    return Objects.equals(this.id, storeTypeDTO.id) &&
+        Objects.equals(this.name, storeTypeDTO.name) &&
+        Objects.equals(this.storeId, storeTypeDTO.storeId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(id, name, storeId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Propreitor {\n");
+    sb.append("class StoreTypeDTO {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

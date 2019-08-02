@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * TypeDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-29T10:47:29.652+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-30T16:33:54.740+05:30[Asia/Calcutta]")
 
 public class TypeDTO   {
   @JsonProperty("id")
@@ -21,9 +21,6 @@ public class TypeDTO   {
 
   @JsonProperty("name")
   private String name = null;
-
-  @JsonProperty("storeId")
-  private Long storeId = null;
 
   public TypeDTO id(Long id) {
     this.id = id;
@@ -65,26 +62,6 @@ public class TypeDTO   {
     this.name = name;
   }
 
-  public TypeDTO storeId(Long storeId) {
-    this.storeId = storeId;
-    return this;
-  }
-
-  /**
-   * Get storeId
-   * @return storeId
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public Long getStoreId() {
-    return storeId;
-  }
-
-  public void setStoreId(Long storeId) {
-    this.storeId = storeId;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -96,13 +73,12 @@ public class TypeDTO   {
     }
     TypeDTO typeDTO = (TypeDTO) o;
     return Objects.equals(this.id, typeDTO.id) &&
-        Objects.equals(this.name, typeDTO.name) &&
-        Objects.equals(this.storeId, typeDTO.storeId);
+        Objects.equals(this.name, typeDTO.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, storeId);
+    return Objects.hash(id, name);
   }
 
   @Override
@@ -112,7 +88,6 @@ public class TypeDTO   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    storeId: ").append(toIndentedString(storeId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
