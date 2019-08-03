@@ -399,7 +399,7 @@ public class QueryResource {
 
 	
 	@GetMapping("/category/{id}")
-	public ResponseEntity<CategoryDTO> findUOMByStoreId(@PathVariable Long id) {
+	public ResponseEntity<CategoryDTO> findCategory(@PathVariable Long id) {
 		return categoryResourceApi.getCategoryUsingGET(id);
 	}
 }
