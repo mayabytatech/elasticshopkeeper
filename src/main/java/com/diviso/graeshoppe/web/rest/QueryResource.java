@@ -29,6 +29,7 @@ import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockEntryResourceApi;
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
+import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
@@ -39,19 +40,25 @@ import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
+import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
+import com.diviso.graeshoppe.client.store.api.BannerResourceApi;
 import com.diviso.graeshoppe.client.store.api.DeliveryInfoResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
+import com.diviso.graeshoppe.client.store.api.StoreTypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.domain.Store;
+import com.diviso.graeshoppe.client.store.domain.Type;
+import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import com.diviso.graeshoppe.client.store.model.StoreBundleDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
+import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
 import com.diviso.graeshoppe.client.store.model.TypeDTO;
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
@@ -101,14 +108,17 @@ public class QueryResource {
 	private TypeResourceApi typeResourceApi;
 
 	@Autowired
+	private StoreTypeResourceApi storeTypeResourceApi;
+
+	@Autowired
+	private BannerResourceApi bannerResourceApi;
+
+	@Autowired
 	private AuxilaryLineItemResourceApi auxilaryLineItemResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
-	
-	
 	///////////
-	
 
 	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
@@ -127,24 +137,21 @@ public class QueryResource {
 		return queryService.findAllProducts(iDPcode, pageable);
 	}
 
-	
 	@GetMapping("/productByStoreId/{iDPcode}")
 	public ResponseEntity<List<ProductDTO>> findAllProduct(@PathVariable String iDPcode, Pageable page) {
 		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(iDPcode, page).getContent());
 	}
-	
-	
+
 	@GetMapping("/products/{id}")
 	public ResponseEntity<ProductDTO> findProduct(@PathVariable Long id) {
 		return this.productResourceApi.getProductUsingGET(id);
 	}
-	
-	
+
 	/*
 	 * @GetMapping("/products/export") public ResponseEntity<PdfDTO>
 	 * exportProducts() { PdfDTO pdf = new PdfDTO();
-	 * pdf.setPdf(this.productResourceApi.getProductsPriceAsPdfUsingGET().getBody())
-	 * ; pdf.setContentType("application/pdf"); return
+	 * pdf.setPdf(this.productResourceApi.getProductsPriceAsPdfUsingGET().
+	 * getBody()) ; pdf.setContentType("application/pdf"); return
 	 * ResponseEntity.ok().body(pdf); }
 	 * 
 	 * @GetMapping("/products/pdf") public ResponseEntity<byte[]>
@@ -154,12 +161,9 @@ public class QueryResource {
 	 * 
 	 * }
 	 */
-	
-	
+
 	///////////
 
-
-	
 	@GetMapping("/findAllStockCurrentByProductName/{name}/{storeId}")
 	public Page<StockCurrent> findAllStockCurrentByProductName(@PathVariable String name, @PathVariable String storeId,
 			Pageable pageable) {
@@ -182,7 +186,6 @@ public class QueryResource {
 	public ResponseEntity<StockCurrentDTO> findStockCurrentDTOByProductId(@PathVariable Long productId) {
 		return this.stockCurrentResourceApi.getStockCurrentByProductIdUsingGET(productId);
 	}
-	
 
 	@GetMapping("/stockcurrentByIDPcode/{iDPcode}")
 	public ResponseEntity<Page<StockCurrent>> getAllStockCurrentsByIDPcode(@PathVariable String iDPcode,
@@ -194,12 +197,9 @@ public class QueryResource {
 	public ResponseEntity<StockCurrentDTO> findOneStockCurrent(@PathVariable Long id) {
 		return this.stockCurrentResourceApi.getStockCurrentUsingGET(id);
 	}
-	
-	
+
 	////////////////////////
 
-	
-	
 	@GetMapping("/findAllCustomer/{searchTerm}")
 	public Page<Customer> findAllCustomers(@PathVariable String searchTerm, @PathVariable String storeId,
 			Pageable pageable) {
@@ -221,7 +221,6 @@ public class QueryResource {
 		return this.contactResourceApi.getContactUsingGET(id);
 	}
 
-
 	@GetMapping("/customers/export")
 	public ResponseEntity<PdfDTO> exportCustomers() {
 		PdfDTO pdf = new PdfDTO();
@@ -229,10 +228,9 @@ public class QueryResource {
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
 	}
-	
+
 	/////////////////////
-	
-	
+
 	@GetMapping("/findAllCateogories/{storeId}")
 	public ResponseEntity<Page<Category>> findAllCategories(@PathVariable String storeId, Pageable pageable) {
 
@@ -258,19 +256,15 @@ public class QueryResource {
 		return categoryResourceApi.updateCategoryUsingPUT(categoryDTO);
 
 	}
-	
-	
-	////////////////////////////
-	
 
-	
+	////////////////////////////
+
 	@GetMapping("/findStockEntryByProductId/{productId}/{storeId}")
 	public ResponseEntity<StockEntry> findStockEntryByProductId(@PathVariable Long productId,
 			@PathVariable String storeId) {
 		return ResponseEntity.ok().body(queryService.findStockEntryByProductId(productId, storeId));
 	}
-	
-	
+
 	///////////////////////////////
 
 	@GetMapping("/ticket-lines")
@@ -288,10 +282,7 @@ public class QueryResource {
 		return ticketLineResourceApi.getTicketLineUsingGET(id);
 	}
 
-	
 	//////////////////////////////////
-
-
 
 	@GetMapping("/sales/{id}")
 	public ResponseEntity<SaleDTO> findSaleById(@PathVariable Long id) {
@@ -302,7 +293,7 @@ public class QueryResource {
 	public Page<Sale> findSales(@PathVariable String storeId, Pageable pageable) {
 		return queryService.findSales(storeId, pageable);
 	}
-	
+
 	@GetMapping("/sales/combined/{storeId}")
 	public ResponseEntity<Page<SaleAggregate>> findAllSaleAggregates(@PathVariable String storeId, Pageable pageable) {
 		List<SaleAggregate> sales = new ArrayList<SaleAggregate>();
@@ -318,17 +309,13 @@ public class QueryResource {
 		PageImpl<SaleAggregate> res = new PageImpl<SaleAggregate>(sales);
 		return ResponseEntity.ok().body(res);
 	}
-	
-	
+
 	//////////////////////////
-	
-	
 
 	@GetMapping("/entryLineItem/{storeId}")
 	public ResponseEntity<List<EntryLineItem>> findAllEntryLineItems(@PathVariable String storeId, Pageable pageable) {
 		return ResponseEntity.ok().body(this.queryService.findAllEntryLineItems(storeId, pageable).getContent());
 	}
-
 
 	@GetMapping("/stock-entries/{storeId}")
 	public ResponseEntity<List<StockEntry>> findAllStockDiaries(@PathVariable String storeId, Pageable pageable) {
@@ -346,10 +333,8 @@ public class QueryResource {
 		return this.stockCurrentResourceApi.searchStockCurrentsUsingGET(searchTerm, page, size, sort);
 	}
 
-	
 	///////////////////////////////
-	
-	
+
 	@GetMapping("/stores/{regNo}")
 	public Store findStoreByRegNo(@PathVariable String regNo) {
 		return this.queryService.findStoreByRegNo(regNo);
@@ -366,7 +351,14 @@ public class QueryResource {
 		List<DeliveryInfoDTO> deliveryDTOs = deliveryInfoResourceApi
 				.listToDtoUsingPOST(queryService.findDeliveryInfoByStoreId(storeDTO.getId()).getContent()).getBody();
 
-		List<TypeDTO> typeDTOs = typeResourceApi.getAllTypesUsingGET(page, size, sort).getBody();
+		List<TypeDTO> typeDTOs = typeResourceApi.listToDtoUsingPOST3(queryService.findAllDeliveryTypesByStoreId(regNo))
+				.getBody();
+
+		List<StoreTypeDTO> storeTypeDTO = storeTypeResourceApi
+				.listToDtoUsingPOST2(queryService.findAllStoreTypesByStoreId(regNo)).getBody();
+
+		List<BannerDTO> bannerDTO = bannerResourceApi.listToDtoUsingPOST(queryService.findAllBannersByStoreId(regNo))
+				.getBody();
 
 		StoreBundleDTO bundle = new StoreBundleDTO();
 
@@ -376,11 +368,14 @@ public class QueryResource {
 
 		bundle.setTypes(typeDTOs);
 
+		bundle.setBanners(bannerDTO);
+
+		bundle.setStoreType(storeTypeDTO);
+
 		return ResponseEntity.ok().body(bundle);
 
 	}
-	
-	
+
 	////////////////////////////
 
 	@GetMapping("/ordersbystoreId/{storeId}")
@@ -389,16 +384,18 @@ public class QueryResource {
 		return queryService.findOrderByStoreId(storeId, pageable);
 
 	}
-	
-	
-	//////////////////////////////
 
-	@GetMapping("/auxilarylineitems")
-	public ResponseEntity<List<AuxilaryLineItemDTO>> getAuxilaryLineItems(Integer page, Integer size,
-			ArrayList<String> sort) {
+	@GetMapping("/auxilarylineitems/{storeId}")
+	public ResponseEntity<Page<AuxilaryLineItem>> getAuxilaryLineItemsByStoreId(@PathVariable String storeId,
+			Pageable pageable) {
 
-		return auxilaryLineItemResourceApi.getAllAuxilaryLineItemsUsingGET(page, size, sort);
+		return ResponseEntity.ok().body(queryService.findAuxilaryLineItemsByStoreId(storeId, pageable));
 
+	}
+
+	@GetMapping("/UOM/{storeId}")
+	public ResponseEntity<Page<UOM>> findUOMByStoreId(@PathVariable String storeId, Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findUOMByStoreId(storeId, pageable));
 	}
 
 }

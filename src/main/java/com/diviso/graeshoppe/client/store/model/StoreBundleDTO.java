@@ -28,6 +28,9 @@ public class StoreBundleDTO {
 	StoreDTO store;
 	List<DeliveryInfoDTO> deliveryInfos;
     List<TypeDTO> types;
+    List<StoreTypeDTO> storeType;
+    List<BannerDTO> banners;
+    
 	public StoreDTO getStore() {
 		return store;
 	}
@@ -46,12 +49,31 @@ public class StoreBundleDTO {
 	public void setTypes(List<TypeDTO> types) {
 		this.types = types;
 	}
+	public List<StoreTypeDTO> getStoreType() {
+		return storeType;
+	}
+	public void setStoreType(List<StoreTypeDTO> storeType) {
+		this.storeType = storeType;
+	}
+	public List<BannerDTO> getBanners() {
+		return banners;
+	}
+	public void setBanners(List<BannerDTO> banners) {
+		this.banners = banners;
+	}
+	@Override
+	public String toString() {
+		return "StoreBundleDTO [store=" + store + ", deliveryInfos=" + deliveryInfos + ", types=" + types
+				+ ", storeType=" + storeType + ", banners=" + banners + "]";
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((banners == null) ? 0 : banners.hashCode());
 		result = prime * result + ((deliveryInfos == null) ? 0 : deliveryInfos.hashCode());
 		result = prime * result + ((store == null) ? 0 : store.hashCode());
+		result = prime * result + ((storeType == null) ? 0 : storeType.hashCode());
 		result = prime * result + ((types == null) ? 0 : types.hashCode());
 		return result;
 	}
@@ -64,6 +86,11 @@ public class StoreBundleDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		StoreBundleDTO other = (StoreBundleDTO) obj;
+		if (banners == null) {
+			if (other.banners != null)
+				return false;
+		} else if (!banners.equals(other.banners))
+			return false;
 		if (deliveryInfos == null) {
 			if (other.deliveryInfos != null)
 				return false;
@@ -74,6 +101,11 @@ public class StoreBundleDTO {
 				return false;
 		} else if (!store.equals(other.store))
 			return false;
+		if (storeType == null) {
+			if (other.storeType != null)
+				return false;
+		} else if (!storeType.equals(other.storeType))
+			return false;
 		if (types == null) {
 			if (other.types != null)
 				return false;
@@ -81,7 +113,7 @@ public class StoreBundleDTO {
 			return false;
 		return true;
 	}
-    
+	
 	
 	
 }

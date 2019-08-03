@@ -5,7 +5,7 @@
  */
 package com.diviso.graeshoppe.client.store.api;
 
-import com.diviso.graeshoppe.client.store.model.TypeDTO;
+import java.util.List;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,13 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import com.diviso.graeshoppe.client.store.domain.Type;
+import com.diviso.graeshoppe.client.store.model.TypeDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-29T10:47:29.652+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-03T10:15:16.010+05:30[Asia/Calcutta]")
 
 @Api(value = "TypeResource", description = "the TypeResource API")
 public interface TypeResourceApi {
@@ -77,6 +79,20 @@ public interface TypeResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<TypeDTO> getTypeUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST3", notes = "", response = TypeDTO.class, responseContainer = "List", tags={ "type-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = TypeDTO.class, responseContainer = "List"),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/type/toDto",
+        produces = "*/*", 
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<List<TypeDTO>> listToDtoUsingPOST3(@ApiParam(value = "types" ,required=true )  @Valid @RequestBody List<Type> type);
 
 
     @ApiOperation(value = "searchTypes", nickname = "searchTypesUsingGET", notes = "", response = TypeDTO.class, responseContainer = "List", tags={ "type-resource", })

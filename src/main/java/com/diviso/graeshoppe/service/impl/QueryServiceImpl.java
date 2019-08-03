@@ -16,16 +16,19 @@ import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.domain.Order;
 import com.diviso.graeshoppe.client.order.domain.OrderLine;
+import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
@@ -34,9 +37,12 @@ import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
+import com.diviso.graeshoppe.client.store.domain.Banner;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
+import com.diviso.graeshoppe.client.store.domain.StoreType;
+import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.domain.Result;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
@@ -316,6 +322,72 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAuxilaryLineItemsByStoreId(java.lang.String, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<AuxilaryLineItem> findAuxilaryLineItemsByStoreId(String storeId, Pageable pageable) {
+		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.iDPcode", storeId)).build();
+		
+		return elasticsearchOperations.queryForPage(searchQuery, AuxilaryLineItem.class);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findUOMByStoreId(java.lang.String, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<UOM> findUOMByStoreId(String storeId, Pageable pageable) {
+		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", storeId)).build();
+		
+		return elasticsearchOperations.queryForPage(searchQuery, UOM.class);
+	}
+	
+	
+	@Override
+	public List<Type> findAllDeliveryTypesByStoreId(String storeId) {
+
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
+
+		Page<DeliveryInfo> deliveryinfos = elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
+
+		List<Type> types = new ArrayList<Type>();
+
+		deliveryinfos.forEach(deliveryInfo -> {
+			types.add(deliveryInfo.getType());
+
+		});
+
+		return types;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllStoreTypesByStoreId(java.lang.String)
+	 */
+	@Override
+	public List<StoreType> findAllStoreTypesByStoreId(String regNo) {
+		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", regNo)).build();
+
+		return elasticsearchOperations.queryForList(searchQuery, StoreType.class);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllBannersByStoreId(java.lang.String)
+	 */
+	@Override
+	public List<Banner> findAllBannersByStoreId(String regNo) {
+	
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", regNo)).build();
+
+		return elasticsearchOperations.queryForList(searchQuery, Banner.class);
+	}
+
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 

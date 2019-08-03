@@ -41,19 +41,15 @@ public class Banner implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @Lob
-    @Column(name = "jhi_file")
     private byte[] file;
 
-    @Column(name = "jhi_file_content_type")
     private String fileContentType;
 
-    @ManyToOne
-    @JsonIgnoreProperties("banners")
+
     private Store store;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

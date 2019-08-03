@@ -2,22 +2,30 @@ package com.diviso.graeshoppe.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.domain.Order;
 import com.diviso.graeshoppe.client.order.domain.OrderLine;
+import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
+import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
+import com.diviso.graeshoppe.client.store.domain.Banner;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.Review;
 import com.diviso.graeshoppe.client.store.domain.Store;
+import com.diviso.graeshoppe.client.store.domain.StoreType;
+import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 
@@ -92,6 +100,39 @@ public interface QueryService {
 	 * @return
 	 */
 	Page<Category> findAllCategories(String storeId, Pageable pageable);
+
+	/**
+	 * @param storeId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<AuxilaryLineItem> findAuxilaryLineItemsByStoreId(String storeId, Pageable pageable);
+
+	/**
+	 * @param storeId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<UOM> findUOMByStoreId(String storeId, Pageable pageable);
+
+	/**
+	 * @param storeId
+	 * @param pageable
+	 * @return
+	 */
+	List<Type> findAllDeliveryTypesByStoreId(String storeId);
+
+	/**
+	 * @param regNo
+	 * @return
+	 */
+	public  List<StoreType> findAllStoreTypesByStoreId(String regNo);
+
+	/**
+	 * @param regNo
+	 * @return
+	 */
+	public  List<Banner> findAllBannersByStoreId(String regNo);
 
 	
 	
