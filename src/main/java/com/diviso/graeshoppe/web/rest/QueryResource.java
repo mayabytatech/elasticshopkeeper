@@ -376,7 +376,6 @@ public class QueryResource {
 
 	}
 
-	////////////////////////////
 
 	@GetMapping("/ordersbystoreId/{storeId}")
 	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId, Pageable pageable) {
@@ -398,4 +397,9 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findUOMByStoreId(storeId, pageable));
 	}
 
+	
+	@GetMapping("/category/{id}")
+	public ResponseEntity<CategoryDTO> findUOMByStoreId(@PathVariable Long id) {
+		return categoryResourceApi.getCategoryUsingGET(id);
+	}
 }
