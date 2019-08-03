@@ -106,14 +106,14 @@ public interface QueryService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<AuxilaryLineItem> findAuxilaryLineItemsByStoreId(String storeId, Pageable pageable);
+	public Page<AuxilaryLineItem> findAuxilaryLineItemsByIDPcode(String iDPcode, Pageable pageable);
 
 	/**
 	 * @param storeId
 	 * @param pageable
 	 * @return
 	 */
-	public Page<UOM> findUOMByStoreId(String storeId, Pageable pageable);
+	public Page<UOM> findUOMByIDPcode(String iDPcode, Pageable pageable);
 
 	/**
 	 * @param storeId
@@ -133,6 +133,14 @@ public interface QueryService {
 	 * @return
 	 */
 	public  List<Banner> findAllBannersByStoreId(String regNo);
+
+
+	/**
+	 * @param iDPcode
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Product> findNotAuxNotComboProductsByIDPcode(String iDPcode, Pageable pageable);
 
 	
 	

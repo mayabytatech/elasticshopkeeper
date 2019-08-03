@@ -278,7 +278,8 @@ public class QueryServiceImpl implements QueryService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.diviso.graeshoppe.service.QueryService#findOrderLinesByStoreId(java.
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findOrderLinesByStoreId(java.
 	 * lang.String)
 	 */
 	@Override
@@ -300,7 +301,8 @@ public class QueryServiceImpl implements QueryService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.diviso.graeshoppe.service.QueryService#findOrderByStoreId(java.lang.
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findOrderByStoreId(java.lang.
 	 * String)
 	 */
 	@Override
@@ -322,29 +324,37 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findAuxilaryLineItemsByStoreId(java.lang.String, org.springframework.data.domain.Pageable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findAuxilaryLineItemsByStoreId
+	 * (java.lang.String, org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public Page<AuxilaryLineItem> findAuxilaryLineItemsByStoreId(String storeId, Pageable pageable) {
-		
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.iDPcode", storeId)).build();
-		
+	public Page<AuxilaryLineItem> findAuxilaryLineItemsByIDPcode(String iDPcode, Pageable pageable) {
+
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.iDPcode", iDPcode))
+				.build();
+
 		return elasticsearchOperations.queryForPage(searchQuery, AuxilaryLineItem.class);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findUOMByStoreId(java.lang.String, org.springframework.data.domain.Pageable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findUOMByStoreId(java.lang.
+	 * String, org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public Page<UOM> findUOMByStoreId(String storeId, Pageable pageable) {
-		
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", storeId)).build();
-		
+	public Page<UOM> findUOMByIDPcode(String iDPcode, Pageable pageable) {
+
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", iDPcode)).build();
+
 		return elasticsearchOperations.queryForPage(searchQuery, UOM.class);
 	}
-	
-	
+
 	@Override
 	public List<Type> findAllDeliveryTypesByStoreId(String storeId) {
 
@@ -363,31 +373,65 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllStoreTypesByStoreId(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findAllStoreTypesByStoreId(
+	 * java.lang.String)
 	 */
 	@Override
 	public List<StoreType> findAllStoreTypesByStoreId(String regNo) {
-		
+
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", regNo)).build();
 
 		return elasticsearchOperations.queryForList(searchQuery, StoreType.class);
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllBannersByStoreId(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findAllBannersByStoreId(java.
+	 * lang.String)
 	 */
 	@Override
 	public List<Banner> findAllBannersByStoreId(String regNo) {
-	
+
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", regNo)).build();
 
 		return elasticsearchOperations.queryForList(searchQuery, Banner.class);
 	}
 
-	
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.diviso.graeshoppe.service.QueryService#
+	 * findNotAuxNotComboProductsByIDPcode(java.lang.String,
+	 * org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<Product> findNotAuxNotComboProductsByIDPcode(String iDPcode, Pageable pageable) {
+
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", iDPcode)).build();
+
+		List<Product> products = elasticsearchOperations.queryForList(searchQuery, Product.class);
+
+		List<Product> notAuxNotComboProducts = new ArrayList<Product>();
+
+		products.forEach(p -> {
+
+			if ((p.isIsAuxilaryItem() == false) && (p.getComboLineItems() == null)) {
+
+				notAuxNotComboProducts.add(p);
+			}
+
+		});
+
+		return new PageImpl(notAuxNotComboProducts);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -398,7 +442,8 @@ public class QueryServiceImpl implements QueryService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(java.lang.
+	 * @see
+	 * com.diviso.graeshoppe.service.QueryService#findAllCategories(java.lang.
 	 * String)
 	 */
 
@@ -406,10 +451,11 @@ public class QueryServiceImpl implements QueryService {
 	 * @Override public Page<Category> findAllCategories(String storeId) {
 	 * 
 	 * SearchQuery searchQuery = new
-	 * NativeSearchQueryBuilder().withQuery(termQuery("userId",storeId)).build();
+	 * NativeSearchQueryBuilder().withQuery(termQuery("userId",storeId)).build()
+	 * ;
 	 * 
-	 * Page<Product> productPage = elasticsearchOperations.queryForPage(searchQuery,
-	 * Product.class);
+	 * Page<Product> productPage =
+	 * elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	 * 
 	 * Set<Category> categorySet=new HashSet<Category>();
 	 * 

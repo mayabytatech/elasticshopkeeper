@@ -384,17 +384,17 @@ public class QueryResource {
 
 	}
 
-	@GetMapping("/auxilarylineitems/{storeId}")
-	public ResponseEntity<Page<AuxilaryLineItem>> getAuxilaryLineItemsByStoreId(@PathVariable String storeId,
+	@GetMapping("/auxilarylineitems/{iDPcode}")
+	public ResponseEntity<Page<AuxilaryLineItem>> getAuxilaryLineItemsByStoreId(@PathVariable String iDPcode,
 			Pageable pageable) {
 
-		return ResponseEntity.ok().body(queryService.findAuxilaryLineItemsByStoreId(storeId, pageable));
+		return ResponseEntity.ok().body(queryService.findAuxilaryLineItemsByIDPcode(iDPcode, pageable));
 
 	}
 
-	@GetMapping("/UOM/{storeId}")
-	public ResponseEntity<Page<UOM>> findUOMByStoreId(@PathVariable String storeId, Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findUOMByStoreId(storeId, pageable));
+	@GetMapping("/UOM/{iDPcode}")
+	public ResponseEntity<Page<UOM>> findUOMByIDPcode(@PathVariable String iDPcode, Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findUOMByIDPcode(iDPcode, pageable));
 	}
 
 	
@@ -402,4 +402,13 @@ public class QueryResource {
 	public ResponseEntity<CategoryDTO> findCategory(@PathVariable Long id) {
 		return categoryResourceApi.getCategoryUsingGET(id);
 	}
+	
+	@GetMapping("/not-aux-combo-products/{iDPcode}")
+	public ResponseEntity<Page<Product>> getNotAuxNotComboProductsByIDPcode(@PathVariable String iDPcode,
+			Pageable pageable) {
+
+		return ResponseEntity.ok().body(queryService.findNotAuxNotComboProductsByIDPcode(iDPcode, pageable));
+
+	}
+	
 }
