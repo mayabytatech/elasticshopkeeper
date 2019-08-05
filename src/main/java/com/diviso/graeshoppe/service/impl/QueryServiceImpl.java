@@ -355,23 +355,7 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, UOM.class);
 	}
 
-	@Override
-	public List<Type> findAllDeliveryTypesByStoreId(String storeId) {
-
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
-
-		Page<DeliveryInfo> deliveryinfos = elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
-
-		List<Type> types = new ArrayList<Type>();
-
-		deliveryinfos.forEach(deliveryInfo -> {
-			types.add(deliveryInfo.getType());
-
-		});
-
-		return types;
-
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -431,6 +415,36 @@ public class QueryServiceImpl implements QueryService {
 
 		return new PageImpl(notAuxNotComboProducts);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllDeliveryTypesByStoreId(java.lang.String)
+	 */
+	@Override
+	public List<Type> findAllDeliveryTypesByStoreId(String storeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllDeliveryTypesByStoreId(java.lang.Long, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<Type> findAllDeliveryTypesByStoreId(Long storeId, Pageable pageable) {
+		
+			SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
+
+			Page<DeliveryInfo> deliveryinfos = elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
+
+			List<Type> types = new ArrayList<Type>();
+
+			deliveryinfos.forEach(deliveryInfo -> {
+				types.add(deliveryInfo.getType());
+
+			});
+
+			return new PageImpl(types);
+
+		}
 
 	/*
 	 * (non-Javadoc)
