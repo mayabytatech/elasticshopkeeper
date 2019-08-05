@@ -53,15 +53,21 @@ import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
 import com.diviso.graeshoppe.client.store.api.BannerResourceApi;
 import com.diviso.graeshoppe.client.store.api.DeliveryInfoResourceApi;
+import com.diviso.graeshoppe.client.store.api.StoreAddressResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
+import com.diviso.graeshoppe.client.store.api.StoreSettingsResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreTypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.domain.Store;
+import com.diviso.graeshoppe.client.store.domain.StoreAddress;
+import com.diviso.graeshoppe.client.store.domain.StoreSettings;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
+import com.diviso.graeshoppe.client.store.model.StoreAddressDTO;
 import com.diviso.graeshoppe.client.store.model.StoreBundleDTO;
 import com.diviso.graeshoppe.client.store.model.StoreDTO;
+import com.diviso.graeshoppe.client.store.model.StoreSettingsDTO;
 import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
 import com.diviso.graeshoppe.client.store.model.TypeDTO;
 import com.diviso.graeshoppe.service.QueryService;
@@ -119,9 +125,15 @@ public class QueryResource {
 
 	@Autowired
 	ComboLineItemResourceApi comboLineItemResourceApi;
-	
+
 	@Autowired
 	private AuxilaryLineItemResourceApi auxilaryLineItemResourceApi;
+
+	@Autowired
+	private StoreAddressResourceApi storeAddressResourceApi;
+
+	@Autowired
+	private StoreSettingsResourceApi storeSettingsResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
@@ -353,7 +365,17 @@ public class QueryResource {
 
 		Store store = queryService.findStoreByRegNo(regNo);
 
+		StoreAddress storeAdrress = store.getStoreAddress();
+
+		StoreSettings storeSettings = store.getStoreSettings();
+
 		StoreDTO storeDTO = storeResourceApi.getStoreUsingGET(store.getId()).getBody();
+
+		StoreAddressDTO storeAddressDTO = storeAddressResourceApi.getStoreAddressUsingGET(storeAdrress.getId())
+				.getBody();
+
+		StoreSettingsDTO storeSettingsDTO = storeSettingsResourceApi.getStoreSettingsUsingGET(storeSettings.getId())
+				.getBody();
 
 		List<DeliveryInfoDTO> deliveryDTOs = deliveryInfoResourceApi
 				.listToDtoUsingPOST(queryService.findDeliveryInfoByStoreId(storeDTO.getId()).getContent()).getBody();
@@ -422,7 +444,7 @@ public class QueryResource {
 	public ResponseEntity<AuxilaryLineItemDTO> findAuxilaryLineItem(@PathVariable Long id) {
 		return auxilaryLineItemResourceApi.getAuxilaryLineItemUsingGET(id);
 	}
-	
+
 	@GetMapping("/combolineitem/{id}")
 	public ResponseEntity<ComboLineItemDTO> findCombolineItem(@PathVariable Long id) {
 		return comboLineItemResourceApi.getComboLineItemUsingGET(id);
@@ -432,7 +454,7 @@ public class QueryResource {
 	public ResponseEntity<BannerDTO> findBanner(@PathVariable Long id) {
 		return bannerResourceApi.getBannerUsingGET(id);
 	}
-	
+
 	@GetMapping("/not-aux-combo-products/{iDPcode}")
 	public ResponseEntity<Page<Product>> getNotAuxNotComboProductsByIDPcode(@PathVariable String iDPcode,
 			Pageable pageable) {
@@ -441,4 +463,10 @@ public class QueryResource {
 
 	}
 
+	@GetMapping("/delivery-Types/{storeId}")
+	public Page<Type> findAllDeliveryTypesByStoreId(@PathVariable Long storeId, Pageable pageable) {
+
+		return queryService.findAllDeliveryTypesByStoreId(storeId, pageable);
+
+	}
 }

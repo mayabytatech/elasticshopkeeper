@@ -26,11 +26,25 @@ public class StoreBundleDTO {
 
 	
 	StoreDTO store;
+	StoreAddressDTO storeAddress;
+	StoreSettingsDTO storeSettings;
 	List<DeliveryInfoDTO> deliveryInfos;
     List<TypeDTO> types;
     List<StoreTypeDTO> storeType;
     List<BannerDTO> banners;
     
+	public StoreAddressDTO getStoreAddress() {
+		return storeAddress;
+	}
+	public void setStoreAddress(StoreAddressDTO storeAddress) {
+		this.storeAddress = storeAddress;
+	}
+	public StoreSettingsDTO getStoreSettings() {
+		return storeSettings;
+	}
+	public void setStoreSettings(StoreSettingsDTO storeSettings) {
+		this.storeSettings = storeSettings;
+	}
 	public StoreDTO getStore() {
 		return store;
 	}
@@ -61,10 +75,12 @@ public class StoreBundleDTO {
 	public void setBanners(List<BannerDTO> banners) {
 		this.banners = banners;
 	}
+	
 	@Override
 	public String toString() {
-		return "StoreBundleDTO [store=" + store + ", deliveryInfos=" + deliveryInfos + ", types=" + types
-				+ ", storeType=" + storeType + ", banners=" + banners + "]";
+		return "StoreBundleDTO [store=" + store + ", storeAddress=" + storeAddress + ", storeSettings=" + storeSettings
+				+ ", deliveryInfos=" + deliveryInfos + ", types=" + types + ", storeType=" + storeType + ", banners="
+				+ banners + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -73,6 +89,8 @@ public class StoreBundleDTO {
 		result = prime * result + ((banners == null) ? 0 : banners.hashCode());
 		result = prime * result + ((deliveryInfos == null) ? 0 : deliveryInfos.hashCode());
 		result = prime * result + ((store == null) ? 0 : store.hashCode());
+		result = prime * result + ((storeAddress == null) ? 0 : storeAddress.hashCode());
+		result = prime * result + ((storeSettings == null) ? 0 : storeSettings.hashCode());
 		result = prime * result + ((storeType == null) ? 0 : storeType.hashCode());
 		result = prime * result + ((types == null) ? 0 : types.hashCode());
 		return result;
@@ -101,6 +119,16 @@ public class StoreBundleDTO {
 				return false;
 		} else if (!store.equals(other.store))
 			return false;
+		if (storeAddress == null) {
+			if (other.storeAddress != null)
+				return false;
+		} else if (!storeAddress.equals(other.storeAddress))
+			return false;
+		if (storeSettings == null) {
+			if (other.storeSettings != null)
+				return false;
+		} else if (!storeSettings.equals(other.storeSettings))
+			return false;
 		if (storeType == null) {
 			if (other.storeType != null)
 				return false;
@@ -113,6 +141,7 @@ public class StoreBundleDTO {
 			return false;
 		return true;
 	}
+	
 	
 	
 	
