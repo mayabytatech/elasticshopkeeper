@@ -127,7 +127,7 @@ public class CommandResource {
 
 	@Autowired
 	BannerResourceApi bannerResourceApi;
-	
+
 	@Autowired
 	private StoreAddressResourceApi storeAddressResourceApi;
 
@@ -137,8 +137,6 @@ public class CommandResource {
 	@Autowired
 	private StoreTypeResourceApi storeTypeResourceApi;
 
-	
-	
 	/*
 	 * @Autowired LoadControllerApi loadControllerApi;
 	 */
@@ -446,58 +444,72 @@ public class CommandResource {
 	public ResponseEntity<StoreBundleDTO> createStoreBundle(@RequestBody StoreBundleDTO storeBundleDTO) {
 		
 		StoreDTO storeDTO = storeBundleDTO.getStore();
-		storeDTO = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
-		
+		if (storeDTO != null) {
+			storeDTO = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
+		}
+
 		StoreAddressDTO storeAddressDTO = storeBundleDTO.getStoreAddress();
-		storeAddressDTO = storeAddressResourceApi.createStoreAddressUsingPOST(storeAddressDTO).getBody();
-		
+		if (storeAddressDTO != null) {
+			storeAddressDTO = storeAddressResourceApi.createStoreAddressUsingPOST(storeAddressDTO).getBody();
+		}
+
 		StoreSettingsDTO storeSettingsDTO = storeBundleDTO.getStoreSettings();
-		storeSettingsDTO = storeSettingsResourceApi.createStoreSettingsUsingPOST(storeSettingsDTO).getBody();
-		
+		if (storeSettingsDTO != null) {
+			storeSettingsDTO = storeSettingsResourceApi.createStoreSettingsUsingPOST(storeSettingsDTO).getBody();
+		}
+
 		List<DeliveryInfoDTO> deliveryInfos = storeBundleDTO.getDeliveryInfos();
 		List<DeliveryInfoDTO> savedDeliveryInfos = new ArrayList<DeliveryInfoDTO>();
-		
-		deliveryInfos.forEach(deliveryInfo->{
-			
-			savedDeliveryInfos.add(deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfo).getBody());
-		});
-		
+
+		if (deliveryInfos != null) {
+
+			deliveryInfos.forEach(deliveryInfo -> {
+
+				savedDeliveryInfos.add(deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfo).getBody());
+			});
+		}
+
 		List<TypeDTO> types = storeBundleDTO.getTypes();
 		List<TypeDTO> savedTypes = new ArrayList<TypeDTO>();
 		
-		types.forEach(type->{
-			
-			savedTypes.add(typeResourceApi.createTypeUsingPOST(type).getBody());
-			
-		});
-		
-		
-	    List<StoreTypeDTO> storeType= storeBundleDTO.getStoreType();
-	    List<StoreTypeDTO> savedStoreType = new ArrayList<StoreTypeDTO>();
-	    
-	    storeType.forEach(storetype->{
-	    	
-	    	savedStoreType.add(storeTypeResourceApi.createStoreTypeUsingPOST(storetype).getBody());
-	    });
-	    
-	    List<BannerDTO> banners = storeBundleDTO.getBanners();
-	    List<BannerDTO> savedBanners = new ArrayList<BannerDTO>();
+		if (types != null) {
+			types.forEach(type -> {
 
-	    banners.forEach(banner->{
-	    	savedBanners.add(bannerResourceApi.createBannerUsingPOST(banner).getBody());
-	    });
-		
-	    StoreBundleDTO storeBundle = new StoreBundleDTO();
-	    
-	    storeBundle.setBanners(savedBanners);
-	    storeBundle.setDeliveryInfos(savedDeliveryInfos);
-	    storeBundle.setStoreType(savedStoreType);
-	    storeBundle.setTypes(savedTypes);
-	    storeBundle.setStore(storeDTO);
-	    storeBundle.setStoreAddress(storeAddressDTO);
-	    storeBundle.setStoreSettings(storeSettingsDTO);
+				savedTypes.add(typeResourceApi.createTypeUsingPOST(type).getBody());
 
-	    
+			});
+		}
+
+		List<StoreTypeDTO> storeType = storeBundleDTO.getStoreType();
+		List<StoreTypeDTO> savedStoreType = new ArrayList<StoreTypeDTO>();
+
+		if (storeType != null) {
+
+			storeType.forEach(storetype -> {
+
+				savedStoreType.add(storeTypeResourceApi.createStoreTypeUsingPOST(storetype).getBody());
+			});
+		}
+
+		List<BannerDTO> banners = storeBundleDTO.getBanners();
+		List<BannerDTO> savedBanners = new ArrayList<BannerDTO>();
+		
+		if (storeType != null) {
+			banners.forEach(banner -> {
+				savedBanners.add(bannerResourceApi.createBannerUsingPOST(banner).getBody());
+			});
+		}
+
+		StoreBundleDTO storeBundle = new StoreBundleDTO();
+
+		storeBundle.setBanners(savedBanners);
+		storeBundle.setDeliveryInfos(savedDeliveryInfos);
+		storeBundle.setStoreType(savedStoreType);
+		storeBundle.setTypes(savedTypes);
+		storeBundle.setStore(storeDTO);
+		storeBundle.setStoreAddress(storeAddressDTO);
+		storeBundle.setStoreSettings(storeSettingsDTO);
+
 		return ResponseEntity.ok().body(storeBundle);
 	}
 
