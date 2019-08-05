@@ -368,15 +368,19 @@ public class QueryResource {
 		StoreAddress storeAdrress = store.getStoreAddress();
 
 		StoreSettings storeSettings = store.getStoreSettings();
-
+		
+ 
 		StoreDTO storeDTO = storeResourceApi.getStoreUsingGET(store.getId()).getBody();
-
+        
+       
 		StoreAddressDTO storeAddressDTO = storeAddressResourceApi.getStoreAddressUsingGET(storeAdrress.getId())
 				.getBody();
-
+       
+       
+      
 		StoreSettingsDTO storeSettingsDTO = storeSettingsResourceApi.getStoreSettingsUsingGET(storeSettings.getId())
 				.getBody();
-
+      
 		List<DeliveryInfoDTO> deliveryDTOs = deliveryInfoResourceApi
 				.listToDtoUsingPOST(queryService.findDeliveryInfoByStoreId(storeDTO.getId()).getContent()).getBody();
 
@@ -400,7 +404,11 @@ public class QueryResource {
 		bundle.setBanners(bannerDTO);
 
 		bundle.setStoreType(storeTypeDTO);
-
+		
+		bundle.setStoreSettings(storeSettingsDTO);
+		
+		bundle.setStoreAddress(storeAddressDTO);
+		
 		return ResponseEntity.ok().body(bundle);
 
 	}
