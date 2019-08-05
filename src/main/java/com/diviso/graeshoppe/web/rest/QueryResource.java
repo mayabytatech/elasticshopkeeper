@@ -485,10 +485,10 @@ public class QueryResource {
 
 	}
 	
-	@GetMapping("/auxilary-products")
-	public  ResponseEntity<Page<Product>> getAllAuxilaryProduct(){
-		//ResponseEntity.ok().body(queryService.findAllAuxilaryProducts());
-		return null;
+	@GetMapping("/auxilary-products/{storeId}")
+	public  ResponseEntity<Page<Product>> getAllAuxilaryProduct(@PathVariable String storeId){
+		return ResponseEntity.ok().body(queryService.findAllAuxilaryProducts(storeId));
+		
 	}
 
 	@GetMapping("/delivery-Types/{storeId}")

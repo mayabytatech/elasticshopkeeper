@@ -439,21 +439,27 @@ public class QueryServiceImpl implements QueryService {
 
 		}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllCategories(org.
-	 * springframework.data.domain.Pageable)
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllAuxilaryProducts()
 	 */
+	@Override
+	public Page<Product> findAllAuxilaryProducts(String storeId) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", storeId)).build();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.diviso.graeshoppe.service.QueryService#findAllCategories(java.lang.
-	 * String)
-	 */
+		 List<Product> products = elasticsearchOperations.queryForList(searchQuery, Product.class);
+
+		 List<Product> auxilaryProducts = new ArrayList<Product>();
+		 products.forEach(p->{
+			 
+			 if(p.isIsAuxilaryItem().equals(true)){
+				 auxilaryProducts.add(p);
+			 }
+		 });
+		 
+		 return new PageImpl(auxilaryProducts);
+	}
+
+
 
 	/*
 	 * @Override public Page<Category> findAllCategories(String storeId) {
