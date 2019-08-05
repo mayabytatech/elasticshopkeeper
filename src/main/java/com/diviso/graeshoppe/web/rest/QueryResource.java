@@ -368,30 +368,44 @@ public class QueryResource {
 		StoreAddress storeAdrress = store.getStoreAddress();
 
 		StoreSettings storeSettings = store.getStoreSettings();
-		
- 
-		StoreDTO storeDTO = storeResourceApi.getStoreUsingGET(store.getId()).getBody();
-        
-       
-		StoreAddressDTO storeAddressDTO = storeAddressResourceApi.getStoreAddressUsingGET(storeAdrress.getId())
-				.getBody();
-       
-       
-      
-		StoreSettingsDTO storeSettingsDTO = storeSettingsResourceApi.getStoreSettingsUsingGET(storeSettings.getId())
-				.getBody();
-      
-		List<DeliveryInfoDTO> deliveryDTOs = deliveryInfoResourceApi
-				.listToDtoUsingPOST(queryService.findDeliveryInfoByStoreId(storeDTO.getId()).getContent()).getBody();
 
-		List<TypeDTO> typeDTOs = typeResourceApi.listToDtoUsingPOST3(queryService.findAllDeliveryTypesByStoreId(regNo))
-				.getBody();
+		StoreDTO storeDTO=new StoreDTO();
 
-		List<StoreTypeDTO> storeTypeDTO = storeTypeResourceApi
-				.listToDtoUsingPOST2(queryService.findAllStoreTypesByStoreId(regNo)).getBody();
+		List<DeliveryInfoDTO> deliveryDTOs = new ArrayList<DeliveryInfoDTO>();
 
-		List<BannerDTO> bannerDTO = bannerResourceApi.listToDtoUsingPOST(queryService.findAllBannersByStoreId(regNo))
-				.getBody();
+		List<TypeDTO> typeDTOs = new ArrayList<TypeDTO>();
+
+		List<StoreTypeDTO> storeTypeDTO = new ArrayList<StoreTypeDTO>();
+
+		List<BannerDTO> bannerDTO = new ArrayList<BannerDTO>();
+
+		if (store != null) {
+			storeDTO = storeResourceApi.getStoreUsingGET(store.getId()).getBody();
+
+			deliveryDTOs.addAll(deliveryInfoResourceApi
+					.listToDtoUsingPOST(queryService.findDeliveryInfoByStoreId(storeDTO.getId()).getContent())
+					.getBody());
+
+			typeDTOs.addAll(
+					typeResourceApi.listToDtoUsingPOST3(queryService.findAllDeliveryTypesByStoreId(regNo)).getBody());
+
+			storeTypeDTO.addAll(
+					storeTypeResourceApi.listToDtoUsingPOST2(queryService.findAllStoreTypesByStoreId(regNo)).getBody());
+
+			bannerDTO.addAll(
+					bannerResourceApi.listToDtoUsingPOST(queryService.findAllBannersByStoreId(regNo)).getBody());
+		}
+		StoreAddressDTO storeAddressDTO = new StoreAddressDTO();
+		if (storeAdrress != null) {
+			storeAddressDTO = storeAddressResourceApi.getStoreAddressUsingGET(storeAdrress.getId()).getBody();
+
+		}
+
+		StoreSettingsDTO storeSettingsDTO =new StoreSettingsDTO();
+
+		if (storeSettings != null) {
+			storeSettingsDTO = storeSettingsResourceApi.getStoreSettingsUsingGET(storeSettings.getId()).getBody();
+		}
 
 		StoreBundleDTO bundle = new StoreBundleDTO();
 
@@ -404,11 +418,11 @@ public class QueryResource {
 		bundle.setBanners(bannerDTO);
 
 		bundle.setStoreType(storeTypeDTO);
-		
+
 		bundle.setStoreSettings(storeSettingsDTO);
-		
+
 		bundle.setStoreAddress(storeAddressDTO);
-		
+
 		return ResponseEntity.ok().body(bundle);
 
 	}
