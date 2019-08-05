@@ -484,6 +484,11 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findNotAuxNotComboProductsByIDPcode(iDPcode, pageable));
 
 	}
+	
+	/*@GetMapping("/auxilary-products")
+	public  ResponseEntity<Page<Product>> getAllAuxilaryProduct(){
+		ResponseEntity.ok().body(queryService.findAllAuxilaryProducts());
+	}*/
 
 	@GetMapping("/delivery-Types/{storeId}")
 	public List<Type> findAllDeliveryTypesByStoreId(@PathVariable String storeId) {
