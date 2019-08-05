@@ -44,12 +44,14 @@ import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
 import com.diviso.graeshoppe.client.sale.model.TicketLineDTO;
+import com.diviso.graeshoppe.client.store.api.BannerResourceApi;
 import com.diviso.graeshoppe.client.store.api.DeliveryInfoResourceApi;
 import com.diviso.graeshoppe.client.store.api.ReplyResourceApi;
 import com.diviso.graeshoppe.client.store.api.ReviewResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
 import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
+import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
 import com.diviso.graeshoppe.client.store.model.ReviewDTO;
@@ -108,6 +110,8 @@ public class CommandResource {
 	@Autowired
 	ComboLineItemResourceApi comboLineItemResourceApi;
 	
+	@Autowired
+	BannerResourceApi bannerResourceApi;
 /*
 	@Autowired
 	LoadControllerApi loadControllerApi;*/
@@ -376,9 +380,44 @@ public class CommandResource {
 		return this.auxilaryLineItemResourceApi.createAuxilaryLineItemUsingPOST(auxilaryLineItemDTO);
 	}
 	
+	@PutMapping("/auxilarylineitem")
+	public ResponseEntity<AuxilaryLineItemDTO> updateAuxilaryLineItem(@RequestBody AuxilaryLineItemDTO auxilaryLineItemDTO) {
+		return this.auxilaryLineItemResourceApi.updateAuxilaryLineItemUsingPUT(auxilaryLineItemDTO);
+	}
+	
+	@DeleteMapping("/auxilarylineitem/{id}")
+	public ResponseEntity<Void> deleteAuxilaryLineIteam(@PathVariable Long id) {
+		return this.auxilaryLineItemResourceApi.deleteAuxilaryLineItemUsingDELETE(id);
+	}
+
+	
 	@PostMapping("/combolineitem")
 	public ResponseEntity<ComboLineItemDTO> createComboLineItem(@RequestBody ComboLineItemDTO comboLineItemDTO) {
 		return this.comboLineItemResourceApi.createComboLineItemUsingPOST(comboLineItemDTO);
 	}
 
+	@PutMapping("/combolineitem")
+	public ResponseEntity<ComboLineItemDTO> updateComboLineItem(@RequestBody ComboLineItemDTO comboLineItemDTO) {
+		return this.comboLineItemResourceApi.updateComboLineItemUsingPUT(comboLineItemDTO);
+	}
+	
+	@DeleteMapping("/combolineitem/{id}")
+	public ResponseEntity<Void> deleteComboLineItem(@PathVariable Long id) {
+		return this.comboLineItemResourceApi.deleteComboLineItemUsingDELETE(id);
+	}
+	
+	@PostMapping("/banner")
+	public ResponseEntity<BannerDTO> createBanner(@RequestBody BannerDTO bannerDTO) {
+		return this.bannerResourceApi.createBannerUsingPOST(bannerDTO);
+	}
+	
+	@PutMapping("/banner")
+	public ResponseEntity<BannerDTO> updateBanner(@RequestBody BannerDTO bannerDTO) {
+		return this.bannerResourceApi.updateBannerUsingPUT(bannerDTO);
+	}
+	
+	@DeleteMapping("/banner/{id}")
+	public ResponseEntity<Void> deleteBanner(@PathVariable Long id) {
+		return this.bannerResourceApi.deleteBannerUsingDELETE(id);
+	}
 }

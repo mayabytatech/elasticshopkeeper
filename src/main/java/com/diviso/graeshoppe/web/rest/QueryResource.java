@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,6 +26,7 @@ import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.order.domain.Order;
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
+import com.diviso.graeshoppe.client.product.api.ComboLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockEntryResourceApi;
@@ -33,6 +35,7 @@ import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
+import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
@@ -41,6 +44,7 @@ import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOM;
+import com.diviso.graeshoppe.client.product.model.UOMDTO;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
@@ -113,6 +117,9 @@ public class QueryResource {
 	@Autowired
 	private BannerResourceApi bannerResourceApi;
 
+	@Autowired
+	ComboLineItemResourceApi comboLineItemResourceApi;
+	
 	@Autowired
 	private AuxilaryLineItemResourceApi auxilaryLineItemResourceApi;
 
@@ -376,7 +383,6 @@ public class QueryResource {
 
 	}
 
-
 	@GetMapping("/ordersbystoreId/{storeId}")
 	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId, Pageable pageable) {
 
@@ -397,10 +403,34 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findUOMByIDPcode(iDPcode, pageable));
 	}
 
-	
+	@GetMapping("/uom/{id}")
+	public ResponseEntity<UOMDTO> findUOM(@PathVariable Long id) {
+		return uomResourceApi.getUOMUsingGET(id);
+	}
+
+	@GetMapping("/store/{id}")
+	public ResponseEntity<StoreDTO> findStore(@PathVariable Long id) {
+		return storeResourceApi.getStoreUsingGET(id);
+	}
+
 	@GetMapping("/category/{id}")
 	public ResponseEntity<CategoryDTO> findCategory(@PathVariable Long id) {
 		return categoryResourceApi.getCategoryUsingGET(id);
+	}
+
+	@GetMapping("/auxilaryitem/{id}")
+	public ResponseEntity<AuxilaryLineItemDTO> findAuxilaryLineItem(@PathVariable Long id) {
+		return auxilaryLineItemResourceApi.getAuxilaryLineItemUsingGET(id);
+	}
+	
+	@GetMapping("/combolineitem/{id}")
+	public ResponseEntity<ComboLineItemDTO> findCombolineItem(@PathVariable Long id) {
+		return comboLineItemResourceApi.getComboLineItemUsingGET(id);
+	}
+
+	@GetMapping("/banner/{id}")
+	public ResponseEntity<BannerDTO> findBanner(@PathVariable Long id) {
+		return bannerResourceApi.getBannerUsingGET(id);
 	}
 	
 	@GetMapping("/not-aux-combo-products/{iDPcode}")
@@ -410,5 +440,5 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findNotAuxNotComboProductsByIDPcode(iDPcode, pageable));
 
 	}
-	
+
 }
