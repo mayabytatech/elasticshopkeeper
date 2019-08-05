@@ -142,13 +142,6 @@ public interface QueryService {
 	 */
 	public Page<Product> findNotAuxNotComboProductsByIDPcode(String iDPcode, Pageable pageable);
 
-	/**
-	 * @param storeId
-	 * @param pageable
-	 * @return
-	 */
-	public Page<Type> findAllDeliveryTypesByStoreId(Long storeId, Pageable pageable);
-
 	
 	
 }

@@ -416,20 +416,13 @@ public class QueryServiceImpl implements QueryService {
 		return new PageImpl(notAuxNotComboProducts);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.diviso.graeshoppe.service.QueryService#findAllDeliveryTypesByStoreId(java.lang.String)
-	 */
-	@Override
-	public List<Type> findAllDeliveryTypesByStoreId(String storeId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	/* (non-Javadoc)
 	 * @see com.diviso.graeshoppe.service.QueryService#findAllDeliveryTypesByStoreId(java.lang.Long, org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public Page<Type> findAllDeliveryTypesByStoreId(Long storeId, Pageable pageable) {
+	public List<Type> findAllDeliveryTypesByStoreId(String storeId) {
 		
 			SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
 
@@ -442,9 +435,10 @@ public class QueryServiceImpl implements QueryService {
 
 			});
 
-			return new PageImpl(types);
+			return types;
 
 		}
+
 
 	/*
 	 * (non-Javadoc)

@@ -464,9 +464,9 @@ public class QueryResource {
 	}
 
 	@GetMapping("/delivery-Types/{storeId}")
-	public Page<Type> findAllDeliveryTypesByStoreId(@PathVariable Long storeId, Pageable pageable) {
+	public List<Type> findAllDeliveryTypesByStoreId(@PathVariable String storeId) {
 
-		return queryService.findAllDeliveryTypesByStoreId(storeId, pageable);
+		return queryService.findAllDeliveryTypesByStoreId(storeId);
 
 	}
 }
