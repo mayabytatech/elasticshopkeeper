@@ -145,7 +145,7 @@ public interface QueryService {
 	/**
 	 * @return
 	 */
-	public Page<Product> findAllAuxilaryProducts();
+	//public Page<Product> findAllAuxilaryProducts();
 
 	
 	
