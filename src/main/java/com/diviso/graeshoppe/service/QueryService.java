@@ -142,6 +142,11 @@ public interface QueryService {
 	 */
 	public Page<Product> findNotAuxNotComboProductsByIDPcode(String iDPcode, Pageable pageable);
 
+	/**
+	 * @return
+	 */
+	public Page<Product> findAllAuxilaryProducts();
+
 	
 	
 }

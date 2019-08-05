@@ -173,11 +173,17 @@ public class CommandResource {
 		return this.contactResourceApi.updateContactUsingPUT(contact);
 	}
 
+	
+	
 	@DeleteMapping("/contacts/{id}")
 	public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
 		return this.contactResourceApi.deleteContactUsingDELETE(id);
 	}
 
+	@DeleteMapping("/store-types/{id}")
+	public ResponseEntity<Void> deleteStoreType(@PathVariable Long id) {
+		return this.storeTypeResourceApi.deleteStoreTypeUsingDELETE(id);
+	}
 	@PutMapping("/categories")
 	public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO) {
 		return categoryResourceApi.updateCategoryUsingPUT(categoryDTO);
