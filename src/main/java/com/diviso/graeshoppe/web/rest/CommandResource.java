@@ -451,17 +451,29 @@ public class CommandResource {
 		
 		StoreDTO storeDTO = storeBundleDTO.getStore();
 		if (storeDTO != null) {
+			if(storeDTO.getId()==null){
 			storeDTO = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
+			}else{
+				storeDTO = storeResourceApi.updateStoreUsingPUT(storeDTO).getBody();
+			}
 		}
 
 		StoreAddressDTO storeAddressDTO = storeBundleDTO.getStoreAddress();
 		if (storeAddressDTO != null) {
+			if(storeAddressDTO.getId()==null){
 			storeAddressDTO = storeAddressResourceApi.createStoreAddressUsingPOST(storeAddressDTO).getBody();
+			}else{
+				storeAddressDTO = storeAddressResourceApi.updateStoreAddressUsingPUT(storeAddressDTO).getBody();
+			}
 		}
 
 		StoreSettingsDTO storeSettingsDTO = storeBundleDTO.getStoreSettings();
 		if (storeSettingsDTO != null) {
+			if(storeSettingsDTO.getId()==null){
 			storeSettingsDTO = storeSettingsResourceApi.createStoreSettingsUsingPOST(storeSettingsDTO).getBody();
+			}else{
+				storeSettingsDTO = storeSettingsResourceApi.updateStoreSettingsUsingPUT(storeSettingsDTO).getBody();
+			}
 		}
 
 		List<DeliveryInfoDTO> deliveryInfos = storeBundleDTO.getDeliveryInfos();
@@ -471,7 +483,11 @@ public class CommandResource {
 
 			deliveryInfos.forEach(deliveryInfo -> {
 
+				if(deliveryInfo.getId()==null){
 				savedDeliveryInfos.add(deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfo).getBody());
+				}else{
+					savedDeliveryInfos.add(deliveryInfoResourceApi.updateDeliveryInfoUsingPUT(deliveryInfo).getBody());
+				}
 			});
 		}
 
@@ -480,9 +496,12 @@ public class CommandResource {
 		
 		if (types != null) {
 			types.forEach(type -> {
-
+                
+				if(type.getId()==null){
 				savedTypes.add(typeResourceApi.createTypeUsingPOST(type).getBody());
-
+				}else{
+					savedTypes.add(typeResourceApi.updateTypeUsingPUT(type).getBody());
+				}
 			});
 		}
 
@@ -492,8 +511,12 @@ public class CommandResource {
 		if (storeType != null) {
 
 			storeType.forEach(storetype -> {
+				if(storetype.getId()==null){
 
 				savedStoreType.add(storeTypeResourceApi.createStoreTypeUsingPOST(storetype).getBody());
+				}else{
+					savedStoreType.add(storeTypeResourceApi.updateStoreTypeUsingPUT(storetype).getBody());
+				}
 			});
 		}
 
@@ -502,7 +525,11 @@ public class CommandResource {
 		
 		if (storeType != null) {
 			banners.forEach(banner -> {
+				if(banner.getId()==null){
 				savedBanners.add(bannerResourceApi.createBannerUsingPOST(banner).getBody());
+				}else{
+					savedBanners.add(bannerResourceApi.updateBannerUsingPUT(banner).getBody());
+				}
 			});
 		}
 
