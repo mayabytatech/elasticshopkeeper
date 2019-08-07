@@ -508,4 +508,9 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findCategoryById(id));
 	}
 	
+	
+	@GetMapping("/uombyid/{id}")
+	public ResponseEntity<UOM> findUOMById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(queryService.findUOMById(id));
+	}
 }
