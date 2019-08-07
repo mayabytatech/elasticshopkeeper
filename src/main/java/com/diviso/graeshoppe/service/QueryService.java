@@ -159,6 +159,12 @@ public interface QueryService {
 	 */
 	public Category findCategoryById(Long id);
 
+	/**
+	 * @param id
+	 * @return
+	 */
+	public UOM findUOMById(Long id);
+
 	
 	
 }

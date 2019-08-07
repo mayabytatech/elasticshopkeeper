@@ -477,6 +477,15 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForObject(stringQuery, Category.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findUOMById(java.lang.Long)
+	 */
+	@Override
+	public UOM findUOMById(Long id) {
+		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, UOM.class);
+	}
+
 
 
 	/*
