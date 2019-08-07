@@ -1,121 +1,206 @@
- /*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.diviso.graeshoppe.client.order.model;
 
-import java.io.Serializable;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
- * TODO Provide a detailed description here 
- * @author MayaSanjeev
- * mayabytatech, maya.k.k@lxisoft.com
+ * OrderLineDTO
  */
-public class OrderLineDTO implements Serializable {
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-06T14:01:39.473+05:30[Asia/Calcutta]")
 
-    private Long id;
+public class OrderLineDTO   {
+  @JsonProperty("id")
+  private Long id = null;
 
-    private Long productId;
+  @JsonProperty("orderId")
+  private Long orderId = null;
 
-    private Integer quantity;
+  @JsonProperty("pricePerUnit")
+  private Double pricePerUnit = null;
 
-    private Double pricePerUnit;
+  @JsonProperty("productId")
+  private Long productId = null;
 
-    private Double total;
+  @JsonProperty("quantity")
+  private Integer quantity = null;
+
+  @JsonProperty("total")
+  private Double total = null;
+
+  public OrderLineDTO id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
 
 
-    private Long orderId;
+  public Long getId() {
+    return id;
+  }
 
-    public Long getId() {
-        return id;
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public OrderLineDTO orderId(Long orderId) {
+    this.orderId = orderId;
+    return this;
+  }
+
+  /**
+   * Get orderId
+   * @return orderId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getOrderId() {
+    return orderId;
+  }
+
+  public void setOrderId(Long orderId) {
+    this.orderId = orderId;
+  }
+
+  public OrderLineDTO pricePerUnit(Double pricePerUnit) {
+    this.pricePerUnit = pricePerUnit;
+    return this;
+  }
+
+  /**
+   * Get pricePerUnit
+   * @return pricePerUnit
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getPricePerUnit() {
+    return pricePerUnit;
+  }
+
+  public void setPricePerUnit(Double pricePerUnit) {
+    this.pricePerUnit = pricePerUnit;
+  }
+
+  public OrderLineDTO productId(Long productId) {
+    this.productId = productId;
+    return this;
+  }
+
+  /**
+   * Get productId
+   * @return productId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getProductId() {
+    return productId;
+  }
+
+  public void setProductId(Long productId) {
+    this.productId = productId;
+  }
+
+  public OrderLineDTO quantity(Integer quantity) {
+    this.quantity = quantity;
+    return this;
+  }
+
+  /**
+   * Get quantity
+   * @return quantity
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Integer getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
+  }
+
+  public OrderLineDTO total(Double total) {
+    this.total = total;
+    return this;
+  }
+
+  /**
+   * Get total
+   * @return total
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getTotal() {
+    return total;
+  }
+
+  public void setTotal(Double total) {
+    this.total = total;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    OrderLineDTO orderLineDTO = (OrderLineDTO) o;
+    return Objects.equals(this.id, orderLineDTO.id) &&
+        Objects.equals(this.orderId, orderLineDTO.orderId) &&
+        Objects.equals(this.pricePerUnit, orderLineDTO.pricePerUnit) &&
+        Objects.equals(this.productId, orderLineDTO.productId) &&
+        Objects.equals(this.quantity, orderLineDTO.quantity) &&
+        Objects.equals(this.total, orderLineDTO.total);
+  }
 
-    public Long getProductId() {
-        return productId;
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, orderId, pricePerUnit, productId, quantity, total);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class OrderLineDTO {\n");
+    
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    orderId: ").append(toIndentedString(orderId)).append("\n");
+    sb.append("    pricePerUnit: ").append(toIndentedString(pricePerUnit)).append("\n");
+    sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
+    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    total: ").append(toIndentedString(total)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getPricePerUnit() {
-        return pricePerUnit;
-    }
-
-    public void setPricePerUnit(Double pricePerUnit) {
-        this.pricePerUnit = pricePerUnit;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal(Double total) {
-        this.total = total;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        OrderLineDTO orderLineDTO = (OrderLineDTO) o;
-        if (orderLineDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), orderLineDTO.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "OrderLineDTO{" +
-            "id=" + getId() +
-            ", productId=" + getProductId() +
-            ", quantity=" + getQuantity() +
-            ", pricePerUnit=" + getPricePerUnit() +
-            ", total=" + getTotal() +
-            ", order=" + getOrderId() +
-            "}";
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

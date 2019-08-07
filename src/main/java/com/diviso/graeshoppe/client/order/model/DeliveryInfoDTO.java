@@ -1,114 +1,183 @@
- /*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.diviso.graeshoppe.client.order.model;
 
-import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
-
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.time.Instant;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
- * TODO Provide a detailed description here 
- * @author MayaSanjeev
- * mayabytatech, maya.k.k@lxisoft.com
+ * DeliveryInfoDTO
  */
-public class DeliveryInfoDTO implements Serializable {
+@Validated
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-06T14:01:39.473+05:30[Asia/Calcutta]")
 
-    private Long id;
+public class DeliveryInfoDTO   {
+  @JsonProperty("deliveryAddressId")
+  private Long deliveryAddressId = null;
 
-    private String deliveryType;
+  @JsonProperty("deliveryCharge")
+  private Double deliveryCharge = null;
 
-    private Instant expectedDelivery;
+  @JsonProperty("deliveryType")
+  private String deliveryType = null;
 
-    private Double deliveryCharge;
+  @JsonProperty("expectedDelivery")
+  private Instant expectedDelivery = null;
+
+  @JsonProperty("id")
+  private Long id = null;
+
+  public DeliveryInfoDTO deliveryAddressId(Long deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
+    return this;
+  }
+
+  /**
+   * Get deliveryAddressId
+   * @return deliveryAddressId
+  **/
+  @ApiModelProperty(value = "")
 
 
-    private Long deliveryAddressId;
+  public Long getDeliveryAddressId() {
+    return deliveryAddressId;
+  }
 
-    public Long getId() {
-        return id;
+  public void setDeliveryAddressId(Long deliveryAddressId) {
+    this.deliveryAddressId = deliveryAddressId;
+  }
+
+  public DeliveryInfoDTO deliveryCharge(Double deliveryCharge) {
+    this.deliveryCharge = deliveryCharge;
+    return this;
+  }
+
+  /**
+   * Get deliveryCharge
+   * @return deliveryCharge
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getDeliveryCharge() {
+    return deliveryCharge;
+  }
+
+  public void setDeliveryCharge(Double deliveryCharge) {
+    this.deliveryCharge = deliveryCharge;
+  }
+
+  public DeliveryInfoDTO deliveryType(String deliveryType) {
+    this.deliveryType = deliveryType;
+    return this;
+  }
+
+  /**
+   * Get deliveryType
+   * @return deliveryType
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getDeliveryType() {
+    return deliveryType;
+  }
+
+  public void setDeliveryType(String deliveryType) {
+    this.deliveryType = deliveryType;
+  }
+
+  public DeliveryInfoDTO expectedDelivery(Instant expectedDelivery) {
+    this.expectedDelivery = expectedDelivery;
+    return this;
+  }
+
+  /**
+   * Get expectedDelivery
+   * @return expectedDelivery
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Instant getExpectedDelivery() {
+    return expectedDelivery;
+  }
+
+  public void setExpectedDelivery(Instant expectedDelivery) {
+    this.expectedDelivery = expectedDelivery;
+  }
+
+  public DeliveryInfoDTO id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    DeliveryInfoDTO deliveryInfoDTO = (DeliveryInfoDTO) o;
+    return Objects.equals(this.deliveryAddressId, deliveryInfoDTO.deliveryAddressId) &&
+        Objects.equals(this.deliveryCharge, deliveryInfoDTO.deliveryCharge) &&
+        Objects.equals(this.deliveryType, deliveryInfoDTO.deliveryType) &&
+        Objects.equals(this.expectedDelivery, deliveryInfoDTO.expectedDelivery) &&
+        Objects.equals(this.id, deliveryInfoDTO.id);
+  }
 
-    public String getDeliveryType() {
-        return deliveryType;
+  @Override
+  public int hashCode() {
+    return Objects.hash(deliveryAddressId, deliveryCharge, deliveryType, expectedDelivery, id);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class DeliveryInfoDTO {\n");
+    
+    sb.append("    deliveryAddressId: ").append(toIndentedString(deliveryAddressId)).append("\n");
+    sb.append("    deliveryCharge: ").append(toIndentedString(deliveryCharge)).append("\n");
+    sb.append("    deliveryType: ").append(toIndentedString(deliveryType)).append("\n");
+    sb.append("    expectedDelivery: ").append(toIndentedString(expectedDelivery)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public void setDeliveryType(String deliveryType) {
-        this.deliveryType = deliveryType;
-    }
-
-    public Instant getExpectedDelivery() {
-        return expectedDelivery;
-    }
-
-    public void setExpectedDelivery(Instant expectedDelivery) {
-        this.expectedDelivery = expectedDelivery;
-    }
-
-    public Double getDeliveryCharge() {
-        return deliveryCharge;
-    }
-
-    public void setDeliveryCharge(Double deliveryCharge) {
-        this.deliveryCharge = deliveryCharge;
-    }
-
-    public Long getDeliveryAddressId() {
-        return deliveryAddressId;
-    }
-
-    public void setDeliveryAddressId(Long addressId) {
-        this.deliveryAddressId = addressId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        DeliveryInfoDTO deliveryInfoDTO = (DeliveryInfoDTO) o;
-        if (deliveryInfoDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), deliveryInfoDTO.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "DeliveryInfoDTO{" +
-            "id=" + getId() +
-            ", deliveryType='" + getDeliveryType() + "'" +
-            ", expectedDelivery='" + getExpectedDelivery() + "'" +
-            ", deliveryCharge=" + getDeliveryCharge() +
-            ", deliveryAddress=" + getDeliveryAddressId() +
-            "}";
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
 
