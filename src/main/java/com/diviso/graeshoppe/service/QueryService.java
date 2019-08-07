@@ -147,6 +147,18 @@ public interface QueryService {
 	 */
 	public Page<Product> findAllAuxilaryProducts(String storeId);
 
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Product findProductById(Long id);
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Category findCategoryById(Long id);
+
 	
 	
 }

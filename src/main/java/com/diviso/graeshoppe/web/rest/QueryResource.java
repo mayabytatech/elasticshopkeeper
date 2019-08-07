@@ -497,4 +497,15 @@ public class QueryResource {
 		return queryService.findAllDeliveryTypesByStoreId(storeId);
 
 	}
+	
+	@GetMapping("/product/{id}")
+	public ResponseEntity<Product> findProductById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(queryService.findProductById(id));
+	}
+	
+	@GetMapping("/categorybyid/{id}")
+	public ResponseEntity<Category> findCategoryById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(queryService.findCategoryById(id));
+	}
+	
 }

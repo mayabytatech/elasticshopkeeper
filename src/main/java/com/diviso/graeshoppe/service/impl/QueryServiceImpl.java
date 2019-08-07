@@ -459,6 +459,24 @@ public class QueryServiceImpl implements QueryService {
 		 return new PageImpl(auxilaryProducts);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findProductById(java.lang.Long)
+	 */
+	@Override
+	public Product findProductById(Long id) {
+		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, Product.class);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findCategoryById(java.lang.Long)
+	 */
+	@Override
+	public Category findCategoryById(Long id) {
+		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, Category.class);
+	}
+
 
 
 	/*
