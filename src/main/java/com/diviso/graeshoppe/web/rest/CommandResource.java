@@ -173,8 +173,6 @@ public class CommandResource {
 		return this.contactResourceApi.updateContactUsingPUT(contact);
 	}
 
-	
-	
 	@DeleteMapping("/contacts/{id}")
 	public ResponseEntity<Void> deleteContact(@PathVariable Long id) {
 		return this.contactResourceApi.deleteContactUsingDELETE(id);
@@ -184,6 +182,7 @@ public class CommandResource {
 	public ResponseEntity<Void> deleteStoreType(@PathVariable Long id) {
 		return this.storeTypeResourceApi.deleteStoreTypeUsingDELETE(id);
 	}
+
 	@PutMapping("/categories")
 	public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO) {
 		return categoryResourceApi.updateCategoryUsingPUT(categoryDTO);
@@ -448,30 +447,23 @@ public class CommandResource {
 
 	@PostMapping("/storeBundle")
 	public ResponseEntity<StoreBundleDTO> createStoreBundle(@RequestBody StoreBundleDTO storeBundleDTO) {
-		
+
 		StoreDTO storeDTO = storeBundleDTO.getStore();
-		if (storeDTO != null) {
-			if(storeDTO.getId()==null){
-			storeDTO = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
-			}else{
-				storeDTO = storeResourceApi.updateStoreUsingPUT(storeDTO).getBody();
-			}
-		}
 
 		StoreAddressDTO storeAddressDTO = storeBundleDTO.getStoreAddress();
 		if (storeAddressDTO != null) {
-			if(storeAddressDTO.getId()==null){
-			storeAddressDTO = storeAddressResourceApi.createStoreAddressUsingPOST(storeAddressDTO).getBody();
-			}else{
+			if (storeAddressDTO.getId() == null) {
+				storeAddressDTO = storeAddressResourceApi.createStoreAddressUsingPOST(storeAddressDTO).getBody();
+			} else {
 				storeAddressDTO = storeAddressResourceApi.updateStoreAddressUsingPUT(storeAddressDTO).getBody();
 			}
 		}
 
 		StoreSettingsDTO storeSettingsDTO = storeBundleDTO.getStoreSettings();
 		if (storeSettingsDTO != null) {
-			if(storeSettingsDTO.getId()==null){
-			storeSettingsDTO = storeSettingsResourceApi.createStoreSettingsUsingPOST(storeSettingsDTO).getBody();
-			}else{
+			if (storeSettingsDTO.getId() == null) {
+				storeSettingsDTO = storeSettingsResourceApi.createStoreSettingsUsingPOST(storeSettingsDTO).getBody();
+			} else {
 				storeSettingsDTO = storeSettingsResourceApi.updateStoreSettingsUsingPUT(storeSettingsDTO).getBody();
 			}
 		}
@@ -483,9 +475,9 @@ public class CommandResource {
 
 			deliveryInfos.forEach(deliveryInfo -> {
 
-				if(deliveryInfo.getId()==null){
-				savedDeliveryInfos.add(deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfo).getBody());
-				}else{
+				if (deliveryInfo.getId() == null) {
+					savedDeliveryInfos.add(deliveryInfoResourceApi.createDeliveryInfoUsingPOST(deliveryInfo).getBody());
+				} else {
 					savedDeliveryInfos.add(deliveryInfoResourceApi.updateDeliveryInfoUsingPUT(deliveryInfo).getBody());
 				}
 			});
@@ -493,13 +485,13 @@ public class CommandResource {
 
 		List<TypeDTO> types = storeBundleDTO.getTypes();
 		List<TypeDTO> savedTypes = new ArrayList<TypeDTO>();
-		
+
 		if (types != null) {
 			types.forEach(type -> {
-                
-				if(type.getId()==null){
-				savedTypes.add(typeResourceApi.createTypeUsingPOST(type).getBody());
-				}else{
+
+				if (type.getId() == null) {
+					savedTypes.add(typeResourceApi.createTypeUsingPOST(type).getBody());
+				} else {
 					savedTypes.add(typeResourceApi.updateTypeUsingPUT(type).getBody());
 				}
 			});
@@ -511,10 +503,10 @@ public class CommandResource {
 		if (storeType != null) {
 
 			storeType.forEach(storetype -> {
-				if(storetype.getId()==null){
+				if (storetype.getId() == null) {
 
-				savedStoreType.add(storeTypeResourceApi.createStoreTypeUsingPOST(storetype).getBody());
-				}else{
+					savedStoreType.add(storeTypeResourceApi.createStoreTypeUsingPOST(storetype).getBody());
+				} else {
 					savedStoreType.add(storeTypeResourceApi.updateStoreTypeUsingPUT(storetype).getBody());
 				}
 			});
@@ -522,12 +514,12 @@ public class CommandResource {
 
 		List<BannerDTO> banners = storeBundleDTO.getBanners();
 		List<BannerDTO> savedBanners = new ArrayList<BannerDTO>();
-		
+
 		if (storeType != null) {
 			banners.forEach(banner -> {
-				if(banner.getId()==null){
-				savedBanners.add(bannerResourceApi.createBannerUsingPOST(banner).getBody());
-				}else{
+				if (banner.getId() == null) {
+					savedBanners.add(bannerResourceApi.createBannerUsingPOST(banner).getBody());
+				} else {
 					savedBanners.add(bannerResourceApi.updateBannerUsingPUT(banner).getBody());
 				}
 			});
@@ -542,6 +534,16 @@ public class CommandResource {
 		storeBundle.setStore(storeDTO);
 		storeBundle.setStoreAddress(storeAddressDTO);
 		storeBundle.setStoreSettings(storeSettingsDTO);
+		storeDTO.setStoreSettingsId(storeSettingsDTO.getId());
+		storeDTO.setStoreAddressId(storeAddressDTO.getId());
+
+		if (storeDTO != null) {
+			if (storeDTO.getId() == null) {
+				storeDTO = storeResourceApi.createStoreUsingPOST(storeDTO).getBody();
+			} else {
+				storeDTO = storeResourceApi.updateStoreUsingPUT(storeDTO).getBody();
+			}
+		}
 
 		return ResponseEntity.ok().body(storeBundle);
 	}
