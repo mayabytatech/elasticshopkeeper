@@ -58,6 +58,7 @@ import com.diviso.graeshoppe.client.store.api.StoreResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreSettingsResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreTypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
+import com.diviso.graeshoppe.client.store.domain.Banner;
 import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.StoreAddress;
 import com.diviso.graeshoppe.client.store.domain.StoreSettings;
@@ -513,4 +514,10 @@ public class QueryResource {
 	public ResponseEntity<UOM> findUOMById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(queryService.findUOMById(id));
 	}
+
+	@GetMapping("/store-banners/{storeId}")
+	public ResponseEntity<Page<Banner>> findBannerByStoreId(@PathVariable String storeId){
+		return ResponseEntity.ok().body(queryService.findBannersByStoreId(storeId));
+	}
+	
 }

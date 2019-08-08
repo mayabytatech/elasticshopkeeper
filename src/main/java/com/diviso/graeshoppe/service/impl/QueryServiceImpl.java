@@ -486,6 +486,14 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForObject(stringQuery, UOM.class);
 	}
 
+	@Override
+	public Page<Banner> findBannersByStoreId(String storeId) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Banner.class);
+		
+	}
+
 
 
 	/*

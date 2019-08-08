@@ -165,6 +165,8 @@ public interface QueryService {
 	 */
 	public UOM findUOMById(Long id);
 
+	public Page<Banner> findBannersByStoreId(String storeId);
+
 	
 	
 }
