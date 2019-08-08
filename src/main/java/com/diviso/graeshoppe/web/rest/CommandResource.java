@@ -534,6 +534,7 @@ public class CommandResource {
 		storeBundle.setStore(storeDTO);
 		storeBundle.setStoreAddress(storeAddressDTO);
 		storeBundle.setStoreSettings(storeSettingsDTO);
+		//do this added in if
 		storeDTO.setStoreSettingsId(storeSettingsDTO.getId());
 		storeDTO.setStoreAddressId(storeAddressDTO.getId());
 

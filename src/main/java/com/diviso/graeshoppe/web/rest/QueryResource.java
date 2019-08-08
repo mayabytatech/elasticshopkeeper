@@ -35,6 +35,7 @@ import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
+import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
@@ -73,6 +74,7 @@ import com.diviso.graeshoppe.client.store.model.TypeDTO;
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
+import com.diviso.graeshoppe.client.product.model.ProductBundle;
 
 @RestController
 @RequestMapping("/api/query")
@@ -369,7 +371,7 @@ public class QueryResource {
 
 		StoreSettings storeSettings = store.getStoreSettings();
 
-		StoreDTO storeDTO=new StoreDTO();
+		StoreDTO storeDTO = new StoreDTO();
 
 		List<DeliveryInfoDTO> deliveryDTOs = new ArrayList<DeliveryInfoDTO>();
 
@@ -401,7 +403,7 @@ public class QueryResource {
 
 		}
 
-		StoreSettingsDTO storeSettingsDTO =new StoreSettingsDTO();
+		StoreSettingsDTO storeSettingsDTO = new StoreSettingsDTO();
 
 		if (storeSettings != null) {
 			storeSettingsDTO = storeSettingsResourceApi.getStoreSettingsUsingGET(storeSettings.getId()).getBody();
@@ -425,6 +427,34 @@ public class QueryResource {
 
 		return ResponseEntity.ok().body(bundle);
 
+	}
+
+	@GetMapping("/productBundle/{id}")
+	public ResponseEntity<ProductBundle> getProductBundle(@PathVariable Long id) {
+
+		ProductDTO productDto = productResourceApi.getProductUsingGET(id).getBody();
+
+		List<ComboLineItemDTO> comboLineItemDTO = new ArrayList<ComboLineItemDTO>();
+
+		List<ComboLineItem> comboLineItem = queryService.finAllComboLineItemsByProductId(productDto.getId());
+
+		comboLineItemDTO = comboLineItemResourceApi.listToDtoUsingPOST1(comboLineItem).getBody();
+
+		List<AuxilaryLineItemDTO> auxilaryLineItemsDTO = new ArrayList<AuxilaryLineItemDTO>();
+
+		List<AuxilaryLineItem> auxilaryLineItem = queryService.findAllAuxilaryProductsByProductId(productDto.getId());
+
+		auxilaryLineItemsDTO = auxilaryLineItemResourceApi.listToDtoUsingPOST(auxilaryLineItem).getBody();
+
+		ProductBundle productBundle = new ProductBundle();
+
+		productBundle.setComboLineItems(comboLineItemDTO);
+
+		productBundle.setAuxilaryLineItems(auxilaryLineItemsDTO);
+
+		productBundle.setProductDto(productDto);
+
+		return ResponseEntity.ok().body(productBundle);
 	}
 
 	@GetMapping("/ordersbystoreId/{storeId}")
@@ -484,11 +514,11 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findNotAuxNotComboProductsByIDPcode(iDPcode, pageable));
 
 	}
-	
+
 	@GetMapping("/auxilary-products/{storeId}")
-	public  ResponseEntity<Page<Product>> getAllAuxilaryProduct(@PathVariable String storeId){
+	public ResponseEntity<Page<Product>> getAllAuxilaryProduct(@PathVariable String storeId) {
 		return ResponseEntity.ok().body(queryService.findAllAuxilaryProducts(storeId));
-		
+
 	}
 
 	@GetMapping("/delivery-Types/{storeId}")
@@ -497,20 +527,20 @@ public class QueryResource {
 		return queryService.findAllDeliveryTypesByStoreId(storeId);
 
 	}
-	
+
 	@GetMapping("/product/{id}")
 	public ResponseEntity<Product> findProductById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(queryService.findProductById(id));
 	}
-	
+
 	@GetMapping("/categorybyid/{id}")
 	public ResponseEntity<Category> findCategoryById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(queryService.findCategoryById(id));
 	}
-	
-	
+
 	@GetMapping("/uombyid/{id}")
 	public ResponseEntity<UOM> findUOMById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(queryService.findUOMById(id));
 	}
+
 }

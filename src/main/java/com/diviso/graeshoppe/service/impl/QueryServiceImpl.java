@@ -30,6 +30,7 @@ import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
+import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
@@ -486,7 +487,29 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForObject(stringQuery, UOM.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#finAllComboLineItemsByProductId(java.lang.Long)
+	 */
+	@Override
+	public List<ComboLineItem> finAllComboLineItemsByProductId(Long id) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.id", id)).build();
 
+		return elasticsearchOperations.queryForList(searchQuery, ComboLineItem.class);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findAllAuxilaryProductsByProductId()
+	 */
+	@Override
+	public List<AuxilaryLineItem> findAllAuxilaryProductsByProductId(Long productId) {
+		
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.id", productId)).build();
+
+		return elasticsearchOperations.queryForList(searchQuery, AuxilaryLineItem.class);
+	}
+
+
+	
 
 	/*
 	 * @Override public Page<Category> findAllCategories(String storeId) {

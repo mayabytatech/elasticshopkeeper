@@ -13,6 +13,7 @@ import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
+import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
@@ -164,6 +165,17 @@ public interface QueryService {
 	 * @return
 	 */
 	public UOM findUOMById(Long id);
+
+	/**
+	 * @param id
+	 */
+	public List<ComboLineItem> finAllComboLineItemsByProductId(Long id);
+
+	/**
+	 * @param productId 
+	 * 
+	 */
+	public List<AuxilaryLineItem> findAllAuxilaryProductsByProductId(Long productId);
 
 	
 	
