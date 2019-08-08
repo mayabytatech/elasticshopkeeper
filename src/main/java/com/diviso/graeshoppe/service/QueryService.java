@@ -166,6 +166,7 @@ public interface QueryService {
 	 */
 	public UOM findUOMById(Long id);
 
+
 	/**
 	 * @param id
 	 */
@@ -176,6 +177,9 @@ public interface QueryService {
 	 * 
 	 */
 	public List<AuxilaryLineItem> findAllAuxilaryProductsByProductId(Long productId);
+
+	public Page<Banner> findBannersByStoreId(String storeId);
+
 
 	
 	

@@ -487,6 +487,7 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForObject(stringQuery, UOM.class);
 	}
 
+
 	/* (non-Javadoc)
 	 * @see com.diviso.graeshoppe.service.QueryService#finAllComboLineItemsByProductId(java.lang.Long)
 	 */
@@ -508,7 +509,13 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForList(searchQuery, AuxilaryLineItem.class);
 	}
 
+	@Override
+	public Page<Banner> findBannersByStoreId(String storeId) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
 
+		return elasticsearchOperations.queryForPage(searchQuery, Banner.class);
+		
+	}
 	
 
 	/*
