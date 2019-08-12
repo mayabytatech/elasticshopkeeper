@@ -23,7 +23,9 @@ import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
+import com.diviso.graeshoppe.client.order.api.ReportQueryResourceApi;
 import com.diviso.graeshoppe.client.order.model.Order;
+import com.diviso.graeshoppe.client.order.model.OrderMaster;
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ComboLineItemResourceApi;
@@ -137,6 +139,9 @@ public class QueryResource {
 
 	@Autowired
 	private StoreSettingsResourceApi storeSettingsResourceApi;
+	
+	@Autowired
+	private ReportQueryResourceApi reportQueryResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
@@ -548,6 +553,12 @@ public class QueryResource {
 	@GetMapping("/store-banners/{storeId}")
 	public ResponseEntity<Page<Banner>> findBannerByStoreId(@PathVariable String storeId){
 		return ResponseEntity.ok().body(queryService.findBannersByStoreId(storeId));
+	}
+	
+	@GetMapping("/orderMaster/{orderId}")
+	public ResponseEntity<OrderMaster> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,Integer size,ArrayList<String> sort){
+		
+		return reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort);
 	}
 	
 
