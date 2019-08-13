@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
@@ -23,7 +24,9 @@ import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
+import com.diviso.graeshoppe.client.order.api.OrderQueryResourceApi;
 import com.diviso.graeshoppe.client.order.api.ReportQueryResourceApi;
+import com.diviso.graeshoppe.client.order.model.OpenTask;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderMaster;
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
@@ -142,6 +145,9 @@ public class QueryResource {
 	
 	@Autowired
 	private ReportQueryResourceApi reportQueryResourceApi;
+	
+	@Autowired
+	private OrderQueryResourceApi orderQueryResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
@@ -561,5 +567,11 @@ public class QueryResource {
 		return reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort);
 	}
 	
+	@GetMapping("/tasks")
+	public ResponseEntity<List<OpenTask>> getTasks( @RequestParam String assignee, @RequestParam String assigneeLike,@RequestParam String candidateGroup,@RequestParam  String candidateGroups, @RequestParam String candidateUser, @RequestParam String createdAfter, @RequestParam String createdBefore, @RequestParam String createdOn, @RequestParam String name, @RequestParam String nameLike)
+    {
+		return orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike);
+		
+    }
 
 }
