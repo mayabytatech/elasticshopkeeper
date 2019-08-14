@@ -51,6 +51,7 @@ import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
+import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
@@ -148,6 +149,10 @@ public class QueryResource {
 	
 	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
+	
+	
+	@Autowired
+	private ReportResourceApi reportResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
@@ -581,5 +586,22 @@ public class QueryResource {
 		});
 		return ResponseEntity.ok().body(orders);
     }
+	
+	@GetMapping("/getOrderDocket/{orderMasterId}")
+	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable Long orderMasterId)
+    {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.reportResourceApi.getReportAsPdfUsingGET(orderMasterId).getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
+    }
+	
+	@GetMapping("/exportDocket/{orderMasterId}")
+	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable Long orderMasterId)
+    {
+		return reportResourceApi.getReportAsPdfUsingGET(orderMasterId);
+	
+    }
+	
 
 }
