@@ -180,6 +180,11 @@ public interface QueryService {
 
 	public Page<Banner> findBannersByStoreId(String storeId);
 
+	/**
+	 * @param orderId
+	 */
+	public Order findOrderByOrderId(String orderId);
+
 
 	
 	

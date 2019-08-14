@@ -568,10 +568,18 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/tasks")
-	public ResponseEntity<List<OpenTask>> getTasks( @RequestParam String assignee, @RequestParam String assigneeLike,@RequestParam String candidateGroup,@RequestParam  String candidateGroups, @RequestParam String candidateUser, @RequestParam String createdAfter, @RequestParam String createdBefore, @RequestParam String createdOn, @RequestParam String name, @RequestParam String nameLike)
+	public ResponseEntity<List<Order>> getTasks( @RequestParam String assignee, @RequestParam String assigneeLike,@RequestParam String candidateGroup,@RequestParam  String candidateGroups, @RequestParam String candidateUser, @RequestParam String createdAfter, @RequestParam String createdBefore, @RequestParam String createdOn, @RequestParam String name, @RequestParam String nameLike)
     {
-		return orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike);
+		List<OpenTask> openTasks= orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike).getBody();
 		
+		List<Order> orders = new ArrayList<Order>();
+		
+		openTasks.forEach(opentask->{
+			
+			orders.add(queryService.findOrderByOrderId(opentask.getOrderId()));
+			
+		});
+		return ResponseEntity.ok().body(orders);
     }
 
 }

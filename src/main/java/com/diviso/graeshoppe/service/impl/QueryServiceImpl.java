@@ -516,6 +516,16 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(searchQuery, Banner.class);
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findOrderByOrderId(java.lang.String)
+	 */
+	@Override
+	public Order findOrderByOrderId(String orderId) {
+		
+		StringQuery stringQuery = new StringQuery(termQuery("orderId", orderId).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, Order.class);
+	}
 	
 
 	/*
