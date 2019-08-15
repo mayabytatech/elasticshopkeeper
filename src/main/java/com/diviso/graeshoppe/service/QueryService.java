@@ -127,14 +127,13 @@ public interface QueryService {
 	 * @param regNo
 	 * @return
 	 */
-	public  List<StoreType> findAllStoreTypesByStoreId(String regNo);
+	public List<StoreType> findAllStoreTypesByStoreId(String regNo);
 
 	/**
 	 * @param regNo
 	 * @return
 	 */
-	public  List<Banner> findAllBannersByStoreId(String regNo);
-
+	public List<Banner> findAllBannersByStoreId(String regNo);
 
 	/**
 	 * @param iDPcode
@@ -166,14 +165,13 @@ public interface QueryService {
 	 */
 	public UOM findUOMById(Long id);
 
-
 	/**
 	 * @param id
 	 */
 	public List<ComboLineItem> finAllComboLineItemsByProductId(Long id);
 
 	/**
-	 * @param productId 
+	 * @param productId
 	 * 
 	 */
 	public List<AuxilaryLineItem> findAllAuxilaryProductsByProductId(Long productId);
@@ -185,7 +183,6 @@ public interface QueryService {
 	 */
 	public Order findOrderByOrderId(String orderId);
 
+	public Page<Product> findProducts(Pageable pageable);
 
-	
-	
 }

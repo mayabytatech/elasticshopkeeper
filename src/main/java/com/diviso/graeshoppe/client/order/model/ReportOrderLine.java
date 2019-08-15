@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * ReportOrderLine
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-12T14:17:42.106+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-15T11:27:57.484310+05:30[Asia/Kolkata]")
 
 public class ReportOrderLine   {
   @JsonProperty("item")

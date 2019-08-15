@@ -49,6 +49,7 @@ import com.diviso.graeshoppe.domain.Result;
 /*import com.diviso.graeshoppe.client.product.domain.Product;
 import com.diviso.graeshoppe.domain.Result;*/
 import com.diviso.graeshoppe.service.QueryService;
+import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
 import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
 import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;
@@ -81,6 +82,7 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<Product> findAllProduct(String iDPcode, Pageable pageable) {
+		
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", iDPcode)).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
@@ -220,12 +222,17 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<Product> findAllProducts(String storeId, Pageable pageable) {
+		
+		if(findProducts(pageable)==null){
+			throw new BadRequestAlertException("NO products exist", "Product", "no products");
+		}
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", storeId))
 				.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC)).withPageable(pageable).build();
-
+		
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
 
+	
 	@Override
 	public Page<Review> findAllReviews(String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
@@ -525,6 +532,16 @@ public class QueryServiceImpl implements QueryService {
 		
 		StringQuery stringQuery = new StringQuery(termQuery("orderId", orderId).toString());
 		return elasticsearchOperations.queryForObject(stringQuery, Order.class);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findProducts(org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<Product> findProducts(Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
 	
 

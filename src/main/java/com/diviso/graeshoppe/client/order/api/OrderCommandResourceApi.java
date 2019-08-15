@@ -5,6 +5,10 @@
  */
 package com.diviso.graeshoppe.client.order.api;
 
+import com.diviso.graeshoppe.client.order.model.AcceptOrderRequest;
+import com.diviso.graeshoppe.client.order.model.CommandResource;
+import com.diviso.graeshoppe.client.order.model.NotificationDTO;
+import com.diviso.graeshoppe.client.order.model.OrderDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,18 +23,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.diviso.graeshoppe.client.order.model.AcceptOrderRequest;
-import com.diviso.graeshoppe.client.order.model.CommandResource;
-import com.diviso.graeshoppe.client.order.model.NotificationDTO;
-import com.diviso.graeshoppe.client.order.model.OrderDTO;
-import com.diviso.graeshoppe.client.order.model.ProcessPaymentRequest;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-12T14:17:42.106+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-15T11:27:57.484310+05:30[Asia/Kolkata]")
 
 @Api(value = "OrderCommandResource", description = "the OrderCommandResource API")
 public interface OrderCommandResourceApi {
@@ -98,20 +96,6 @@ public interface OrderCommandResourceApi {
     ResponseEntity<OrderDTO> getOrderUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "processPayment", nickname = "processPaymentUsingPOST", notes = "", response = CommandResource.class, tags={ "order-command-resource", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = CommandResource.class),
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/processPayment",
-        produces = "*/*", 
-        consumes = "application/json",
-        method = RequestMethod.POST)
-    ResponseEntity<CommandResource> processPaymentUsingPOST(@ApiParam(value = "processPaymentRequest" ,required=true )  @Valid @RequestBody ProcessPaymentRequest processPaymentRequest);
-
-
     @ApiOperation(value = "searchOrders", nickname = "searchOrdersUsingGET", notes = "", response = OrderDTO.class, responseContainer = "List", tags={ "order-command-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = OrderDTO.class, responseContainer = "List"),
@@ -148,9 +132,9 @@ public interface OrderCommandResourceApi {
     ResponseEntity<Void> sendUsingGET(@ApiParam(value = "") @Valid @RequestParam(value = "name", required = false) String name);
 
 
-    @ApiOperation(value = "updateOrder", nickname = "updateOrderUsingPUT", notes = "", response = CommandResource.class, tags={ "order-command-resource", })
+    @ApiOperation(value = "updateOrder", nickname = "updateOrderUsingPUT", notes = "", response = OrderDTO.class, tags={ "order-command-resource", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = CommandResource.class),
+        @ApiResponse(code = 200, message = "OK", response = OrderDTO.class),
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
@@ -159,6 +143,6 @@ public interface OrderCommandResourceApi {
         produces = "*/*", 
         consumes = "application/json",
         method = RequestMethod.PUT)
-    ResponseEntity<CommandResource> updateOrderUsingPUT(@ApiParam(value = "orderDTO" ,required=true )  @Valid @RequestBody OrderDTO orderDTO);
+    ResponseEntity<OrderDTO> updateOrderUsingPUT(@ApiParam(value = "orderDTO" ,required=true )  @Valid @RequestBody OrderDTO orderDTO);
 
 }

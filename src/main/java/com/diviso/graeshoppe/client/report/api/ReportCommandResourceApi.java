@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.diviso.graeshoppe.client.report.model.OrderMaster;
+import com.diviso.graeshoppe.client.order.model.OrderMaster;
+import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -28,30 +29,20 @@ import java.util.Map;
 import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-15T14:07:49.659+05:30[Asia/Calcutta]")
 
-@Api(value = "ReportResource", description = "the ReportResource API")
-public interface ReportResourceApi {
+@Api(value = "ReportCommandResource", description = "the ReportCommandResource API")
+public interface ReportCommandResourceApi {
 
-    @ApiOperation(value = "getReportAsPdf", nickname = "getReportAsPdfUsingGET", notes = "", response = byte[].class, tags={ "report-resource", })
+    @ApiOperation(value = "createOrderMaster", nickname = "createOrderMasterUsingPOST1", notes = "", response = OrderMasterDTO.class, tags={ "report-command-resource", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = byte[].class),
+        @ApiResponse(code = 200, message = "OK", response = OrderMasterDTO.class),
+        @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/report/pdf/{orderMasterId}",
+    @RequestMapping(value = "/api/ordermasters",
         produces = "*/*", 
-        method = RequestMethod.GET)
-    ResponseEntity<byte[]> getReportAsPdfUsingGET(@ApiParam(value = "orderMasterId",required=true) @PathVariable("orderMasterId") Long orderMasterId);
-
-
-    @ApiOperation(value = "getReportByOrderNumber", nickname = "getReportByOrderNumberUsingGET", notes = "", response = OrderMaster.class, tags={ "report-resource", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = OrderMaster.class),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/report/order-report/{orderNumber}",
-        produces = "*/*", 
-        method = RequestMethod.GET)
-    ResponseEntity<OrderMaster> getReportByOrderNumberUsingGET(@ApiParam(value = "orderNumber",required=true) @PathVariable("orderNumber") String orderNumber);
+        consumes = "application/json",
+        method = RequestMethod.POST)
+    ResponseEntity<OrderMasterDTO> createOrderMasterUsingPOST1(@ApiParam(value = "orderMaster" ,required=true )  @Valid @RequestBody OrderMaster orderMaster);
 
 }

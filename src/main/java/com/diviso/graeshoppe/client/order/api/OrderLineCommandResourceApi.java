@@ -5,6 +5,7 @@
  */
 package com.diviso.graeshoppe.client.order.api;
 
+import com.diviso.graeshoppe.client.order.model.OrderLineDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,19 +20,17 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.diviso.graeshoppe.client.order.model.OrderLineDTO;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-06T14:01:39.473+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-15T11:27:57.484310+05:30[Asia/Kolkata]")
 
-@Api(value = "OrderLineResource", description = "the OrderLineResource API")
-public interface OrderLineResourceApi {
+@Api(value = "OrderLineCommandResource", description = "the OrderLineCommandResource API")
+public interface OrderLineCommandResourceApi {
 
-    @ApiOperation(value = "createOrderLine", nickname = "createOrderLineUsingPOST", notes = "", response = OrderLineDTO.class, tags={ "order-line-resource", })
+    @ApiOperation(value = "createOrderLine", nickname = "createOrderLineUsingPOST", notes = "", response = OrderLineDTO.class, tags={ "order-line-command-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = OrderLineDTO.class),
         @ApiResponse(code = 201, message = "Created"),
@@ -45,7 +44,7 @@ public interface OrderLineResourceApi {
     ResponseEntity<OrderLineDTO> createOrderLineUsingPOST(@ApiParam(value = "orderLineDTO" ,required=true )  @Valid @RequestBody OrderLineDTO orderLineDTO);
 
 
-    @ApiOperation(value = "deleteOrderLine", nickname = "deleteOrderLineUsingDELETE", notes = "", tags={ "order-line-resource", })
+    @ApiOperation(value = "deleteOrderLine", nickname = "deleteOrderLineUsingDELETE", notes = "", tags={ "order-line-command-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 204, message = "No Content"),
@@ -56,7 +55,7 @@ public interface OrderLineResourceApi {
     ResponseEntity<Void> deleteOrderLineUsingDELETE(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "getAllOrderLines", nickname = "getAllOrderLinesUsingGET", notes = "", response = OrderLineDTO.class, responseContainer = "List", tags={ "order-line-resource", })
+    @ApiOperation(value = "getAllOrderLines", nickname = "getAllOrderLinesUsingGET", notes = "", response = OrderLineDTO.class, responseContainer = "List", tags={ "order-line-command-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = OrderLineDTO.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Unauthorized"),
@@ -68,7 +67,7 @@ public interface OrderLineResourceApi {
     ResponseEntity<List<OrderLineDTO>> getAllOrderLinesUsingGET(@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
 
 
-    @ApiOperation(value = "getOrderLine", nickname = "getOrderLineUsingGET", notes = "", response = OrderLineDTO.class, tags={ "order-line-resource", })
+    @ApiOperation(value = "getOrderLine", nickname = "getOrderLineUsingGET", notes = "", response = OrderLineDTO.class, tags={ "order-line-command-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = OrderLineDTO.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
@@ -80,7 +79,7 @@ public interface OrderLineResourceApi {
     ResponseEntity<OrderLineDTO> getOrderLineUsingGET(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "searchOrderLines", nickname = "searchOrderLinesUsingGET", notes = "", response = OrderLineDTO.class, responseContainer = "List", tags={ "order-line-resource", })
+    @ApiOperation(value = "searchOrderLines", nickname = "searchOrderLinesUsingGET", notes = "", response = OrderLineDTO.class, responseContainer = "List", tags={ "order-line-command-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = OrderLineDTO.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Unauthorized"),
@@ -92,7 +91,7 @@ public interface OrderLineResourceApi {
     ResponseEntity<List<OrderLineDTO>> searchOrderLinesUsingGET(@NotNull @ApiParam(value = "query", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
 
 
-    @ApiOperation(value = "updateOrderLine", nickname = "updateOrderLineUsingPUT", notes = "", response = OrderLineDTO.class, tags={ "order-line-resource", })
+    @ApiOperation(value = "updateOrderLine", nickname = "updateOrderLineUsingPUT", notes = "", response = OrderLineDTO.class, tags={ "order-line-command-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = OrderLineDTO.class),
         @ApiResponse(code = 201, message = "Created"),

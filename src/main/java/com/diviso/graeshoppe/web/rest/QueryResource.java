@@ -51,7 +51,9 @@ import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
+import com.diviso.graeshoppe.client.report.api.ReportCommandResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
+import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
@@ -153,6 +155,9 @@ public class QueryResource {
 	
 	@Autowired
 	private ReportResourceApi reportResourceApi;
+	
+	@Autowired
+	private ReportCommandResourceApi reportCommandResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
@@ -567,10 +572,13 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/orderMaster/{orderId}")
-	public ResponseEntity<OrderMaster> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,Integer size,ArrayList<String> sort){
+	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,Integer size,ArrayList<String> sort){
 		
-		return reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort);
+		OrderMaster orderMaster= reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort).getBody();
+		
+		return reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster);
 	}
+	
 	
 	@GetMapping("/tasks")
 	public ResponseEntity<List<Order>> getTasks( @RequestParam String assignee, @RequestParam String assigneeLike,@RequestParam String candidateGroup,@RequestParam  String candidateGroups, @RequestParam String candidateUser, @RequestParam String createdAfter, @RequestParam String createdBefore, @RequestParam String createdOn, @RequestParam String name, @RequestParam String nameLike)
