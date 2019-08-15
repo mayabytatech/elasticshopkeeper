@@ -383,7 +383,7 @@ public class QueryResource {
 		return this.queryService.findStoreByRegNo(regNo);
 	}
 	
-	@GetMapping("/stores/{regNo}")
+	@GetMapping("/storeDTO/{regNo}")
 	public StoreDTO findStoreDTOByRegNo(@PathVariable String regNo) {
 		Store store=queryService.findStoreByRegNo(regNo);
 		
