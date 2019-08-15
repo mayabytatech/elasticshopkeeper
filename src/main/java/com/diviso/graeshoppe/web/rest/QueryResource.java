@@ -382,6 +382,13 @@ public class QueryResource {
 	public Store findStoreByRegNo(@PathVariable String regNo) {
 		return this.queryService.findStoreByRegNo(regNo);
 	}
+	
+	@GetMapping("/stores/{regNo}")
+	public StoreDTO findStoreDTOByRegNo(@PathVariable String regNo) {
+		Store store=queryService.findStoreByRegNo(regNo);
+		
+		return storeResourceApi.getStoreUsingGET(store.getId()).getBody();
+	}
 
 	@GetMapping("/storeBundle/{regNo}")
 	public ResponseEntity<StoreBundleDTO> getStoreBundle(@PathVariable String regNo, Integer page, Integer size,
