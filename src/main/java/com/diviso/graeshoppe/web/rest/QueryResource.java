@@ -585,6 +585,7 @@ public class QueryResource {
     {
 		List<OpenTask> openTasks= orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike).getBody();
 		
+		log.info("...........openTasks...................."+openTasks);
 		List<Order> orders = new ArrayList<Order>();
 		
 		openTasks.forEach(opentask->{
