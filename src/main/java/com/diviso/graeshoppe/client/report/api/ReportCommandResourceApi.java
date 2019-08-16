@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-16T22:42:54.647+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-16T22:58:48.114+05:30[Asia/Calcutta]")
 
 @Api(value = "ReportCommandResource", description = "the ReportCommandResource API")
 public interface ReportCommandResourceApi {
@@ -54,10 +54,10 @@ public interface ReportCommandResourceApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/ordermasters",
+    @RequestMapping(value = "/api/ordermasters/{id}",
         produces = "*/*", 
         consumes = "application/json",
         method = RequestMethod.PUT)
-    ResponseEntity<OrderMasterDTO> updateOrderMasterUsingPUT1(@ApiParam(value = "orderMaster" ,required=true )  @Valid @RequestBody OrderMaster orderMaster);
+    ResponseEntity<OrderMasterDTO> updateOrderMasterUsingPUT1(@ApiParam(value = "id",required=true) @PathVariable("id") Long id,@ApiParam(value = "orderMaster" ,required=true )  @Valid @RequestBody OrderMaster orderMaster);
 
 }

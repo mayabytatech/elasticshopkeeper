@@ -584,7 +584,7 @@ public class QueryResource {
 		OrderMasterDTO result;
 		if (dto != null) {
 			log.info("..........upadte......");
-			result = reportCommandResourceApi.updateOrderMasterUsingPUT1(orderMaster).getBody();
+			result = reportCommandResourceApi.updateOrderMasterUsingPUT1(dto.getId(),orderMaster).getBody();
 		} else {
 			result = reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
 		}
