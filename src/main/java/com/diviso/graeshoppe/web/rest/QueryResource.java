@@ -81,9 +81,11 @@ import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import com.diviso.graeshoppe.client.store.model.StoreSettingsDTO;
 import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
 import com.diviso.graeshoppe.client.store.model.TypeDTO;
+
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
+import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
 import com.diviso.graeshoppe.client.product.model.ProductBundle;
 
 @RestController
@@ -577,9 +579,11 @@ public class QueryResource {
 	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,Integer size,ArrayList<String> sort){
 		
 		OrderMaster orderMaster= reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort).getBody();
-		//orderMasterResourceApi.getOrderMasterUsingGET(id);
-		
-	//......upadate if exits
+	
+		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
+	if(dto!=null){
+		  throw new BadRequestAlertException("Already exists", "orderMaster", ""+dto.getId());
+	}
 		return reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster);
 	}
 	

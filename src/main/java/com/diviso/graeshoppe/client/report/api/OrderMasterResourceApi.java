@@ -5,7 +5,6 @@
  */
 package com.diviso.graeshoppe.client.report.api;
 
-
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +26,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-15T14:07:49.659+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-16T22:06:31.655+05:30[Asia/Calcutta]")
 
 @Api(value = "OrderMasterResource", description = "the OrderMasterResource API")
 public interface OrderMasterResourceApi {
@@ -55,6 +54,18 @@ public interface OrderMasterResourceApi {
     @RequestMapping(value = "/api/order-masters/{id}",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteOrderMasterUsingDELETE(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "findOrderMasterByOrderId", nickname = "findOrderMasterByOrderIdUsingGET", notes = "", response = OrderMasterDTO.class, tags={ "order-master-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = OrderMasterDTO.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/ordermasterbyorder/{orderNumber}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<OrderMasterDTO> findOrderMasterByOrderIdUsingGET(@ApiParam(value = "orderNumber",required=true) @PathVariable("orderNumber") String orderNumber);
 
 
     @ApiOperation(value = "getAllOrderMasters", nickname = "getAllOrderMastersUsingGET", notes = "", response = OrderMasterDTO.class, responseContainer = "List", tags={ "order-master-resource", })
