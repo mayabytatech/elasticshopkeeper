@@ -148,17 +148,16 @@ public class QueryResource {
 
 	@Autowired
 	private StoreSettingsResourceApi storeSettingsResourceApi;
-	
+
 	@Autowired
 	private ReportQueryResourceApi reportQueryResourceApi;
-	
+
 	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
-	
-	
+
 	@Autowired
 	private ReportResourceApi reportResourceApi;
-	
+
 	@Autowired
 	private ReportCommandResourceApi reportCommandResourceApi;
 	@Autowired
@@ -387,11 +386,11 @@ public class QueryResource {
 	public Store findStoreByRegNo(@PathVariable String regNo) {
 		return this.queryService.findStoreByRegNo(regNo);
 	}
-	
+
 	@GetMapping("/storeDTO/{regNo}")
 	public StoreDTO findStoreDTOByRegNo(@PathVariable String regNo) {
-		Store store=queryService.findStoreByRegNo(regNo);
-		
+		Store store = queryService.findStoreByRegNo(regNo);
+
 		return storeResourceApi.getStoreUsingGET(store.getId()).getBody();
 	}
 
@@ -466,8 +465,8 @@ public class QueryResource {
 	@GetMapping("/productBundle/{id}")
 	public ResponseEntity<ProductBundle> getProductBundle(@PathVariable Long id) {
 
-		Product product =	queryService.findProductById(id);
-		
+		Product product = queryService.findProductById(id);
+
 		List<ComboLineItem> comboLineItem = queryService.finAllComboLineItemsByProductId(product.getId());
 
 		List<AuxilaryLineItem> auxilaryLineItem = queryService.findAllAuxilaryProductsByProductId(product.getId());
@@ -569,58 +568,62 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findUOMById(id));
 	}
 
-
 	@GetMapping("/store-banners/{storeId}")
-	public ResponseEntity<Page<Banner>> findBannerByStoreId(@PathVariable String storeId){
+	public ResponseEntity<Page<Banner>> findBannerByStoreId(@PathVariable String storeId) {
 		return ResponseEntity.ok().body(queryService.findBannersByStoreId(storeId));
 	}
-	
+
 	@GetMapping("/orderMaster/{orderId}")
-	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,Integer size,ArrayList<String> sort){
-		
-		OrderMaster orderMaster= reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort).getBody();
-	
+	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,
+			Integer size, ArrayList<String> sort) {
+
+		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort).getBody();
+
 		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
-		log.info(".................dto........."+dto);
-	if(dto!=null){
-		  throw new BadRequestAlertException("Already exists", "orderMaster", ""+dto.getId());
+		log.info(".................dto........." + dto);
+		OrderMasterDTO result;
+		if (dto != null) {
+			log.info("..........upadte......");
+			result = reportCommandResourceApi.updateOrderMasterUsingPUT1(orderMaster).getBody();
+		} else {
+			result = reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
+		}
+		return ResponseEntity.ok().body(result);
 	}
-		return reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster);
-	}
-	
-	
+
 	@GetMapping("/tasks")
-	public ResponseEntity<List<Order>> getTasks( @RequestParam(required=false) String assignee, @RequestParam(required=false) String assigneeLike,@RequestParam(required=false) String candidateGroup,@RequestParam(required=false)  String candidateGroups, @RequestParam(required=false) String candidateUser, @RequestParam(required=false) String createdAfter, @RequestParam(required=false) String createdBefore, @RequestParam(required=false) String createdOn, @RequestParam(required=false) String name, @RequestParam(required=false) String nameLike)
-    {
-		List<OpenTask> openTasks= orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike).getBody();
-		
-		log.info("...........openTasks...................."+openTasks);
+	public ResponseEntity<List<Order>> getTasks(@RequestParam(required = false) String assignee,
+			@RequestParam(required = false) String assigneeLike, @RequestParam(required = false) String candidateGroup,
+			@RequestParam(required = false) String candidateGroups,
+			@RequestParam(required = false) String candidateUser, @RequestParam(required = false) String createdAfter,
+			@RequestParam(required = false) String createdBefore, @RequestParam(required = false) String createdOn,
+			@RequestParam(required = false) String name, @RequestParam(required = false) String nameLike) {
+		List<OpenTask> openTasks = orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup,
+				candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike).getBody();
+
+		log.info("...........openTasks...................." + openTasks);
 		List<Order> orders = new ArrayList<Order>();
-		
-		openTasks.forEach(opentask->{
-			
+
+		openTasks.forEach(opentask -> {
+
 			orders.add(queryService.findOrderByOrderId(opentask.getOrderId()));
-			
+
 		});
 		return ResponseEntity.ok().body(orders);
-    }
-	
+	}
+
 	@GetMapping("/getOrderDocket/{orderMasterId}")
-	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable Long orderMasterId)
-    {
+	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable Long orderMasterId) {
 		PdfDTO pdf = new PdfDTO();
 		pdf.setPdf(this.reportResourceApi.getReportAsPdfUsingGET(orderMasterId).getBody());
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
-    }
-	
-	@GetMapping("/exportDocket/{orderMasterId}")
-	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable Long orderMasterId)
-    {
-		return reportResourceApi.getReportAsPdfUsingGET(orderMasterId);
-	
-    }
-	
+	}
 
-	
+	@GetMapping("/exportDocket/{orderMasterId}")
+	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable Long orderMasterId) {
+		return reportResourceApi.getReportAsPdfUsingGET(orderMasterId);
+
+	}
+
 }
