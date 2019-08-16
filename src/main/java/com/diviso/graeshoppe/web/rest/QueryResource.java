@@ -581,6 +581,7 @@ public class QueryResource {
 		OrderMaster orderMaster= reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort).getBody();
 	
 		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
+		log.info(".................dto........."+dto);
 	if(dto!=null){
 		  throw new BadRequestAlertException("Already exists", "orderMaster", ""+dto.getId());
 	}
