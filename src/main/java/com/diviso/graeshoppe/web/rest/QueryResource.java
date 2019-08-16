@@ -51,6 +51,7 @@ import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
+import com.diviso.graeshoppe.client.report.api.OrderMasterResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportCommandResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
 import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
@@ -158,6 +159,8 @@ public class QueryResource {
 	
 	@Autowired
 	private ReportCommandResourceApi reportCommandResourceApi;
+	@Autowired
+	OrderMasterResourceApi orderMasterResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
@@ -575,7 +578,9 @@ public class QueryResource {
 	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,Integer size,ArrayList<String> sort){
 		
 		OrderMaster orderMaster= reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort).getBody();
+		//orderMasterResourceApi.getOrderMasterUsingGET(id);
 		
+	//......upadate if exits
 		return reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster);
 	}
 	
@@ -613,4 +618,5 @@ public class QueryResource {
     }
 	
 
+	
 }

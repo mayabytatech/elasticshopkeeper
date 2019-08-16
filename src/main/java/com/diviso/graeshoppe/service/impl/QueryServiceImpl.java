@@ -7,7 +7,8 @@ import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.List;import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -113,7 +114,10 @@ public class QueryServiceImpl implements QueryService {
 				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("product.name", name))
 						.must(QueryBuilders.matchQuery("product.iDPcode", storeId)))
 				.build();
-		return elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class);
+		
+		
+		return new PageImpl( elasticsearchOperations.queryForPage(searchQuery, StockCurrent.class).stream()
+				.filter(stockcurrent->(stockcurrent.getProduct().isIsAuxilaryItem()==false)).collect(Collectors.toList()));
 	}
 
 	@Override
