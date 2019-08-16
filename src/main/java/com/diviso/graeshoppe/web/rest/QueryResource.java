@@ -385,6 +385,13 @@ public class QueryResource {
 	public Store findStoreByRegNo(@PathVariable String regNo) {
 		return this.queryService.findStoreByRegNo(regNo);
 	}
+	
+	@GetMapping("/storeDTO/{regNo}")
+	public StoreDTO findStoreDTOByRegNo(@PathVariable String regNo) {
+		Store store=queryService.findStoreByRegNo(regNo);
+		
+		return storeResourceApi.getStoreUsingGET(store.getId()).getBody();
+	}
 
 	@GetMapping("/storeBundle/{regNo}")
 	public ResponseEntity<StoreBundleDTO> getStoreBundle(@PathVariable String regNo, Integer page, Integer size,
@@ -457,27 +464,19 @@ public class QueryResource {
 	@GetMapping("/productBundle/{id}")
 	public ResponseEntity<ProductBundle> getProductBundle(@PathVariable Long id) {
 
-		ProductDTO productDto = productResourceApi.getProductUsingGET(id).getBody();
+		Product product =	queryService.findProductById(id);
+		
+		List<ComboLineItem> comboLineItem = queryService.finAllComboLineItemsByProductId(product.getId());
 
-		List<ComboLineItemDTO> comboLineItemDTO = new ArrayList<ComboLineItemDTO>();
-
-		List<ComboLineItem> comboLineItem = queryService.finAllComboLineItemsByProductId(productDto.getId());
-
-		comboLineItemDTO = comboLineItemResourceApi.listToDtoUsingPOST1(comboLineItem).getBody();
-
-		List<AuxilaryLineItemDTO> auxilaryLineItemsDTO = new ArrayList<AuxilaryLineItemDTO>();
-
-		List<AuxilaryLineItem> auxilaryLineItem = queryService.findAllAuxilaryProductsByProductId(productDto.getId());
-
-		auxilaryLineItemsDTO = auxilaryLineItemResourceApi.listToDtoUsingPOST(auxilaryLineItem).getBody();
+		List<AuxilaryLineItem> auxilaryLineItem = queryService.findAllAuxilaryProductsByProductId(product.getId());
 
 		ProductBundle productBundle = new ProductBundle();
 
-		productBundle.setComboLineItems(comboLineItemDTO);
+		productBundle.setComboLineItems(comboLineItem);
 
-		productBundle.setAuxilaryLineItems(auxilaryLineItemsDTO);
+		productBundle.setAuxilaryLineItems(auxilaryLineItem);
 
-		productBundle.setProductDto(productDto);
+		productBundle.setProduct(product);
 
 		return ResponseEntity.ok().body(productBundle);
 	}

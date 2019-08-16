@@ -24,43 +24,43 @@ import java.util.List;
  */
 public class ProductBundle {
 
-	private ProductDTO productDto;
+	private Product product;
 	
-	private List<ComboLineItemDTO> comboLineItems;
+	private List<ComboLineItem> comboLineItems;
 	
-    private List<AuxilaryLineItemDTO> auxilaryLineItems;
+    private List<AuxilaryLineItem> auxilaryLineItems;
 
-	public ProductDTO getProductDto() {
-		return productDto;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductDto(ProductDTO productDto) {
-		this.productDto = productDto;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-
-	public List<ComboLineItemDTO> getComboLineItems() {
+	public List<ComboLineItem> getComboLineItems() {
 		return comboLineItems;
 	}
 
-	public void setComboLineItems(List<ComboLineItemDTO> comboLineItems) {
+	public void setComboLineItems(List<ComboLineItem> comboLineItems) {
 		this.comboLineItems = comboLineItems;
 	}
 
-	public List<AuxilaryLineItemDTO> getAuxilaryLineItems() {
+	public List<AuxilaryLineItem> getAuxilaryLineItems() {
 		return auxilaryLineItems;
 	}
 
-	public void setAuxilaryLineItems(List<AuxilaryLineItemDTO> auxilaryLineItems) {
+	public void setAuxilaryLineItems(List<AuxilaryLineItem> auxilaryLineItems) {
 		this.auxilaryLineItems = auxilaryLineItems;
 	}
 
 	@Override
 	public String toString() {
-		return "ProductBuddle [productDto=" + productDto + ", comboLineItems=" + comboLineItems + ", auxilaryLineItems="
+		return "ProductBundle [product=" + product + ", comboLineItems=" + comboLineItems + ", auxilaryLineItems="
 				+ auxilaryLineItems + "]";
 	}
-	
+
+    
     
     
 	
