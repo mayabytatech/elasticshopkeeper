@@ -26,6 +26,7 @@ import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.order.api.OrderQueryResourceApi;
 import com.diviso.graeshoppe.client.order.api.ReportQueryResourceApi;
+import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.OpenTask;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderMaster;
@@ -624,6 +625,12 @@ public class QueryResource {
 	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable Long orderMasterId) {
 		return reportResourceApi.getReportAsPdfUsingGET(orderMasterId);
 
+	}
+	
+	@GetMapping("/notification/{receiverId}")
+	public ResponseEntity<Notification> findNotificationByReceiverId(@PathVariable String receiverId) {
+		return ResponseEntity.ok().body(queryService.findNotificationByReceiverId(receiverId));
+		
 	}
 
 }

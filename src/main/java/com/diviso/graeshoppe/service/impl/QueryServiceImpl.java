@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
+import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
@@ -574,4 +575,11 @@ public class QueryServiceImpl implements QueryService {
 	 * 
 	 */
 
+	@Override
+	public Notification findNotificationByReceiverId(String receiverId) {
+		
+		StringQuery stringQuery = new StringQuery(termQuery("receiverId.keyword", receiverId).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, Notification.class);
+	}
+	
 }

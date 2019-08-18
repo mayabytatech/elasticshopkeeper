@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
+import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
@@ -184,5 +185,7 @@ public interface QueryService {
 	public Order findOrderByOrderId(String orderId);
 
 	public Page<Product> findProducts(Pageable pageable);
+
+	public Notification findNotificationByReceiverId(String receiverId);
 
 }
