@@ -34,8 +34,10 @@ import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
 import com.diviso.graeshoppe.client.order.api.ApprovalDetailsResourceApi;
+import com.diviso.graeshoppe.client.order.api.NotificationResourceApi;
 import com.diviso.graeshoppe.client.order.api.OrderCommandResourceApi;
 import com.diviso.graeshoppe.client.order.model.ApprovalDetailsDTO;
+import com.diviso.graeshoppe.client.order.model.NotificationDTO;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderDTO;
 import com.diviso.graeshoppe.client.order.model.OrderMaster;
@@ -132,6 +134,8 @@ public class CommandResource {
 	@Autowired
 	TypeResourceApi typeResourceApi;
 
+	@Autowired
+	private NotificationResourceApi notificationResourceApi;
 	@Autowired
 	AuxilaryLineItemResourceApi auxilaryLineItemResourceApi;
 
@@ -365,6 +369,11 @@ public class CommandResource {
 
 	public ResponseEntity<OrderDTO> updateOrder(OrderDTO orderDTO) {
 		return orderCommandResourceApi.updateOrderUsingPUT(orderDTO);
+	}
+	
+	@PutMapping("/notifications")
+	public ResponseEntity<NotificationDTO> updateNotification(@RequestBody NotificationDTO notificationDTO) {
+		return notificationResourceApi.updateNotificationUsingPUT(notificationDTO);
 	}
 	
 //	Order related commands ends here
