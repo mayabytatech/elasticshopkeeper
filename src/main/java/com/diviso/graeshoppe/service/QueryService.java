@@ -186,6 +186,6 @@ public interface QueryService {
 
 	public Page<Product> findProducts(Pageable pageable);
 
-	public Notification findNotificationByReceiverId(String receiverId);
+	public Page<Notification> findNotificationByReceiverId(String receiverId,Pageable pageable);
 
 }

@@ -576,10 +576,10 @@ public class QueryServiceImpl implements QueryService {
 	 */
 
 	@Override
-	public Notification findNotificationByReceiverId(String receiverId) {
+	public Page<Notification> findNotificationByReceiverId(String receiverId,Pageable pageable) {
 		
 		StringQuery stringQuery = new StringQuery(termQuery("receiverId.keyword", receiverId).toString());
-		return elasticsearchOperations.queryForObject(stringQuery, Notification.class);
+		return elasticsearchOperations.queryForPage(stringQuery, Notification.class);
 	}
 	
 }

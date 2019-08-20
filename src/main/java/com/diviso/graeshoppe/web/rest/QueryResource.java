@@ -628,8 +628,8 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/notification/{receiverId}")
-	public ResponseEntity<Notification> findNotificationByReceiverId(@PathVariable String receiverId) {
-		return ResponseEntity.ok().body(queryService.findNotificationByReceiverId(receiverId));
+	public ResponseEntity<Page<Notification>> findNotificationByReceiverId(@PathVariable String receiverId,Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findNotificationByReceiverId(receiverId,pageable));
 		
 	}
 
