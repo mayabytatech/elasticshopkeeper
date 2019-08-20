@@ -574,11 +574,11 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findBannersByStoreId(storeId));
 	}
 
-	@GetMapping("/orderMaster/{orderId}")
-	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId, Integer page,
+	@GetMapping("/orderMaster/{orderId}/{status}")
+	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId,@PathVariable String statusName, Integer page,
 			Integer size, ArrayList<String> sort) {
 
-		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, page, size, sort).getBody();
+		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, statusName,page, size, sort).getBody();
 
 		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
 		log.info(".................dto........." + dto);

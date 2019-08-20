@@ -2,6 +2,8 @@ package com.diviso.graeshoppe.web.rest;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,11 @@ import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
 import com.diviso.graeshoppe.client.customer.api.CustomerResourceApi;
 import com.diviso.graeshoppe.client.customer.model.ContactDTO;
 import com.diviso.graeshoppe.client.customer.model.CustomerDTO;
+import com.diviso.graeshoppe.client.order.api.ApprovalDetailsResourceApi;
+import com.diviso.graeshoppe.client.order.api.OrderCommandResourceApi;
+import com.diviso.graeshoppe.client.order.model.ApprovalDetailsDTO;
+import com.diviso.graeshoppe.client.order.model.Order;
+import com.diviso.graeshoppe.client.order.model.OrderDTO;
 import com.diviso.graeshoppe.client.order.model.OrderMaster;
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
@@ -74,6 +81,7 @@ import com.diviso.graeshoppe.client.store.model.StoreSettingsDTO;
 import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
 import com.diviso.graeshoppe.client.store.model.TypeDTO;
 import com.diviso.graeshoppe.client.store.model.UserRatingDTO;
+import com.diviso.graeshoppe.service.QueryService;
 
 @RestController
 @RequestMapping("/api/command")
@@ -82,6 +90,8 @@ public class CommandResource {
 	@Autowired
 	private UomResourceApi uomResourceApi;
 
+	@Autowired
+	private OrderCommandResourceApi orderCommandResourceApi;
 	@Autowired
 	private CategoryResourceApi categoryResourceApi;
 	/*
@@ -130,6 +140,9 @@ public class CommandResource {
 
 	@Autowired
 	BannerResourceApi bannerResourceApi;
+	
+	@Autowired
+	private ApprovalDetailsResourceApi approvalDetailsApi;
 
 	@Autowired
 	private StoreAddressResourceApi storeAddressResourceApi;
@@ -140,6 +153,8 @@ public class CommandResource {
 	@Autowired
 	private StoreTypeResourceApi storeTypeResourceApi;
 
+	@Autowired
+	private QueryService queryService;
 	/*
 	 * @Autowired LoadControllerApi loadControllerApi;
 	 */
@@ -307,7 +322,53 @@ public class CommandResource {
 	public ResponseEntity<StoreDTO> createStore(@RequestBody StoreDTO storeDTO) {
 		return this.storeResourceApi.createStoreUsingPOST(storeDTO);
 	}
+	
+	
+//	Order Related Command Resources starts here
+	
+	@PostMapping("/markAsDelivered/{orderId}")
+	public void markOrderAsDelivered(@PathVariable String orderId) {
+		Order order=queryService.findOrderByOrderId(orderId);
+		OrderDTO orderDTO = new OrderDTO();
+		orderDTO.setId(order.getId());
+		orderDTO.setDate(OffsetDateTime.ofInstant(order.getDate(), ZoneId.systemDefault()));
+		orderDTO.setOrderId(order.getOrderId());
+		orderDTO.setCustomerId(order.getCustomerId());
+		orderDTO.setStoreId(order.getStoreId());
+		orderDTO.setGrandTotal(order.getGrandTotal());
+		orderDTO.setEmail(order.getEmail());
+		orderDTO.setDeliveryInfoId(order.getDeliveryInfo().getId());
+		orderDTO.setApprovalDetailsId(order.getApprovalDetails().getId());
+		orderDTO.setPaymentRef(order.getPaymentRef());
+		orderDTO.setStatusId(5l);
+		orderCommandResourceApi.updateOrderUsingPUT(orderDTO);
+	}
+	
+	@PostMapping("/acceptOrder/{taskId}")
+	public ResponseEntity<com.diviso.graeshoppe.client.order.model.CommandResource> acceptOrder(@PathVariable String taskId,@RequestBody ApprovalDetailsDTO approvalDetailsDTO) {
+		ResponseEntity<com.diviso.graeshoppe.client.order.model.CommandResource> resource= approvalDetailsApi.createApprovalDetailsUsingPOST(taskId, approvalDetailsDTO);
+		Order order=queryService.findOrderByOrderId(approvalDetailsDTO.getOrderId());
+		OrderDTO orderDTO = new OrderDTO();
+		orderDTO.setId(order.getId());
+		orderDTO.setDate(OffsetDateTime.ofInstant(order.getDate(), ZoneId.systemDefault()));
+		orderDTO.setOrderId(order.getOrderId());
+		orderDTO.setCustomerId(order.getCustomerId());
+		orderDTO.setStoreId(order.getStoreId());
+		orderDTO.setGrandTotal(order.getGrandTotal());
+		orderDTO.setEmail(order.getEmail());
+		orderDTO.setDeliveryInfoId(order.getDeliveryInfo().getId());
+		orderDTO.setApprovalDetailsId(resource.getBody().getSelfId());
+		orderDTO.setStatusId(3l);
+		updateOrder(orderDTO);
+		return resource;
+	}
 
+	public ResponseEntity<OrderDTO> updateOrder(OrderDTO orderDTO) {
+		return orderCommandResourceApi.updateOrderUsingPUT(orderDTO);
+	}
+	
+//	Order related commands ends here
+	
 	@PutMapping("/stores")
 	public ResponseEntity<StoreDTO> updateStore(@RequestBody StoreDTO storeDTO) {
 		return this.storeResourceApi.updateStoreUsingPUT(storeDTO);

@@ -10,79 +10,79 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * OfferDTO
+ * AuxItem
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-20T12:29:54.872903+05:30[Asia/Kolkata]")
 
-public class OfferDTO   {
-  @JsonProperty("id")
-  private Long id = null;
+public class AuxItem   {
+  @JsonProperty("auxItem")
+  private String auxItem = null;
 
-  @JsonProperty("offerRef")
-  private String offerRef = null;
+  @JsonProperty("quantity")
+  private Integer quantity = null;
 
-  @JsonProperty("orderId")
-  private Long orderId = null;
+  @JsonProperty("total")
+  private Double total = null;
 
-  public OfferDTO id(Long id) {
-    this.id = id;
+  public AuxItem auxItem(String auxItem) {
+    this.auxItem = auxItem;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get auxItem
+   * @return auxItem
   **/
   @ApiModelProperty(value = "")
 
 
-  public Long getId() {
-    return id;
+  public String getAuxItem() {
+    return auxItem;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setAuxItem(String auxItem) {
+    this.auxItem = auxItem;
   }
 
-  public OfferDTO offerRef(String offerRef) {
-    this.offerRef = offerRef;
+  public AuxItem quantity(Integer quantity) {
+    this.quantity = quantity;
     return this;
   }
 
   /**
-   * Get offerRef
-   * @return offerRef
+   * Get quantity
+   * @return quantity
   **/
   @ApiModelProperty(value = "")
 
 
-  public String getOfferRef() {
-    return offerRef;
+  public Integer getQuantity() {
+    return quantity;
   }
 
-  public void setOfferRef(String offerRef) {
-    this.offerRef = offerRef;
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
   }
 
-  public OfferDTO orderId(Long orderId) {
-    this.orderId = orderId;
+  public AuxItem total(Double total) {
+    this.total = total;
     return this;
   }
 
   /**
-   * Get orderId
-   * @return orderId
+   * Get total
+   * @return total
   **/
   @ApiModelProperty(value = "")
 
 
-  public Long getOrderId() {
-    return orderId;
+  public Double getTotal() {
+    return total;
   }
 
-  public void setOrderId(Long orderId) {
-    this.orderId = orderId;
+  public void setTotal(Double total) {
+    this.total = total;
   }
 
 
@@ -94,25 +94,25 @@ public class OfferDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    OfferDTO offerDTO = (OfferDTO) o;
-    return Objects.equals(this.id, offerDTO.id) &&
-        Objects.equals(this.offerRef, offerDTO.offerRef) &&
-        Objects.equals(this.orderId, offerDTO.orderId);
+    AuxItem auxItem = (AuxItem) o;
+    return Objects.equals(this.auxItem, auxItem.auxItem) &&
+        Objects.equals(this.quantity, auxItem.quantity) &&
+        Objects.equals(this.total, auxItem.total);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, offerRef, orderId);
+    return Objects.hash(auxItem, quantity, total);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OfferDTO {\n");
+    sb.append("class AuxItem {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    offerRef: ").append(toIndentedString(offerRef)).append("\n");
-    sb.append("    orderId: ").append(toIndentedString(orderId)).append("\n");
+    sb.append("    auxItem: ").append(toIndentedString(auxItem)).append("\n");
+    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+    sb.append("    total: ").append(toIndentedString(total)).append("\n");
     sb.append("}");
     return sb.toString();
   }
