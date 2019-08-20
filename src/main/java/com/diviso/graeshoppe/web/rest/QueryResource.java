@@ -575,10 +575,10 @@ public class QueryResource {
 	}
 
 	@GetMapping("/orderMaster/{orderId}/{status}")
-	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId,@PathVariable String statusName, Integer page,
+	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId,@PathVariable String status, Integer page,
 			Integer size, ArrayList<String> sort) {
 
-		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, statusName,page, size, sort).getBody();
+		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size, sort).getBody();
 
 		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
 		log.info(".................dto........." + dto);
