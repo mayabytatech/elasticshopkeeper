@@ -37,6 +37,10 @@ public interface QueryService {
 	public Page<Product> findProductByCategoryId(Long categoryId, String storeId, Pageable pageable);
 
 	public Page<Customer> findAllCustomers(String searchTerm, Pageable pageable);
+	/**
+	 * @param statusName
+	 */
+	public Page<Order> findOrderByStatusName(String statusName);
 
 	public List<String> findAllUom(Pageable pageable);
 

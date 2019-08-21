@@ -72,6 +72,16 @@ public class QueryServiceImpl implements QueryService {
 		this.elasticsearchTemplate = new JestElasticsearchTemplate(this.jestClient);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.diviso.graeshoppe.service.QueryService#findOrderByStatusName(java.lang.String)
+	 */
+	@Override
+	public Page<Order> findOrderByStatusName(String statusName) {
+	
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchQuery("status.name.keyword", statusName)).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
+	}
 	@Autowired
 	ElasticsearchOperations elasticsearchOperations;
 
