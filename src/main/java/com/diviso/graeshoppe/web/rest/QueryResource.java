@@ -595,6 +595,20 @@ public class QueryResource {
 		return ResponseEntity.ok().body(result);
 	}
 
+	public ResponseEntity<List<OpenTask>> getOpenTasks(@RequestParam(required = false) String assignee,
+			@RequestParam(required = false) String assigneeLike, @RequestParam(required = false) String candidateGroup,
+			@RequestParam(required = false) String candidateGroups,
+			@RequestParam(required = false) String candidateUser, @RequestParam(required = false) String createdAfter,
+			@RequestParam(required = false) String createdBefore, @RequestParam(required = false) String createdOn,
+			@RequestParam(required = false) String name, @RequestParam(required = false) String nameLike){
+		return orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike);
+	}
+	
+	@GetMapping("/orderByOrderId/{orderId}")
+	public ResponseEntity<Order> findOrderByOrderId(@PathVariable String orderId) {
+		 Order order=queryService.findOrderByOrderId(orderId);
+		return ResponseEntity.ok().body(order);
+	}
 	@GetMapping("/tasks")
 	public ResponseEntity<List<Order>> getTasks(@RequestParam(required = false) String assignee,
 			@RequestParam(required = false) String assigneeLike, @RequestParam(required = false) String candidateGroup,
