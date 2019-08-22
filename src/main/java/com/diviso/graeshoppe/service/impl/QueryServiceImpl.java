@@ -685,11 +685,8 @@ public class QueryServiceImpl implements QueryService {
 
 		List<Notification> notifications = new ArrayList<Notification>();
 
-		elasticsearchOperations.queryForPage(searchQuery, Notification.class).getContent().forEach(o -> {
-
-			notifications.add(o);
-
-		});
+		elasticsearchOperations.queryForPage(searchQuery, Notification.class).getContent().
+		forEach(notifications::add);
 		return (long) notifications.size();
 	}
 
