@@ -681,7 +681,7 @@ public class QueryServiceImpl implements QueryService {
 	public Long getNotificationCountByReceiveridAndStatus(String status, String receiverId) {
 		log.info(".............." + status + ".............." + receiverId);
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
-				.must(termQuery("status", status)).must(QueryBuilders.matchQuery("receiverId", status))).build();
+				.must(termQuery("status.keyword", status)).must(QueryBuilders.matchQuery("receiverId", receiverId))).build();
 
 		List<Notification> notifications = new ArrayList<Notification>();
 
