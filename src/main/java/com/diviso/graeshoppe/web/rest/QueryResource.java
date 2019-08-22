@@ -651,8 +651,8 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findNotificationByReceiverId(receiverId,pageable));
 		
 	}
-
-    @GetMapping("/orderby-date-status-name/{statusName}/{date}/{storeid}")
+	
+	@GetMapping("/orderby-date-status-name/{statusName}/{date}/{storeid}")
     public Long findOrderCountByDateAndStatusName(@PathVariable String statusName,@PathVariable Instant date){
     	return queryService.findOrderCountByDateAndStatusName(statusName,date);
     }
@@ -677,6 +677,12 @@ public class QueryResource {
      	
     	
     }
+    
+	@GetMapping("/notification/{status}/{receiverId}")
+	public Long getNotificationCountByReceiveridAndStatus(@PathVariable String status, @PathVariable String receiverId) {
+		log.info(".............."+status+".............."+receiverId);
+		return queryService.getNotificationCountByReceiveridAndStatus(status, receiverId);
+	}
     
     
 }

@@ -197,4 +197,6 @@ public interface QueryService {
 
 	public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant to, String storeId);
 
+	public Long getNotificationCountByReceiveridAndStatus(String status, String receiverId);
+
 }
