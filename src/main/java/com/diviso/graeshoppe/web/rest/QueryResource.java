@@ -596,6 +596,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(result);
 	}
 
+	@GetMapping("/opentasks")
 	public ResponseEntity<List<OpenTask>> getOpenTasks(@RequestParam(required = false) String assignee,
 			@RequestParam(required = false) String assigneeLike, @RequestParam(required = false) String candidateGroup,
 			@RequestParam(required = false) String candidateGroups,
