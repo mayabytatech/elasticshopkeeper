@@ -72,7 +72,7 @@ public interface ReportQueryResourceApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/main-report/{orderId}",
+    @RequestMapping(value = "/api/main-report/{orderId}/{statusName}",
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<OrderMaster> getOrderMasterUsingGET(@ApiParam(value = "orderId",required=true) @PathVariable("orderId") String orderId,@ApiParam(value = "statusName",required=true) @PathVariable("statusName") String statusName,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);

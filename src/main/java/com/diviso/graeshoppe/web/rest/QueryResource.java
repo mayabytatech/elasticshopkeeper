@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.web.rest;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -650,4 +651,32 @@ public class QueryResource {
 		
 	}
 
+    @GetMapping("/orderby-date-status-name/{statusName}/{date}/{storeid}")
+    public Long findOrderCountByDateAndStatusName(@PathVariable String statusName,@PathVariable Instant date){
+    	return queryService.findOrderCountByDateAndStatusName(statusName,date);
+    }
+    
+    @GetMapping("/order/{from}/{to}/{storeId}")
+	public Page<Order> findOrderByDatebetweenAndStoreId(@PathVariable Instant from,@PathVariable Instant to,@PathVariable String storeId){
+		return queryService.findOrderByDatebetweenAndStoreId(from,to,storeId);
+    }
+	
+    
+    @GetMapping("/ordersummary/{date}/{storeId}")
+    public void OrderSummary(@PathVariable Instant date, @PathVariable String storeId) {
+    	
+		/*
+		 * getOrdercountandtotalByStoreIDandcurrentDate
+		 * getOrdercountandtotalByStoreIDandcurrentDatewithordertypedelivery
+		 * getOrdercountandtotalByStoreIDandcurrentDatewithordertypecollection
+		 * getOrdercountandtotalByStoreIDandcurrentDatewithpaymenttypecard
+		 * getOrdercountandtotalByStoreIDandcurrentDatewithpaymenttypecash
+		 */
+    	
+     	
+    	
+    }
+    
+    
 }
+

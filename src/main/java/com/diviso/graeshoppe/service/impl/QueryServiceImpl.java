@@ -5,6 +5,7 @@ import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;import java.util.stream.Collector;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilders;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
@@ -57,16 +59,30 @@ import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
 import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;
 import com.google.gson.JsonObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.SearchResult;
 import io.searchbox.core.search.aggregation.TermsAggregation;
 
+import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
+
 @Service
 public class QueryServiceImpl implements QueryService {
+	
+	
+	int i = 0;
+	Long count = 0L;
+	
+	
 	private final JestClient jestClient;
 	private final JestElasticsearchTemplate elasticsearchTemplate;
 
+	
+	private final Logger log = LoggerFactory.getLogger(QueryServiceImpl.class);
+	
 	public QueryServiceImpl(JestClient jestClient) {
 		this.jestClient = jestClient;
 		this.elasticsearchTemplate = new JestElasticsearchTemplate(this.jestClient);
@@ -202,7 +218,7 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withPageable(pageable).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
 	}
 
@@ -592,4 +608,52 @@ public class QueryServiceImpl implements QueryService {
 		return elasticsearchOperations.queryForPage(stringQuery, Notification.class);
 	}
 	
+	public Long findOrderCountByDateAndStatusName(String statusName, Instant date) {
+
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery())
+				.withSearchType(QUERY_THEN_FETCH).withIndices("order").withTypes("order")
+				.addAggregation(AggregationBuilders.terms("date").field("date.keyword")
+						.order(org.elasticsearch.search.aggregations.bucket.terms.Terms.Order.aggregation("avgPrice",
+								true))
+						.subAggregation(AggregationBuilders.avg("avgPrice").field("grandTotal"))
+						.subAggregation(AggregationBuilders.terms("statusName").field("status.name.keyword")))
+				.build();
+
+		AggregatedPage<Order> result = elasticsearchTemplate.queryForPage(searchQuery, Order.class);
+
+		TermsAggregation orderAgg = result.getAggregation("date", TermsAggregation.class);
+		List<Entry> storeBasedEntry = new ArrayList<Entry>();
+		log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + orderAgg.getBuckets());
+		orderAgg.getBuckets().forEach(bucket -> {
+
+			List<Entry> listStore = bucket.getAggregation("statusName", TermsAggregation.class).getBuckets();
+			log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + listStore);
+			for (int i = 0; i < listStore.size(); i++) {
+				log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + listStore.get(i));
+				if (bucket.getKey().equals(date.toString())) {
+					if (listStore.get(i).getKey().equals(statusName)) {
+
+						storeBasedEntry
+								.add(bucket.getAggregation("statusName", TermsAggregation.class).getBuckets().get(i));
+					}
+				}
+
+			}
+
+		});
+		storeBasedEntry.forEach(e -> {
+			count = e.getCount();
+		});
+		return count;
+	}
+	
+	@Override
+	public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant to, String storeId) {
+		// .........
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
+				.must(termQuery("storeId", storeId)).must(rangeQuery("date").gte(from).lte(to))).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
+	}
+
 }

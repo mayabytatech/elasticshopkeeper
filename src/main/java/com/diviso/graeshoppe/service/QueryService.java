@@ -1,5 +1,6 @@
 package com.diviso.graeshoppe.service;
 
+import java.time.Instant;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -191,5 +192,9 @@ public interface QueryService {
 	public Page<Product> findProducts(Pageable pageable);
 
 	public Page<Notification> findNotificationByReceiverId(String receiverId,Pageable pageable);
+
+	public Long findOrderCountByDateAndStatusName(String statusName, Instant date);
+
+	public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant to, String storeId);
 
 }
