@@ -342,7 +342,9 @@ public class CommandResource {
 		orderDTO.setGrandTotal(order.getGrandTotal());
 		orderDTO.setEmail(order.getEmail());
 		orderDTO.setDeliveryInfoId(order.getDeliveryInfo().getId());
-		orderDTO.setApprovalDetailsId(order.getApprovalDetails().getId());
+		if(order.getApprovalDetails()!=null) {
+			orderDTO.setApprovalDetailsId(order.getApprovalDetails().getId());
+		}
 		orderDTO.setPaymentRef(order.getPaymentRef());
 		orderDTO.setStatusId(5l);
 		orderCommandResourceApi.updateOrderUsingPUT(orderDTO);
