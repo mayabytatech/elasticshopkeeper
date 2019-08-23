@@ -94,11 +94,13 @@ public class QueryServiceImpl implements QueryService {
 	 * String)
 	 */
 	@Override
-	public Page<Order> findOrderByStatusName(String statusName) {
-
+	public Page<Order> findOrderByStatusName(String statusName, String storeId, Pageable pageable) {
+		
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(matchQuery("status.name.keyword", statusName)).build();
-
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
+						.must(QueryBuilders.matchQuery("storeId", storeId))).withPageable(pageable)
+				.build();	
+		
 		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
 	}
 
@@ -134,7 +136,7 @@ public class QueryServiceImpl implements QueryService {
 	public Page<Product> findProductByCategoryId(Long categoryId, String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("category.id", categoryId))
-						.must(QueryBuilders.matchQuery("iDPcode", storeId)))
+						.must(QueryBuilders.matchQuery("iDPcode", storeId))).withPageable(pageable)
 				.build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}

@@ -168,9 +168,9 @@ public class QueryResource {
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
 	///////////
-	@GetMapping("/orderStatus/{statusName}")
-	public Page<Order> findOrderByStatusName(@PathVariable String statusName,Pageable pageable){
-		return queryService.findOrderByStatusName(statusName);
+	@GetMapping("/orderStatus/{statusName}/{storeId}")
+	public Page<Order> findOrderByStatusName(@PathVariable String statusName, @PathVariable String storeId, Pageable pageable){
+		return queryService.findOrderByStatusName(statusName, storeId, pageable);
 	}
 	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
@@ -652,15 +652,17 @@ public class QueryResource {
 		
 	}
 	
-	@GetMapping("/orderby-date-status-name/{statusName}/{date}/{storeid}")
-    public Long findOrderCountByDateAndStatusName(@PathVariable String statusName,@PathVariable Instant date){
-    	return queryService.findOrderCountByDateAndStatusName(statusName,date);
-    }
-    
-    @GetMapping("/order/{from}/{to}/{storeId}")
-	public Page<Order> findOrderByDatebetweenAndStoreId(@PathVariable Instant from,@PathVariable Instant to,@PathVariable String storeId){
-		return queryService.findOrderByDatebetweenAndStoreId(from,to,storeId);
-    }
+	/*
+	 * @GetMapping("/orderby-date-status-name/{statusName}/{date}/{storeid}") public
+	 * Long findOrderCountByDateAndStatusName(@PathVariable String
+	 * statusName,@PathVariable Instant date){ return
+	 * queryService.findOrderCountByDateAndStatusName(statusName,date); }
+	 * 
+	 * @GetMapping("/order/{from}/{to}/{storeId}") public Page<Order>
+	 * findOrderByDatebetweenAndStoreId(@PathVariable Instant from,@PathVariable
+	 * Instant to,@PathVariable String storeId){ return
+	 * queryService.findOrderByDatebetweenAndStoreId(from,to,storeId); }
+	 */
 	
     
     @GetMapping("/ordersummary/{date}/{storeId}")
