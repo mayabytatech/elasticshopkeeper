@@ -41,7 +41,7 @@ public interface QueryService {
 	/**
 	 * @param statusName
 	 */
-	public Page<Order> findOrderByStatusName(String statusName);
+	public Page<Order> findOrderByStatusName(String statusName, String storeId, Pageable pageable);
 
 	public List<String> findAllUom(Pageable pageable);
 

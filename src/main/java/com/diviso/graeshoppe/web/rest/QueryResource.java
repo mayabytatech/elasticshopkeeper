@@ -168,9 +168,9 @@ public class QueryResource {
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
 	///////////
-	@GetMapping("/orderStatus/{statusName}")
-	public Page<Order> findOrderByStatusName(@PathVariable String statusName,Pageable pageable){
-		return queryService.findOrderByStatusName(statusName);
+	@GetMapping("/orderStatus/{statusName}/{storeId}")
+	public Page<Order> findOrderByStatusName(@PathVariable String statusName, @PathVariable String storeId, Pageable pageable){
+		return queryService.findOrderByStatusName(statusName, storeId, pageable);
 	}
 	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
