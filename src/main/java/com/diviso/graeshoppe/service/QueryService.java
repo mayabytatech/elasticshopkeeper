@@ -199,4 +199,6 @@ public interface QueryService {
 
 	public Long getNotificationCountByReceiveridAndStatus(String status, String receiverId);
 
+	public Page<Category> findAllCategoryBySearchTerm(String searchTerm, String storeId, Pageable pageable);
+
 }

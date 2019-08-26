@@ -125,7 +125,7 @@ public class QueryServiceImpl implements QueryService {
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("name", searchTerm).prefixLength(3))
-						.must(QueryBuilders.matchQuery("iDPcode", storeId)))
+						.must(QueryBuilders.matchQuery("iDPcode", storeId))).withPageable(pageable)
 				.build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
@@ -583,7 +583,10 @@ public class QueryServiceImpl implements QueryService {
 	public Order findOrderByOrderId(String orderId) {
 
 		StringQuery stringQuery = new StringQuery(termQuery("orderId.keyword", orderId).toString());
-		return elasticsearchOperations.queryForObject(stringQuery, Order.class);
+		
+		Order test=elasticsearchOperations.queryForObject(stringQuery, Order.class);
+		log.info("+++++++++++++++++++++++++++++++++++++++",test);
+		return test;
 	}
 
 	/*
@@ -690,6 +693,17 @@ public class QueryServiceImpl implements QueryService {
 		elasticsearchOperations.queryForPage(searchQuery, Notification.class).getContent().
 		forEach(notifications::add);
 		return (long) notifications.size();
+	}
+
+	@Override
+	public Page<Category> findAllCategoryBySearchTerm(String searchTerm, String storeId, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("name", searchTerm).prefixLength(3))
+						.must(QueryBuilders.matchQuery("iDPcode", storeId))).withPageable(pageable)
+				.build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
+
 	}
 
 }

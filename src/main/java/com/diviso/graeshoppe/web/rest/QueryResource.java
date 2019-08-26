@@ -1,5 +1,7 @@
 package com.diviso.graeshoppe.web.rest;
 
+import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -288,6 +291,12 @@ public class QueryResource {
 
 		return ResponseEntity.ok().body(queryService.findAllCategories(storeId, pageable));
 
+	}
+	
+	@GetMapping("/findCategoryBySearchTerm/{searchTerm}/{storeId}")
+	public Page<Category> findAllCategoryBySearchTerm(@PathVariable String searchTerm, @PathVariable String storeId,
+			Pageable pageable) {
+		return queryService.findAllCategoryBySearchTerm(searchTerm, storeId, pageable);
 	}
 
 	@GetMapping("/findAllCategoriesWithOutImage/{iDPcode}")
@@ -685,7 +694,7 @@ public class QueryResource {
 		log.info(".............."+status+".............."+receiverId);
 		return queryService.getNotificationCountByReceiveridAndStatus(status, receiverId);
 	}
-    
-    
+	
+   
 }
 
