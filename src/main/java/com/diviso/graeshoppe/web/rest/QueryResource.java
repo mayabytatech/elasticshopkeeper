@@ -602,8 +602,9 @@ public class QueryResource {
 	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId,@PathVariable String status, Integer page,
 			Integer size, ArrayList<String> sort) {
 
-		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size, sort).getBody();
-
+		//OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size, sort).getBody();
+		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterByOrderIdAndStatusNameUsingGET(orderId, status, page, size, sort).getBody();
+		
 		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
 		log.info(".................dto........." + dto);
 		OrderMasterDTO result;
@@ -671,35 +672,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findNotificationByReceiverId(receiverId,pageable));
 		
 	}
-	
-	/*
-	 * @GetMapping("/orderby-date-status-name/{statusName}/{date}/{storeid}") public
-	 * Long findOrderCountByDateAndStatusName(@PathVariable String
-	 * statusName,@PathVariable Instant date){ return
-	 * queryService.findOrderCountByDateAndStatusName(statusName,date); }
-	 * 
-	 * @GetMapping("/order/{from}/{to}/{storeId}") public Page<Order>
-	 * findOrderByDatebetweenAndStoreId(@PathVariable Instant from,@PathVariable
-	 * Instant to,@PathVariable String storeId){ return
-	 * queryService.findOrderByDatebetweenAndStoreId(from,to,storeId); }
-	 */
-	
-    
-    @GetMapping("/ordersummary/{date}/{storeId}")
-    public void OrderSummary(@PathVariable Instant date, @PathVariable String storeId) {
-    	
-		/*
-		 * getOrdercountandtotalByStoreIDandcurrentDate
-		 * getOrdercountandtotalByStoreIDandcurrentDatewithordertypedelivery
-		 * getOrdercountandtotalByStoreIDandcurrentDatewithordertypecollection
-		 * getOrdercountandtotalByStoreIDandcurrentDatewithpaymenttypecard
-		 * getOrdercountandtotalByStoreIDandcurrentDatewithpaymenttypecash
-		 */
-    	
-     	
-    	
-    }
-    
+
 	@GetMapping("/notification/{status}/{receiverId}")
 	public Long getNotificationCountByReceiveridAndStatus(@PathVariable String status, @PathVariable String receiverId) {
 		log.info(".............."+status+".............."+receiverId);
