@@ -26,6 +26,9 @@ public class ProductBundle {
 
 	private Product product;
 	
+	private Discount discount;
+	
+	
 	private List<ComboLineItem> comboLineItems;
 	
     private List<AuxilaryLineItem> auxilaryLineItems;
@@ -58,6 +61,14 @@ public class ProductBundle {
 	public String toString() {
 		return "ProductBundle [product=" + product + ", comboLineItems=" + comboLineItems + ", auxilaryLineItems="
 				+ auxilaryLineItems + "]";
+	}
+
+	public Discount getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Discount discount) {
+		this.discount = discount;
 	}
 
     

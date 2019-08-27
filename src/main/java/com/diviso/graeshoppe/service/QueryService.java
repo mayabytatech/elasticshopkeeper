@@ -16,6 +16,7 @@ import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
+import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
@@ -202,5 +203,7 @@ public interface QueryService {
 	public Page<Category> findAllCategoryBySearchTerm(String searchTerm, String storeId, Pageable pageable);
 
 	public Page<Order> findOrdersByDeliveryType(String orderId, String deliverytype, Pageable pageable);
+
+	public Discount findDiscountByProductId(Long productId);
 
 }

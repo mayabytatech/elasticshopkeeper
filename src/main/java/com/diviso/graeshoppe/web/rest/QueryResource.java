@@ -47,6 +47,7 @@ import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
+import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
 import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
@@ -491,8 +492,12 @@ public class QueryResource {
 
 		List<AuxilaryLineItem> auxilaryLineItem = queryService.findAllAuxilaryProductsByProductId(product.getId());
 
+		Discount discount=queryService.findDiscountByProductId(product.getId());
+		
 		ProductBundle productBundle = new ProductBundle();
 
+		productBundle.setDiscount(discount);
+		
 		productBundle.setComboLineItems(comboLineItem);
 
 		productBundle.setAuxilaryLineItems(auxilaryLineItem);
