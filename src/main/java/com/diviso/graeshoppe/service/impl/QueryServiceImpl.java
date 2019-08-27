@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -95,12 +96,12 @@ public class QueryServiceImpl implements QueryService {
 	 */
 	@Override
 	public Page<Order> findOrderByStatusName(String statusName, String storeId, Pageable pageable) {
-		
+
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
-						.must(QueryBuilders.matchQuery("storeId", storeId))).withPageable(pageable)
-				.build();	
-		
+						.must(QueryBuilders.matchQuery("storeId", storeId)))
+				.withPageable(pageable).build();
+
 		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
 	}
 
@@ -125,8 +126,8 @@ public class QueryServiceImpl implements QueryService {
 	public Page<Product> findAllProductBySearchTerm(String searchTerm, String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("name", searchTerm).prefixLength(3))
-						.must(QueryBuilders.matchQuery("iDPcode", storeId))).withPageable(pageable)
-				.build();
+						.must(QueryBuilders.matchQuery("iDPcode", storeId)))
+				.withPageable(pageable).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 
@@ -136,8 +137,8 @@ public class QueryServiceImpl implements QueryService {
 	public Page<Product> findProductByCategoryId(Long categoryId, String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("category.id", categoryId))
-						.must(QueryBuilders.matchQuery("iDPcode", storeId))).withPageable(pageable)
-				.build();
+						.must(QueryBuilders.matchQuery("iDPcode", storeId)))
+				.withPageable(pageable).build();
 		return elasticsearchOperations.queryForPage(searchQuery, Product.class);
 	}
 
@@ -583,9 +584,9 @@ public class QueryServiceImpl implements QueryService {
 	public Order findOrderByOrderId(String orderId) {
 
 		StringQuery stringQuery = new StringQuery(termQuery("orderId.keyword", orderId).toString());
-		
-		Order test=elasticsearchOperations.queryForObject(stringQuery, Order.class);
-		log.info("+++++++++++++++++++++++++++++++++++++++",test);
+
+		Order test = elasticsearchOperations.queryForObject(stringQuery, Order.class);
+		log.info("+++++++++++++++++++++++++++++++++++++++", test);
 		return test;
 	}
 
@@ -686,12 +687,12 @@ public class QueryServiceImpl implements QueryService {
 	public Long getNotificationCountByReceiveridAndStatus(String status, String receiverId) {
 		log.info(".............." + status + ".............." + receiverId);
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
-				.must(termQuery("status.keyword", status)).must(QueryBuilders.matchQuery("receiverId", receiverId))).build();
+				.must(termQuery("status.keyword", status)).must(QueryBuilders.matchQuery("receiverId", receiverId)))
+				.build();
 
 		List<Notification> notifications = new ArrayList<Notification>();
 
-		elasticsearchOperations.queryForPage(searchQuery, Notification.class).getContent().
-		forEach(notifications::add);
+		elasticsearchOperations.queryForPage(searchQuery, Notification.class).getContent().forEach(notifications::add);
 		return (long) notifications.size();
 	}
 
@@ -699,10 +700,16 @@ public class QueryServiceImpl implements QueryService {
 	public Page<Category> findAllCategoryBySearchTerm(String searchTerm, String storeId, Pageable pageable) {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("name", searchTerm).prefixLength(3))
-						.must(QueryBuilders.matchQuery("iDPcode", storeId))).withPageable(pageable)
-				.build();
+						.must(QueryBuilders.matchQuery("iDPcode", storeId)))
+				.withPageable(pageable).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Category.class);
+
+	}
+
+	@Override
+	public Page<Order> findOrdersByDeliveryType(String orderId, String deliverytype, Pageable pageable) {
+		return null;
 
 	}
 

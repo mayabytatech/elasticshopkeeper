@@ -44,6 +44,7 @@ import com.diviso.graeshoppe.client.order.model.OrderMaster;
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ComboLineItemResourceApi;
+import com.diviso.graeshoppe.client.product.api.DiscountResourceApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 
@@ -51,6 +52,7 @@ import com.diviso.graeshoppe.client.product.api.UomResourceApi;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
+import com.diviso.graeshoppe.client.product.model.DiscountDTO;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
@@ -156,6 +158,10 @@ public class CommandResource {
 
 	@Autowired
 	private StoreTypeResourceApi storeTypeResourceApi;
+	
+	@Autowired
+	private DiscountResourceApi discountResourceApi;
+	
 
 	@Autowired
 	private QueryService queryService;
@@ -518,6 +524,11 @@ public class CommandResource {
 	@DeleteMapping("/banner/{id}")
 	public ResponseEntity<Void> deleteBanner(@PathVariable Long id) {
 		return this.bannerResourceApi.deleteBannerUsingDELETE(id);
+	}
+	
+	@PostMapping("/discount")
+	public ResponseEntity<DiscountDTO> createDiscount(@RequestBody DiscountDTO discountDTO) {
+		return this.discountResourceApi.createDiscountUsingPOST(discountDTO);
 	}
 
 	@PostMapping("/storeBundle")

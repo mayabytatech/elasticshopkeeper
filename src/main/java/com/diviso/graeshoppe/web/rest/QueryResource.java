@@ -170,11 +170,17 @@ public class QueryResource {
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
-	///////////
 	@GetMapping("/orderStatus/{statusName}/{storeId}")
 	public Page<Order> findOrderByStatusName(@PathVariable String statusName, @PathVariable String storeId, Pageable pageable){
 		return queryService.findOrderByStatusName(statusName, storeId, pageable);
 	}
+
+	@GetMapping("/order/findbydeliverytype/{deliverytype}")
+	public Page<Order> findOrdersByDeliveryType(@PathVariable String orderId, @PathVariable String deliverytype, Pageable pageable){
+		return queryService.findOrdersByDeliveryType(orderId, deliverytype, pageable);
+	}
+	
+		
 	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
 			Pageable pageable) {
