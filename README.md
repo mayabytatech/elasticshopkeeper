@@ -24,4 +24,6 @@ Our Internationally Certified Java Consultants are ready to collaborate with you
 [Contact Us](https://www.lxisoft.com/contact-us-2/)
 
 
+# Thanks to Browserstack for the opensource testing license
+
 [BrowserStack](https://www.browserstack.com)![Browserstack Logo](Browserstack-logo@2x.png)
