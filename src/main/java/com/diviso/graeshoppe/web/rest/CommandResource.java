@@ -531,6 +531,16 @@ public class CommandResource {
 		return this.discountResourceApi.createDiscountUsingPOST(discountDTO);
 	}
 
+	@PutMapping("/discount")
+	public ResponseEntity<DiscountDTO> updateDiscount(@RequestBody DiscountDTO discountDTO) {
+		return  this.discountResourceApi.updateDiscountUsingPUT(discountDTO);
+	}
+	
+	@DeleteMapping("/discount/{id}")
+	public ResponseEntity<Void> deleteDiscount(@PathVariable Long id) {
+		return this.discountResourceApi.deleteDiscountUsingDELETE(id);
+	}
+	
 	@PostMapping("/storeBundle")
 	public ResponseEntity<StoreBundleDTO> createStoreBundle(@RequestBody StoreBundleDTO storeBundleDTO) {
 
