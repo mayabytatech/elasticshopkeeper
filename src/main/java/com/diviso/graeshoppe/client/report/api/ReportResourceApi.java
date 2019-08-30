@@ -5,6 +5,9 @@
  */
 package com.diviso.graeshoppe.client.report.api;
 
+import java.time.LocalDate;
+import java.util.Date;
+import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,14 +22,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.diviso.graeshoppe.client.report.model.OrderMaster;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-15T14:07:49.659+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-30T10:54:18.746+05:30[Asia/Kolkata]")
 
 @Api(value = "ReportResource", description = "the ReportResource API")
 public interface ReportResourceApi {
@@ -53,5 +54,17 @@ public interface ReportResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<OrderMaster> getReportByOrderNumberUsingGET(@ApiParam(value = "orderNumber",required=true) @PathVariable("orderNumber") String orderNumber);
+
+
+    @ApiOperation(value = "getReportSummaryAsPdf", nickname = "getReportSummaryAsPdfUsingGET", notes = "", response = byte[].class, tags={ "report-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = byte[].class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/report/reportSummary/{date}/{storeId}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<byte[]> getReportSummaryAsPdfUsingGET(@ApiParam(value = "date",required=true) @PathVariable("date") LocalDate date,@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId);
 
 }

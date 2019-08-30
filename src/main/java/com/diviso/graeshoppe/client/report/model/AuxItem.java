@@ -10,20 +10,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * OrderLineDTO
+ * AuxItem
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-30T10:54:18.746+05:30[Asia/Kolkata]")
 
-public class OrderLineDTO   {
-  @JsonProperty("id")
-  private Long id = null;
-
-  @JsonProperty("item")
-  private String item = null;
-
-  @JsonProperty("orderMasterId")
-  private Long orderMasterId = null;
+public class AuxItem   {
+  @JsonProperty("auxItem")
+  private String auxItem = null;
 
   @JsonProperty("quantity")
   private Integer quantity = null;
@@ -31,67 +25,27 @@ public class OrderLineDTO   {
   @JsonProperty("total")
   private Double total = null;
 
-  public OrderLineDTO id(Long id) {
-    this.id = id;
+  public AuxItem auxItem(String auxItem) {
+    this.auxItem = auxItem;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Get auxItem
+   * @return auxItem
   **/
   @ApiModelProperty(value = "")
 
 
-  public Long getId() {
-    return id;
+  public String getAuxItem() {
+    return auxItem;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setAuxItem(String auxItem) {
+    this.auxItem = auxItem;
   }
 
-  public OrderLineDTO item(String item) {
-    this.item = item;
-    return this;
-  }
-
-  /**
-   * Get item
-   * @return item
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getItem() {
-    return item;
-  }
-
-  public void setItem(String item) {
-    this.item = item;
-  }
-
-  public OrderLineDTO orderMasterId(Long orderMasterId) {
-    this.orderMasterId = orderMasterId;
-    return this;
-  }
-
-  /**
-   * Get orderMasterId
-   * @return orderMasterId
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public Long getOrderMasterId() {
-    return orderMasterId;
-  }
-
-  public void setOrderMasterId(Long orderMasterId) {
-    this.orderMasterId = orderMasterId;
-  }
-
-  public OrderLineDTO quantity(Integer quantity) {
+  public AuxItem quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -111,7 +65,7 @@ public class OrderLineDTO   {
     this.quantity = quantity;
   }
 
-  public OrderLineDTO total(Double total) {
+  public AuxItem total(Double total) {
     this.total = total;
     return this;
   }
@@ -140,27 +94,23 @@ public class OrderLineDTO   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    OrderLineDTO orderLineDTO = (OrderLineDTO) o;
-    return Objects.equals(this.id, orderLineDTO.id) &&
-        Objects.equals(this.item, orderLineDTO.item) &&
-        Objects.equals(this.orderMasterId, orderLineDTO.orderMasterId) &&
-        Objects.equals(this.quantity, orderLineDTO.quantity) &&
-        Objects.equals(this.total, orderLineDTO.total);
+    AuxItem auxItem = (AuxItem) o;
+    return Objects.equals(this.auxItem, auxItem.auxItem) &&
+        Objects.equals(this.quantity, auxItem.quantity) &&
+        Objects.equals(this.total, auxItem.total);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, item, orderMasterId, quantity, total);
+    return Objects.hash(auxItem, quantity, total);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OrderLineDTO {\n");
+    sb.append("class AuxItem {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    item: ").append(toIndentedString(item)).append("\n");
-    sb.append("    orderMasterId: ").append(toIndentedString(orderMasterId)).append("\n");
+    sb.append("    auxItem: ").append(toIndentedString(auxItem)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    total: ").append(toIndentedString(total)).append("\n");
     sb.append("}");

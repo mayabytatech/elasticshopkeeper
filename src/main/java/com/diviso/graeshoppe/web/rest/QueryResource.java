@@ -3,6 +3,7 @@ package com.diviso.graeshoppe.web.rest;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,9 +59,11 @@ import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
 import com.diviso.graeshoppe.client.report.api.OrderMasterResourceApi;
+import com.diviso.graeshoppe.client.report.api.QueryResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportCommandResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
 import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
+import com.diviso.graeshoppe.client.report.model.ReportSummary;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
@@ -92,6 +95,9 @@ import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
 import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
+
+import io.swagger.annotations.ApiParam;
+
 import com.diviso.graeshoppe.client.product.model.ProductBundle;
 
 @RestController
@@ -168,6 +174,9 @@ public class QueryResource {
 	private ReportCommandResourceApi reportCommandResourceApi;
 	@Autowired
 	OrderMasterResourceApi orderMasterResourceApi;
+	
+	@Autowired
+	QueryResourceApi queryResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
@@ -610,7 +619,10 @@ public class QueryResource {
 		OrderMasterDTO result;
 		if (dto != null) {
 			log.info("..........upadte......");
+
 			result = reportCommandResourceApi.updateOrderMasterUsingPUT1(dto.getId(),orderMaster).getBody();
+
+		
 		} else {
 			result = reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
 		}
@@ -666,6 +678,14 @@ public class QueryResource {
 		return reportResourceApi.getReportAsPdfUsingGET(orderMasterId);
 
 	}
+	
+	@GetMapping("/reportsummary/{date}/{storeId}")
+	public ResponseEntity<ReportSummary> createReportSummary(@PathVariable LocalDate date, @PathVariable String storeId)
+	{
+		return queryResourceApi.createReportSummaryUsingGET(date, storeId);
+	}
+
+	
 	
 	@GetMapping("/notification/{receiverId}")
 	public ResponseEntity<Page<Notification>> findNotificationByReceiverId(@PathVariable String receiverId,Pageable pageable) {
