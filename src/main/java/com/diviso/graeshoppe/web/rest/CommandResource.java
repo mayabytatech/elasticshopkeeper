@@ -1,32 +1,22 @@
 package com.diviso.graeshoppe.web.rest;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.MultipartConfigElement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartResolver;
 
 import com.diviso.graeshoppe.client.aggregators.CustomerAggregator;
 import com.diviso.graeshoppe.client.customer.api.ContactResourceApi;
@@ -40,23 +30,28 @@ import com.diviso.graeshoppe.client.order.model.ApprovalDetailsDTO;
 import com.diviso.graeshoppe.client.order.model.NotificationDTO;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderDTO;
-import com.diviso.graeshoppe.client.order.model.OrderMaster;
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ComboLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.DiscountResourceApi;
+import com.diviso.graeshoppe.client.product.api.EntryLineItemResourceApi;
+import com.diviso.graeshoppe.client.product.api.LocationResourceApi;
 import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
+import com.diviso.graeshoppe.client.product.api.ReasonResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
-
+import com.diviso.graeshoppe.client.product.api.StockEntryResourceApi;
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.DiscountDTO;
+import com.diviso.graeshoppe.client.product.model.EntryLineItemDTO;
+import com.diviso.graeshoppe.client.product.model.LocationDTO;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
+import com.diviso.graeshoppe.client.product.model.ReasonDTO;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
+import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
-import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
 import com.diviso.graeshoppe.client.sale.api.TicketLineResourceApi;
 import com.diviso.graeshoppe.client.sale.model.SaleDTO;
@@ -71,9 +66,6 @@ import com.diviso.graeshoppe.client.store.api.StoreSettingsResourceApi;
 import com.diviso.graeshoppe.client.store.api.StoreTypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.TypeResourceApi;
 import com.diviso.graeshoppe.client.store.api.UserRatingResourceApi;
-import com.diviso.graeshoppe.client.store.domain.Store;
-import com.diviso.graeshoppe.client.store.domain.StoreAddress;
-import com.diviso.graeshoppe.client.store.domain.StoreSettings;
 import com.diviso.graeshoppe.client.store.model.BannerDTO;
 import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 import com.diviso.graeshoppe.client.store.model.ReplyDTO;
@@ -98,9 +90,10 @@ public class CommandResource {
 	private OrderCommandResourceApi orderCommandResourceApi;
 	@Autowired
 	private CategoryResourceApi categoryResourceApi;
-	/*
-	 * @Autowired private StockLineResourceApi stockLineResourceApi;
-	 */
+	
+	@Autowired 
+	private StockEntryResourceApi stockEntryResourceApi;
+	
 	@Autowired
 	private ProductResourceApi productResourceApi;
 	@Autowired
@@ -111,9 +104,6 @@ public class CommandResource {
 	private SaleResourceApi saleResourceApi;
 	@Autowired
 	private StockCurrentResourceApi stockCurrentResourceApi;
-	/*
-	 * @Autowired private StockDiaryResourceApi stockDiaryResourceApi;
-	 */
 
 	@Autowired
 	private StoreResourceApi storeResourceApi;
@@ -162,15 +152,61 @@ public class CommandResource {
 	@Autowired
 	private DiscountResourceApi discountResourceApi;
 	
-
+    @Autowired
+    private EntryLineItemResourceApi entryLineItemResourceApi;
+    
+    @Autowired
+    private ReasonResourceApi reasonResourceApi;
+    
+    @Autowired
+    private LocationResourceApi locationResourceApi;
+    
+	
 	@Autowired
 	private QueryService queryService;
 	/*
 	 * @Autowired LoadControllerApi loadControllerApi;
 	 */
 
+	
+	
 	private final Logger log = LoggerFactory.getLogger(CommandResource.class);
 
+	
+	public EntryLineItemResourceApi getEntryLineItemResourceApi() {
+		return entryLineItemResourceApi;
+	}
+
+	public void setEntryLineItemResourceApi(EntryLineItemResourceApi entryLineItemResourceApi) {
+		this.entryLineItemResourceApi = entryLineItemResourceApi;
+	}
+
+	public ReasonResourceApi getReasonResourceApi() {
+		return reasonResourceApi;
+	}
+
+	public void setReasonResourceApi(ReasonResourceApi reasonResourceApi) {
+		this.reasonResourceApi = reasonResourceApi;
+	}
+
+	public LocationResourceApi getLocationResourceApi() {
+		return locationResourceApi;
+	}
+
+	public void setLocationResourceApi(LocationResourceApi locationResourceApi) {
+		this.locationResourceApi = locationResourceApi;
+	}
+
+	
+	public StockEntryResourceApi getStockEntryResourceApi() {
+		return stockEntryResourceApi;
+	}
+
+	public void setStockEntryResourceApi(StockEntryResourceApi stockEntryResourceApi) {
+		this.stockEntryResourceApi = stockEntryResourceApi;
+	}
+
+	
 	@PostMapping("/customers/register-customer")
 	public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerAggregator customerAggregator) {
 
@@ -291,27 +327,6 @@ public class CommandResource {
 		uomResourceApi.deleteUOMUsingDELETE(id);
 	}
 
-	/*
-	 * @PostMapping("/stocklines") public ResponseEntity<StockLineDTO>
-	 * createStockLine(@RequestBody StockLineDTO stockLine) { return
-	 * this.stockLineResourceApi.createStockLineUsingPOST(stockLine); }
-	 * 
-	 * @PutMapping("/stocklines") public ResponseEntity<StockLineDTO>
-	 * updateStockLine(@RequestBody StockLineDTO stockLine) { return
-	 * this.stockLineResourceApi.updateStockLineUsingPUT(stockLine); }
-	 * 
-	 * @DeleteMapping("/stocklines/{id}") public ResponseEntity<Void>
-	 * deleteStockLine(@PathVariable Long id) { return
-	 * this.stockLineResourceApi.deleteStockLineUsingDELETE(id); }
-	 * 
-	 * @PostMapping("/stock-diaries") public ResponseEntity<StockDiaryDTO>
-	 * createStockDiary(@RequestBody StockDiaryDTO stockDiary) { return
-	 * this.stockDiaryResourceApi.createStockDiaryUsingPOST(stockDiary); }
-	 * 
-	 * @PutMapping("/stock-diaries") public ResponseEntity<StockDiaryDTO>
-	 * updateStockDiary(@RequestBody StockDiaryDTO stockDiary) { return
-	 * this.stockDiaryResourceApi.updateStockDiaryUsingPUT(stockDiary); }
-	 */
 	@PostMapping("/stock-currents")
 	public ResponseEntity<StockCurrentDTO> createStockCurrent(@RequestBody StockCurrentDTO stockCurrent) {
 		return this.stockCurrentResourceApi.createStockCurrentUsingPOST(stockCurrent);
@@ -322,12 +337,6 @@ public class CommandResource {
 		return this.stockCurrentResourceApi.updateStockCurrentUsingPUT(StockCurrent);
 	}
 
-	/*
-	 * @PostMapping("/stock-of-product") public ResponseEntity<StockDiaryDTO>
-	 * createStockOfProduct(@RequestBody StockDiaryDTO stockDiaryDTO) { return
-	 * this.stockDiaryResourceApi.createStockOfProductUsingPOST(stockDiaryDTO);
-	 * }
-	 */
 	@PostMapping("/stores")
 	public ResponseEntity<StoreDTO> createStore(@RequestBody StoreDTO storeDTO) {
 		return this.storeResourceApi.createStoreUsingPOST(storeDTO);
@@ -526,6 +535,67 @@ public class CommandResource {
 		return this.bannerResourceApi.deleteBannerUsingDELETE(id);
 	}
 	
+	@PostMapping("/stock-entry")
+	public ResponseEntity<StockEntryDTO> createStockEntry(@RequestBody StockEntryDTO stockEntryDTO) {
+		return this.stockEntryResourceApi.createStockEntryUsingPOST(stockEntryDTO);
+	}
+	
+	@PutMapping("/stock-entry")
+	public ResponseEntity<StockEntryDTO> updateStockEntry(@RequestBody StockEntryDTO stockEntryDTO) {
+		return this.stockEntryResourceApi.updateStockEntryUsingPUT(stockEntryDTO);
+	}
+
+	
+	@DeleteMapping("/stock-entry/{id}")
+	public ResponseEntity<Void> deleteStockEntry(@PathVariable Long id) {
+		return this.stockEntryResourceApi.deleteStockEntryUsingDELETE(id);
+	}
+	
+	@PostMapping("/entryLineItem")
+	public ResponseEntity<EntryLineItemDTO> createEntryLineItem(@RequestBody EntryLineItemDTO entrylineitemDTO) {
+		return this.entryLineItemResourceApi.createEntryLineItemUsingPOST(entrylineitemDTO);
+	}
+
+	@PutMapping("/entryLineItem")
+	public ResponseEntity<EntryLineItemDTO> updateEntryLineItem(@RequestBody EntryLineItemDTO entrylineitemDTO) {
+		return this.entryLineItemResourceApi.updateEntryLineItemUsingPUT(entrylineitemDTO);
+	}
+
+	@DeleteMapping("/entryLineItem/{id}")
+	public ResponseEntity<Void> deleteEntryLineItem(@PathVariable Long id) {
+		return this.entryLineItemResourceApi.deleteEntryLineItemUsingDELETE(id);
+	}
+	
+	@PostMapping("/reason")
+	public ResponseEntity<ReasonDTO> createReason(@RequestBody ReasonDTO reasonDTO) {
+		return this.reasonResourceApi.createReasonUsingPOST(reasonDTO);
+	}
+
+	@PutMapping("/reason")
+	public ResponseEntity<ReasonDTO> updateReason(@RequestBody ReasonDTO reasonDTO) {
+		return this.reasonResourceApi.updateReasonUsingPUT(reasonDTO);
+	}
+
+	@DeleteMapping("/reason/{id}")
+	public ResponseEntity<Void> deleteReason(@PathVariable Long id) {
+		return this.reasonResourceApi.deleteReasonUsingDELETE(id);
+	}
+	
+	@PostMapping("/location")
+	public ResponseEntity<LocationDTO> createLocation(@RequestBody LocationDTO locationDTO) {
+		return this.locationResourceApi.createLocationUsingPOST(locationDTO);
+	}
+
+	@PutMapping("/location")
+	public ResponseEntity<LocationDTO> updateLocation(@RequestBody LocationDTO locationDTO) {
+		return this.locationResourceApi.updateLocationUsingPUT(locationDTO);
+	}
+
+	@DeleteMapping("/location/{id}")
+	public ResponseEntity<Void> deleteLocation(@PathVariable Long id) {
+		return this.locationResourceApi.deleteLocationUsingDELETE(id);
+	}
+	
 	@PostMapping("/discount")
 	public ResponseEntity<DiscountDTO> createDiscount(@RequestBody DiscountDTO discountDTO) {
 		return this.discountResourceApi.createDiscountUsingPOST(discountDTO);
@@ -644,6 +714,8 @@ public class CommandResource {
 
 		return ResponseEntity.ok().body(storeBundle);
 	}
+
+
 
 	
 }
