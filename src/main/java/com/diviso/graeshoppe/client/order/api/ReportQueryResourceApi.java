@@ -29,7 +29,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-27T13:37:29.048+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-05T10:57:27.574354+05:30[Asia/Kolkata]")
 
 @Api(value = "ReportQueryResource", description = "the ReportQueryResource API")
 public interface ReportQueryResourceApi {
@@ -56,6 +56,18 @@ public interface ReportQueryResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<Integer> countOrdersByStoreIdAndDeliveryTypeUsingGET(@ApiParam(value = "dateBegin",required=true) @PathVariable("dateBegin") OffsetDateTime dateBegin,@ApiParam(value = "dateEnd",required=true) @PathVariable("dateEnd") OffsetDateTime dateEnd,@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId,@ApiParam(value = "deliveryType") @Valid @RequestParam(value = "deliveryType", required = false) String deliveryType);
+
+
+    @ApiOperation(value = "findAllPaymentRefByDeliveryType", nickname = "findAllPaymentRefByDeliveryTypeUsingGET", notes = "", response = String.class, responseContainer = "List", tags={ "report-query-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class, responseContainer = "List"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/order/findPayRefByDeliveryType/{dateBegin}/{dateEnd}/{storeId}/{deliveryType}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<List<String>> findAllPaymentRefByDeliveryTypeUsingGET(@ApiParam(value = "dateBegin",required=true) @PathVariable("dateBegin") OffsetDateTime dateBegin,@ApiParam(value = "dateEnd",required=true) @PathVariable("dateEnd") OffsetDateTime dateEnd,@ApiParam(value = "deliveryType",required=true) @PathVariable("deliveryType") String deliveryType,@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId);
 
 
     @ApiOperation(value = "findAllPaymentReferenceByDateAndStoreId", nickname = "findAllPaymentReferenceByDateAndStoreIdUsingGET", notes = "", response = String.class, responseContainer = "List", tags={ "report-query-resource", })
@@ -188,5 +200,17 @@ public interface ReportQueryResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<OrderMaster> getOrderMasterUsingGET(@ApiParam(value = "orderId",required=true) @PathVariable("orderId") String orderId,@ApiParam(value = "statusName",required=true) @PathVariable("statusName") String statusName,@ApiParam(value = "Page number of the requested page") @Valid @RequestParam(value = "page", required = false) Integer page,@ApiParam(value = "Size of a page") @Valid @RequestParam(value = "size", required = false) Integer size,@ApiParam(value = "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
+
+
+    @ApiOperation(value = "test", nickname = "testUsingGET", notes = "", response = Long.class, tags={ "report-query-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Long.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/order/fi/{storeId}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<Long> testUsingGET(@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId);
 
 }
