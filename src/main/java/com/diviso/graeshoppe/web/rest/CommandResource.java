@@ -30,6 +30,7 @@ import com.diviso.graeshoppe.client.order.model.ApprovalDetailsDTO;
 import com.diviso.graeshoppe.client.order.model.NotificationDTO;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderDTO;
+import com.diviso.graeshoppe.client.product.api.AddressResourceApi;
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ComboLineItemResourceApi;
@@ -41,6 +42,7 @@ import com.diviso.graeshoppe.client.product.api.ReasonResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockEntryResourceApi;
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
+import com.diviso.graeshoppe.client.product.model.AddressDTO;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.CategoryDTO;
 import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
@@ -160,6 +162,9 @@ public class CommandResource {
     
     @Autowired
     private LocationResourceApi locationResourceApi;
+    
+    @Autowired
+    AddressResourceApi addressResourceApi;
     
 	
 	@Autowired
@@ -594,6 +599,21 @@ public class CommandResource {
 	@DeleteMapping("/location/{id}")
 	public ResponseEntity<Void> deleteLocation(@PathVariable Long id) {
 		return this.locationResourceApi.deleteLocationUsingDELETE(id);
+	}
+	
+	@PostMapping("/product/address")
+	public ResponseEntity<AddressDTO> createProductAddress(@RequestBody AddressDTO addressDTO) {
+		return this.addressResourceApi.createAddressUsingPOST(addressDTO);
+	}
+
+	@PutMapping("/product/address")
+	public ResponseEntity<AddressDTO> updateProductAddress(@RequestBody AddressDTO addressDTO) {
+		return this.addressResourceApi.updateAddressUsingPUT(addressDTO);
+	}
+
+	@DeleteMapping("/product/address/{id}")
+	public ResponseEntity<Void> deleteProductAddress(@PathVariable Long id) {
+		return this.addressResourceApi.deleteAddressUsingDELETE(id);
 	}
 	
 	@PostMapping("/discount")
