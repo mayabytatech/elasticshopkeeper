@@ -1,8 +1,5 @@
 package com.diviso.graeshoppe.web.rest;
 
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
-
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -50,11 +45,15 @@ import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
+import com.diviso.graeshoppe.client.product.model.Location;
 import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.ProductBundle;
 import com.diviso.graeshoppe.client.product.model.ProductDTO;
+import com.diviso.graeshoppe.client.product.model.Reason;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockCurrentDTO;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
+import com.diviso.graeshoppe.client.product.model.StockEntryBundle;
 import com.diviso.graeshoppe.client.product.model.StockEntryDTO;
 import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.product.model.UOMDTO;
@@ -90,15 +89,9 @@ import com.diviso.graeshoppe.client.store.model.StoreDTO;
 import com.diviso.graeshoppe.client.store.model.StoreSettingsDTO;
 import com.diviso.graeshoppe.client.store.model.StoreTypeDTO;
 import com.diviso.graeshoppe.client.store.model.TypeDTO;
-
 import com.diviso.graeshoppe.service.QueryService;
 import com.diviso.graeshoppe.service.dto.PdfDTO;
 import com.diviso.graeshoppe.service.dto.SaleAggregate;
-import com.diviso.graeshoppe.web.rest.errors.BadRequestAlertException;
-
-import io.swagger.annotations.ApiParam;
-
-import com.diviso.graeshoppe.client.product.model.ProductBundle;
 
 @RestController
 @RequestMapping("/api/query")
@@ -516,6 +509,25 @@ public class QueryResource {
 		return ResponseEntity.ok().body(productBundle);
 	}
 
+	@GetMapping("/stockEntryBundle/{id}")
+	public ResponseEntity<StockEntryBundle> getStockEntryBundle(@PathVariable Long id) {
+
+		StockEntry stockEntry = queryService.findStockEntryById(id);
+		List<EntryLineItem> entryLineItems= queryService.findAllEntryLineItemsByStockEntryId(stockEntry.getId());
+		Reason reason=queryService.findReasonByStockEntryId(stockEntry.getId());
+		Location location=queryService.findLocationByStockEntryId(stockEntry.getId());
+
+		StockEntryBundle stockEntryBundle = new StockEntryBundle();
+		
+		stockEntryBundle.setEntryLineItems(entryLineItems);
+		stockEntryBundle.setLocation(location);
+		stockEntryBundle.setReason(reason);
+		stockEntryBundle.setStockEntry(stockEntry);
+		return ResponseEntity.ok().body(stockEntryBundle);
+	}
+
+	
+	
 	@GetMapping("/ordersbystoreId/{storeId}")
 	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId, Pageable pageable) {
 
@@ -699,6 +711,11 @@ public class QueryResource {
 		return queryService.getNotificationCountByReceiveridAndStatus(status, receiverId);
 	}
 	
+	@GetMapping("/stock-entry/{Id}")
+	public ResponseEntity<StockEntryDTO> findStockEntryById(Long id) {
+	
+	return stockEntryResourceApi.getStockEntryUsingGET(id);
+	}
    
 }
 

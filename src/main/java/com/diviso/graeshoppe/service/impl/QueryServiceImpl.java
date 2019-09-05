@@ -3,22 +3,22 @@ package com.diviso.graeshoppe.service.impl;
 import static org.elasticsearch.action.search.SearchType.QUERY_THEN_FETCH;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.QueryBuilders;
-import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,7 +27,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
@@ -39,7 +38,9 @@ import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
+import com.diviso.graeshoppe.client.product.model.Location;
 import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.Reason;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.UOM;
@@ -62,14 +63,10 @@ import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
 import com.github.vanroy.springdata.jest.mapper.JestResultsExtractor;
 import com.google.gson.JsonObject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.SearchResult;
 import io.searchbox.core.search.aggregation.TermsAggregation;
-
 import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
 
 @Service
@@ -719,6 +716,36 @@ public class QueryServiceImpl implements QueryService {
 		StringQuery searchQuery = new StringQuery(termQuery("id", productId).toString());
 		Product product=elasticsearchOperations.queryForObject(searchQuery, Product.class);
 		return product.getDiscount();
+	}
+
+	@Override
+	public StockEntry findStockEntryById(Long id) {
+
+		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
+		return elasticsearchOperations.queryForObject(stringQuery, StockEntry.class);
+	}
+
+	@Override
+	public List<EntryLineItem> findAllEntryLineItemsByStockEntryId(Long id) {
+
+
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("stockentry.id", id)).build();
+
+		return elasticsearchOperations.queryForList(searchQuery, EntryLineItem.class);
+	}
+
+	@Override
+	public Reason findReasonByStockEntryId(Long id) {
+		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
+		StockEntry stockentry= elasticsearchOperations.queryForObject(stringQuery, StockEntry.class);
+		return stockentry.getReason();
+	}
+
+	@Override
+	public Location findLocationByStockEntryId(Long id) {
+		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
+		StockEntry stockentry= elasticsearchOperations.queryForObject(stringQuery, StockEntry.class);
+		return stockentry.getLocation();
 	}
 
 }

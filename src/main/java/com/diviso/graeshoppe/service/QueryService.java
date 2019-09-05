@@ -3,11 +3,8 @@ package com.diviso.graeshoppe.service;
 import java.time.Instant;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.model.Notification;
@@ -18,7 +15,9 @@ import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
 import com.diviso.graeshoppe.client.product.model.Discount;
 import com.diviso.graeshoppe.client.product.model.EntryLineItem;
+import com.diviso.graeshoppe.client.product.model.Location;
 import com.diviso.graeshoppe.client.product.model.Product;
+import com.diviso.graeshoppe.client.product.model.Reason;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.UOM;
@@ -31,7 +30,6 @@ import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
-import com.diviso.graeshoppe.client.store.model.DeliveryInfoDTO;
 
 public interface QueryService {
 	public Page<Category> findAllCategories(Pageable pageable);
@@ -205,5 +203,13 @@ public interface QueryService {
 	public Page<Order> findOrdersByDeliveryType(String orderId, String deliverytype, Pageable pageable);
 
 	public Discount findDiscountByProductId(Long productId);
+
+	public StockEntry findStockEntryById(Long id);
+
+	public List<EntryLineItem> findAllEntryLineItemsByStockEntryId(Long id);
+
+	public Reason findReasonByStockEntryId(Long id);
+
+	public Location findLocationByStockEntryId(Long id);
 
 }
