@@ -717,5 +717,14 @@ public class QueryResource {
 	return stockEntryResourceApi.getStockEntryUsingGET(id);
 	}
    
+	@GetMapping("/location/{idpcode}")
+	public Page<Location> findLocationByRegNo(@PathVariable String idpcode) {
+		return this.queryService.findLocationByIdpcode(idpcode);
+	}
+	
+	@GetMapping("/reason/{idpcode}")
+	public Page<Reason> findReasonByRegNo(@PathVariable String idpcode) {
+		return this.queryService.findReasonByIdpcode(idpcode);
+	}
 }
 
