@@ -381,6 +381,7 @@ public class CommandResource {
 		orderDTO.setApprovalDetailsId(resource.getBody().getSelfId());
 		orderDTO.setStatusId(3l);
 		updateOrder(orderDTO);
+		orderCommandResourceApi.publishOrderToMessagebrokerUsingPOST(order.getOrderId());
 		return resource;
 	}
 

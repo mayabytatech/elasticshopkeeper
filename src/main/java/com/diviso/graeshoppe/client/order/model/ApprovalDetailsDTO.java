@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * ApprovalDetailsDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-20T12:29:54.872903+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-05T10:57:27.574354+05:30[Asia/Kolkata]")
 
 public class ApprovalDetailsDTO   {
   @JsonProperty("acceptedAt")
