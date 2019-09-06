@@ -677,17 +677,17 @@ public class QueryResource {
 		return ResponseEntity.ok().body(orders);
 	}
 
-	@GetMapping("/getOrderDocket/{orderMasterId}")
-	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable Long orderMasterId) {
+	@GetMapping("/getOrderDocket/{orderNumber}")
+	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable String orderNumber) {
 		PdfDTO pdf = new PdfDTO();
-		pdf.setPdf(this.reportResourceApi.getReportAsPdfUsingGET(orderMasterId).getBody());
+		pdf.setPdf(this.reportResourceApi.getReportAsPdfUsingGET(orderNumber).getBody());
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
 	}
 
-	@GetMapping("/exportDocket/{orderMasterId}")
-	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable Long orderMasterId) {
-		return reportResourceApi.getReportAsPdfUsingGET(orderMasterId);
+	@GetMapping("/exportDocket/{orderNumber}")
+	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable String orderNumber) {
+		return reportResourceApi.getReportAsPdfUsingGET(orderNumber);
 
 	}
 	

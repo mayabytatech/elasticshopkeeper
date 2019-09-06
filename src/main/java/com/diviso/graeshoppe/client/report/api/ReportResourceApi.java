@@ -41,7 +41,7 @@ public interface ReportResourceApi {
     @RequestMapping(value = "/api/report/pdf/{orderMasterId}",
         produces = "*/*", 
         method = RequestMethod.GET)
-    ResponseEntity<byte[]> getReportAsPdfUsingGET(@ApiParam(value = "orderMasterId",required=true) @PathVariable("orderMasterId") Long orderMasterId);
+    ResponseEntity<byte[]> getReportAsPdfUsingGET(@ApiParam(value = "orderMasterId",required=true) @PathVariable("orderMasterId") String orderNumber);
 
 
     @ApiOperation(value = "getReportByOrderNumber", nickname = "getReportByOrderNumberUsingGET", notes = "", response = OrderMaster.class, tags={ "report-resource", })
