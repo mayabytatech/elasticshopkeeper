@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-30T10:54:18.746+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-06T14:07:09.933+05:30[Asia/Kolkata]")
 
 @Api(value = "ReportResource", description = "the ReportResource API")
 public interface ReportResourceApi {
@@ -41,7 +41,7 @@ public interface ReportResourceApi {
     @RequestMapping(value = "/api/report/pdf/{orderMasterId}",
         produces = "*/*", 
         method = RequestMethod.GET)
-    ResponseEntity<byte[]> getReportAsPdfUsingGET(@ApiParam(value = "orderMasterId",required=true) @PathVariable("orderMasterId") String orderNumber);
+    ResponseEntity<byte[]> getReportAsPdfUsingGET(@ApiParam(value = "orderNumber",required=true) @PathVariable("orderNumber") String orderNumber);
 
 
     @ApiOperation(value = "getReportByOrderNumber", nickname = "getReportByOrderNumberUsingGET", notes = "", response = OrderMaster.class, tags={ "report-resource", })

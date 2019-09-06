@@ -619,27 +619,32 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findBannersByStoreId(storeId));
 	}
 
-	@GetMapping("/orderMaster/{orderId}/{status}")
-	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId,@PathVariable String status, Integer page,
-			Integer size, ArrayList<String> sort) {
-
-		//OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size, sort).getBody();
-		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterByOrderIdAndStatusNameUsingGET(orderId, status, page, size, sort).getBody();
-		
-		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
-		log.info(".................dto........." + dto);
-		OrderMasterDTO result;
-		if (dto != null) {
-			log.info("..........upadte......");
-
-			result = reportCommandResourceApi.updateOrderMasterUsingPUT1(dto.getId(),orderMaster).getBody();
-
-		
-		} else {
-			result = reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
-		}
-		return ResponseEntity.ok().body(result);
-	}
+	/*
+	 * @GetMapping("/orderMaster/{orderId}/{status}") public
+	 * ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String
+	 * orderId,@PathVariable String status, Integer page, Integer size,
+	 * ArrayList<String> sort) {
+	 * 
+	 * //OrderMaster orderMaster =
+	 * reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size,
+	 * sort).getBody(); OrderMaster orderMaster =
+	 * reportQueryResourceApi.getOrderMasterByOrderIdAndStatusNameUsingGET(orderId,
+	 * status, page, size, sort).getBody();
+	 * 
+	 * OrderMasterDTO dto =
+	 * orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
+	 * log.info(".................dto........." + dto); OrderMasterDTO result; if
+	 * (dto != null) { log.info("..........upadte......");
+	 * 
+	 * result =
+	 * reportCommandResourceApi.updateOrderMasterUsingPUT1(dto.getId(),orderMaster).
+	 * getBody();
+	 * 
+	 * 
+	 * } else { result =
+	 * reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
+	 * } return ResponseEntity.ok().body(result); }
+	 */
 
 	@GetMapping("/opentasks")
 	public ResponseEntity<List<OpenTask>> getOpenTasks(@RequestParam(required = false) String assignee,

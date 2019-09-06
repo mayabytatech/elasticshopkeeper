@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * AuxItemDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-30T10:54:18.746+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-06T14:07:09.933+05:30[Asia/Kolkata]")
 
 public class AuxItemDTO   {
   @JsonProperty("auxItem")
