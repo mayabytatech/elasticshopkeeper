@@ -38,7 +38,7 @@ public interface ReportResourceApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/report/pdf/{orderMasterId}",
+    @RequestMapping(value = "/api/report/pdf/{orderNumber}",
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<byte[]> getReportAsPdfUsingGET(@ApiParam(value = "orderNumber",required=true) @PathVariable("orderNumber") String orderNumber);
