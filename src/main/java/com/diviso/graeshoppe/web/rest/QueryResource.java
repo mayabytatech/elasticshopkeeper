@@ -619,27 +619,32 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findBannersByStoreId(storeId));
 	}
 
-	@GetMapping("/orderMaster/{orderId}/{status}")
-	public ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String orderId,@PathVariable String status, Integer page,
-			Integer size, ArrayList<String> sort) {
-
-		//OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size, sort).getBody();
-		OrderMaster orderMaster = reportQueryResourceApi.getOrderMasterByOrderIdAndStatusNameUsingGET(orderId, status, page, size, sort).getBody();
-		
-		OrderMasterDTO dto = orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
-		log.info(".................dto........." + dto);
-		OrderMasterDTO result;
-		if (dto != null) {
-			log.info("..........upadte......");
-
-			result = reportCommandResourceApi.updateOrderMasterUsingPUT1(dto.getId(),orderMaster).getBody();
-
-		
-		} else {
-			result = reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
-		}
-		return ResponseEntity.ok().body(result);
-	}
+	/*
+	 * @GetMapping("/orderMaster/{orderId}/{status}") public
+	 * ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String
+	 * orderId,@PathVariable String status, Integer page, Integer size,
+	 * ArrayList<String> sort) {
+	 * 
+	 * //OrderMaster orderMaster =
+	 * reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size,
+	 * sort).getBody(); OrderMaster orderMaster =
+	 * reportQueryResourceApi.getOrderMasterByOrderIdAndStatusNameUsingGET(orderId,
+	 * status, page, size, sort).getBody();
+	 * 
+	 * OrderMasterDTO dto =
+	 * orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
+	 * log.info(".................dto........." + dto); OrderMasterDTO result; if
+	 * (dto != null) { log.info("..........upadte......");
+	 * 
+	 * result =
+	 * reportCommandResourceApi.updateOrderMasterUsingPUT1(dto.getId(),orderMaster).
+	 * getBody();
+	 * 
+	 * 
+	 * } else { result =
+	 * reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
+	 * } return ResponseEntity.ok().body(result); }
+	 */
 
 	@GetMapping("/opentasks")
 	public ResponseEntity<List<OpenTask>> getOpenTasks(@RequestParam(required = false) String assignee,
@@ -677,17 +682,17 @@ public class QueryResource {
 		return ResponseEntity.ok().body(orders);
 	}
 
-	@GetMapping("/getOrderDocket/{orderMasterId}")
-	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable Long orderMasterId) {
+	@GetMapping("/getOrderDocket/{orderNumber}")
+	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable String orderNumber) {
 		PdfDTO pdf = new PdfDTO();
-		pdf.setPdf(this.reportResourceApi.getReportAsPdfUsingGET(orderMasterId).getBody());
+		pdf.setPdf(this.reportResourceApi.getReportAsPdfUsingGET(orderNumber).getBody());
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
 	}
 
-	@GetMapping("/exportDocket/{orderMasterId}")
-	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable Long orderMasterId) {
-		return reportResourceApi.getReportAsPdfUsingGET(orderMasterId);
+	@GetMapping("/exportDocket/{orderNumber}")
+	public ResponseEntity<byte[]> exportOrderDocket(@PathVariable String orderNumber) {
+		return reportResourceApi.getReportAsPdfUsingGET(orderNumber);
 
 	}
 	
@@ -717,5 +722,14 @@ public class QueryResource {
 	return stockEntryResourceApi.getStockEntryUsingGET(id);
 	}
    
+	@GetMapping("/location/{idpcode}")
+	public Page<Location> findLocationByRegNo(@PathVariable String idpcode) {
+		return this.queryService.findLocationByIdpcode(idpcode);
+	}
+	
+	@GetMapping("/reason/{idpcode}")
+	public Page<Reason> findReasonByRegNo(@PathVariable String idpcode) {
+		return this.queryService.findReasonByIdpcode(idpcode);
+	}
 }
 

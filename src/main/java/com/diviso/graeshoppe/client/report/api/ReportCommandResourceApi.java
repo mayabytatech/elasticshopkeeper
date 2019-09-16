@@ -5,7 +5,7 @@
  */
 package com.diviso.graeshoppe.client.report.api;
 
-import com.diviso.graeshoppe.client.order.model.OrderMaster;
+import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-30T10:54:18.746+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-06T14:07:09.933+05:30[Asia/Kolkata]")
 
 @Api(value = "ReportCommandResource", description = "the ReportCommandResource API")
 public interface ReportCommandResourceApi {

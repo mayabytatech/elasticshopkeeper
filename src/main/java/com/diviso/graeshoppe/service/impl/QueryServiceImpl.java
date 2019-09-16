@@ -748,4 +748,20 @@ public class QueryServiceImpl implements QueryService {
 		return stockentry.getLocation();
 	}
 
+	@Override
+	public Page<Location> findLocationByIdpcode(String idpcode) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Location.class);
+	
+	}
+
+	@Override
+	public Page<Reason> findReasonByIdpcode(String idpcode) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Reason.class);
+	
+	}
+
 }
