@@ -212,8 +212,8 @@ public interface QueryService {
 
 	public Location findLocationByStockEntryId(Long id);
 
-	public Page<Location> findLocationByIdpcode(String idpcode);
+	public Page<Location> findLocationByIdpcode(String idpcode, Pageable pageable);
 
-	public Page<Reason> findReasonByIdpcode(String idpcode);
+	public Page<Reason> findReasonByIdpcode(String idpcode, Pageable pageable);
 
 }

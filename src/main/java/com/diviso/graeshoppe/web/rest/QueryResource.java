@@ -388,8 +388,8 @@ public class QueryResource {
 	}
 
 	@GetMapping("/stock-entries/{storeId}")
-	public ResponseEntity<List<StockEntry>> findAllStockDiaries(@PathVariable String storeId, Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findAllStockEntries(storeId, pageable).getContent());
+	public ResponseEntity<Page<StockEntry>> findAllStockEntries(@PathVariable String storeId, Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findAllStockEntries(storeId, pageable));
 	}
 
 	@GetMapping("/stock-entries/{id}")
@@ -525,7 +525,6 @@ public class QueryResource {
 		stockEntryBundle.setStockEntry(stockEntry);
 		return ResponseEntity.ok().body(stockEntryBundle);
 	}
-
 	
 	
 	@GetMapping("/ordersbystoreId/{storeId}")
@@ -712,7 +711,7 @@ public class QueryResource {
 
 	@GetMapping("/notification/{status}/{receiverId}")
 	public Long getNotificationCountByReceiveridAndStatus(@PathVariable String status, @PathVariable String receiverId) {
-		log.info(".............."+status+".............."+receiverId);
+
 		return queryService.getNotificationCountByReceiveridAndStatus(status, receiverId);
 	}
 	
@@ -723,13 +722,13 @@ public class QueryResource {
 	}
    
 	@GetMapping("/location/{idpcode}")
-	public Page<Location> findLocationByRegNo(@PathVariable String idpcode) {
-		return this.queryService.findLocationByIdpcode(idpcode);
+	public Page<Location> findLocationByRegNo(@PathVariable String idpcode, Pageable pageable) {
+		return this.queryService.findLocationByIdpcode(idpcode, pageable);
 	}
 	
 	@GetMapping("/reason/{idpcode}")
-	public Page<Reason> findReasonByRegNo(@PathVariable String idpcode) {
-		return this.queryService.findReasonByIdpcode(idpcode);
+	public Page<Reason> findReasonByRegNo(@PathVariable String idpcode, Pageable pageable) {
+		return this.queryService.findReasonByIdpcode(idpcode, pageable);
 	}
 }
 

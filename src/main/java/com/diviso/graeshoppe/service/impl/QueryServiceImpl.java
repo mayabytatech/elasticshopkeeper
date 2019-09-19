@@ -749,16 +749,16 @@ public class QueryServiceImpl implements QueryService {
 	}
 
 	@Override
-	public Page<Location> findLocationByIdpcode(String idpcode) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).build();
+	public Page<Location> findLocationByIdpcode(String idpcode, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).withPageable(pageable).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Location.class);
 	
 	}
 
 	@Override
-	public Page<Reason> findReasonByIdpcode(String idpcode) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).build();
+	public Page<Reason> findReasonByIdpcode(String idpcode, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).withPageable(pageable).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Reason.class);
 	
