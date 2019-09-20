@@ -764,4 +764,12 @@ public class QueryServiceImpl implements QueryService {
 	
 	}
 
+	@Override
+	public Page<EntryLineItem> findAllEntryLineItemsByStockEntryId(String id, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("stockentry.id", id)).withPageable(pageable).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, EntryLineItem.class);
+		
+	}
+
 }

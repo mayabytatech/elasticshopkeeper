@@ -715,7 +715,7 @@ public class QueryResource {
 		return queryService.getNotificationCountByReceiveridAndStatus(status, receiverId);
 	}
 	
-	@GetMapping("/stock-entry/{Id}")
+	@GetMapping("/stock-entry/{id}")
 	public ResponseEntity<StockEntryDTO> findStockEntryById(Long id) {
 	
 	return stockEntryResourceApi.getStockEntryUsingGET(id);
@@ -730,5 +730,13 @@ public class QueryResource {
 	public Page<Reason> findReasonByRegNo(@PathVariable String idpcode, Pageable pageable) {
 		return this.queryService.findReasonByIdpcode(idpcode, pageable);
 	}
+	
+	@GetMapping("/findallentrylineitems/{id}")
+	public Page<EntryLineItem> findAllEntryLineItemsByStockEntryId(@PathVariable String id, Pageable pageable) {
+
+		return queryService.findAllEntryLineItemsByStockEntryId(id,pageable);
+	
+	}
+	
 }
 

@@ -216,4 +216,6 @@ public interface QueryService {
 
 	public Page<Reason> findReasonByIdpcode(String idpcode, Pageable pageable);
 
+	public Page<EntryLineItem> findAllEntryLineItemsByStockEntryId(String id, Pageable pageable);
+
 }
