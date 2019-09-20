@@ -392,7 +392,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findAllStockEntries(storeId, pageable));
 	}
 
-	@GetMapping("/stock-entries/{id}")
+	@GetMapping("/stock-entries/findbyid/{id}")
 	public ResponseEntity<StockEntryDTO> findOneStockEntry(@PathVariable Long id) {
 		return this.stockEntryResourceApi.getStockEntryUsingGET(id);
 	}
