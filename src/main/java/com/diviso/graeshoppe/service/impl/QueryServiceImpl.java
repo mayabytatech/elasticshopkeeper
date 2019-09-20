@@ -93,12 +93,25 @@ public class QueryServiceImpl implements QueryService {
 	 * String)
 	 */
 	@Override
-	public Page<Order> findOrderByStatusName(String statusName, String storeId, Pageable pageable) {
+	public Page<Order> findOrderByStatusNameAndDeliveryType(String statusName, String storeId, String deliveryType, Pageable pageable) {
+		SearchQuery searchQuery =null;
+		if(deliveryType.equals("all")) {
+			 searchQuery = new NativeSearchQueryBuilder()
+					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
+							.must(QueryBuilders.matchQuery("storeId", storeId))
+							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","collection" ))
+							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","delivery" )))
+					.withPageable(pageable).build();
+		}
+		else {
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
-						.must(QueryBuilders.matchQuery("storeId", storeId)))
-				.withPageable(pageable).build();
+			 searchQuery = new NativeSearchQueryBuilder()
+					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
+							.must(QueryBuilders.matchQuery("storeId", storeId))
+							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword",deliveryType )))
+					.withPageable(pageable).build();
+		}
+		
 
 		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
 	}
