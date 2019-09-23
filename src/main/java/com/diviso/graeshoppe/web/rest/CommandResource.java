@@ -544,6 +544,8 @@ public class CommandResource {
 	
 	@PostMapping("/entryLineItem")
 	public ResponseEntity<EntryLineItemDTO> createEntryLineItem(@RequestBody EntryLineItemDTO entrylineitemDTO) {
+		
+		log.info("////////////////////////////////////////////////////"+entrylineitemDTO);
 		return this.entryLineItemResourceApi.createEntryLineItemUsingPOST(entrylineitemDTO);
 	}
 

@@ -40,7 +40,7 @@ public interface QueryService {
 	/**
 	 * @param statusName
 	 */
-	public Page<Order> findOrderByStatusName(String statusName, String storeId, Pageable pageable);
+	public Page<Order> findOrderByStatusNameAndDeliveryType(String statusName, String storeId, String deliveryType,Pageable pageable);
 
 	public List<String> findAllUom(Pageable pageable);
 
@@ -212,8 +212,10 @@ public interface QueryService {
 
 	public Location findLocationByStockEntryId(Long id);
 
-	public Page<Location> findLocationByIdpcode(String idpcode);
+	public Page<Location> findLocationByIdpcode(String idpcode, Pageable pageable);
 
-	public Page<Reason> findReasonByIdpcode(String idpcode);
+	public Page<Reason> findReasonByIdpcode(String idpcode, Pageable pageable);
+
+	public Page<EntryLineItem> findAllEntryLineItemsByStockEntryId(String id, Pageable pageable);
 
 }

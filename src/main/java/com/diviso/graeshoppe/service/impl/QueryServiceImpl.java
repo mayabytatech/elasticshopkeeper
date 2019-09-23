@@ -93,12 +93,25 @@ public class QueryServiceImpl implements QueryService {
 	 * String)
 	 */
 	@Override
-	public Page<Order> findOrderByStatusName(String statusName, String storeId, Pageable pageable) {
+	public Page<Order> findOrderByStatusNameAndDeliveryType(String statusName, String storeId, String deliveryType, Pageable pageable) {
+		SearchQuery searchQuery =null;
+		if(deliveryType.equals("all")) {
+			 searchQuery = new NativeSearchQueryBuilder()
+					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
+							.must(QueryBuilders.matchQuery("storeId", storeId))
+							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","collection" ))
+							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","delivery" )))
+					.withPageable(pageable).build();
+		}
+		else {
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
-						.must(QueryBuilders.matchQuery("storeId", storeId)))
-				.withPageable(pageable).build();
+			 searchQuery = new NativeSearchQueryBuilder()
+					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
+							.must(QueryBuilders.matchQuery("storeId", storeId))
+							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword",deliveryType )))
+					.withPageable(pageable).build();
+		}
+		
 
 		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
 	}
@@ -252,8 +265,8 @@ public class QueryServiceImpl implements QueryService {
 
 	@Override
 	public Page<StockEntry> findAllStockEntries(String storeId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("product.iDPcode", storeId))
-				.build();
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", storeId)).withPageable(pageable).
+				build();
 		return elasticsearchOperations.queryForPage(searchQuery, StockEntry.class);
 	}
 
@@ -749,19 +762,27 @@ public class QueryServiceImpl implements QueryService {
 	}
 
 	@Override
-	public Page<Location> findLocationByIdpcode(String idpcode) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).build();
+	public Page<Location> findLocationByIdpcode(String idpcode, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).withPageable(pageable).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Location.class);
 	
 	}
 
 	@Override
-	public Page<Reason> findReasonByIdpcode(String idpcode) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).build();
+	public Page<Reason> findReasonByIdpcode(String idpcode, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("iDPcode", idpcode)).withPageable(pageable).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, Reason.class);
 	
+	}
+
+	@Override
+	public Page<EntryLineItem> findAllEntryLineItemsByStockEntryId(String id, Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("stockentry.id", id)).withPageable(pageable).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, EntryLineItem.class);
+		
 	}
 
 }
