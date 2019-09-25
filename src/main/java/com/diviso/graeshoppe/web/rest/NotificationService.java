@@ -21,31 +21,32 @@ public class NotificationService {
 
 	@Autowired
 	private SocketIOServer socketIOServer;
-	
+
 	private final Logger LOG = LoggerFactory.getLogger(NotificationService.class);
 
 	@StreamListener(MessageBinderConfiguration.NOTIFICATION)
 	public void listenToNotifications(KStream<String, Notification> message) {
 		message.foreach((key, value) -> {
 			LOG.info("Notification Value consumed is " + value);
-			sendNotification(value);
+			if (value.getType().equals("Pending-Notification") || value.getType().equals("Confirmed-Notification")) {
+				sendNotification(value);
+			}
 		});
 	}
 
 	private void sendNotification(Notification message) {
 		LOG.info("Notification is send via socket server");
-			NotificationDTO notificationDTO=new NotificationDTO();
-			notificationDTO.setDate(OffsetDateTime.ofInstant(Instant.ofEpochMilli(message.getDate()),ZoneId.systemDefault()));
-			notificationDTO.setTitle(message.getTitle());
-			notificationDTO.setMessage(message.getMessage());
-			notificationDTO.setTargetId(message.getTargetId());
-			notificationDTO.setReceiverId(message.getReceiverId());
-			notificationDTO.setId(message.getId());
-			notificationDTO.setStatus(message.getStatus());
-			notificationDTO.setImage(message.getImage().array());
-			notificationDTO.setImageContentType(message.getImageContentType());
-			socketIOServer.getBroadcastOperations().sendEvent(message.getReceiverId(), notificationDTO);
-		}
+		NotificationDTO notificationDTO = new NotificationDTO();
+		notificationDTO
+				.setDate(OffsetDateTime.ofInstant(Instant.ofEpochMilli(message.getDate()), ZoneId.systemDefault()));
+		notificationDTO.setTitle(message.getTitle());
+		notificationDTO.setMessage(message.getMessage());
+		notificationDTO.setTargetId(message.getTargetId());
+		notificationDTO.setReceiverId(message.getReceiverId());
+		notificationDTO.setId(message.getId());
+		notificationDTO.setStatus(message.getStatus());
+		notificationDTO.setImage(message.getImage().array());
+		notificationDTO.setImageContentType(message.getImageContentType());
+		socketIOServer.getBroadcastOperations().sendEvent(message.getReceiverId(), notificationDTO);
 	}
-
-
+}
