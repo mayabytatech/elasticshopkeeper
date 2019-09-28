@@ -96,17 +96,12 @@ public class QueryServiceImpl implements QueryService {
 	public Page<Order> findOrderByStatusNameAndDeliveryType(String statusName, String storeId, String deliveryType, Pageable pageable) {
 		SearchQuery searchQuery =null;
 		if(deliveryType.equals("all")) {
-			System.out.println("IN all %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 			 searchQuery = new NativeSearchQueryBuilder()
 					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
-							.must(QueryBuilders.matchQuery("storeId", storeId))
-							.must(QueryBuilders.matchQuery("deliveryInfo.deliveryType.keyword","collection" ))
-							.must(QueryBuilders.matchQuery("deliveryInfo.deliveryType.keyword","delivery" )))
+							.must(QueryBuilders.matchQuery("storeId", storeId)))
 					.withPageable(pageable).build();
 		}
 		else {
-			System.out.println("IN else part %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-
 			 searchQuery = new NativeSearchQueryBuilder()
 					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
 							.must(QueryBuilders.matchQuery("storeId", storeId))
