@@ -99,6 +99,7 @@ public class QueryServiceImpl implements QueryService {
 			 searchQuery = new NativeSearchQueryBuilder()
 					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
 							.must(QueryBuilders.matchQuery("storeId", storeId)))
+					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
 					.withPageable(pageable).build();
 		}
 		else {
@@ -106,6 +107,7 @@ public class QueryServiceImpl implements QueryService {
 					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
 							.must(QueryBuilders.matchQuery("storeId", storeId))
 							.must(QueryBuilders.matchQuery("deliveryInfo.deliveryType.keyword",deliveryType )))
+					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
 					.withPageable(pageable).build();
 		}
 		
