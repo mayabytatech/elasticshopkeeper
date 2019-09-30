@@ -101,6 +101,7 @@ public class QueryServiceImpl implements QueryService {
 							.must(QueryBuilders.matchQuery("storeId", storeId))
 							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","collection" ))
 							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","delivery" )))
+					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
 					.withPageable(pageable).build();
 		}
 		else {
@@ -109,6 +110,7 @@ public class QueryServiceImpl implements QueryService {
 					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
 							.must(QueryBuilders.matchQuery("storeId", storeId))
 							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword",deliveryType )))
+					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
 					.withPageable(pageable).build();
 		}
 		
@@ -642,8 +644,12 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public Page<Notification> findNotificationByReceiverId(String receiverId, Pageable pageable) {
 
-		StringQuery stringQuery = new StringQuery(termQuery("receiverId.keyword", receiverId).toString());
-		return elasticsearchOperations.queryForPage(stringQuery, Notification.class);
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(termQuery("receiverId", receiverId))
+				.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
+				.withPageable(pageable).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, Notification.class);
 	}
 
 	public Long findOrderCountByDateAndStatusName(String statusName, Instant date) {
@@ -718,11 +724,6 @@ public class QueryServiceImpl implements QueryService {
 
 	}
 
-	@Override
-	public Page<Order> findOrdersByDeliveryType(String orderId, String deliverytype, Pageable pageable) {
-		return null;
-
-	}
 
 	@Override
 	public Discount findDiscountByProductId(Long productId) {

@@ -200,8 +200,6 @@ public interface QueryService {
 
 	public Page<Category> findAllCategoryBySearchTerm(String searchTerm, String storeId, Pageable pageable);
 
-	public Page<Order> findOrdersByDeliveryType(String orderId, String deliverytype, Pageable pageable);
-
 	public Discount findDiscountByProductId(Long productId);
 
 	public StockEntry findStockEntryById(Long id);

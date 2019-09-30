@@ -177,12 +177,6 @@ public class QueryResource {
 	public Page<Order> findOrderByStatusName(@PathVariable String statusName, @PathVariable String storeId,@PathVariable String deliveryType, Pageable pageable){
 		return queryService.findOrderByStatusNameAndDeliveryType(statusName, storeId, deliveryType,pageable);
 	}
-
-	@GetMapping("/order/findbydeliverytype/{deliverytype}")
-	public Page<Order> findOrdersByDeliveryType(@PathVariable String orderId, @PathVariable String deliverytype, Pageable pageable){
-		return queryService.findOrdersByDeliveryType(orderId, deliverytype, pageable);
-	}
-	
 		
 	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
