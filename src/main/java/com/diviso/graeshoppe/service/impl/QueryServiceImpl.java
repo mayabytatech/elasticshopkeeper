@@ -98,19 +98,14 @@ public class QueryServiceImpl implements QueryService {
 		if(deliveryType.equals("all")) {
 			 searchQuery = new NativeSearchQueryBuilder()
 					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
-							.must(QueryBuilders.matchQuery("storeId", storeId))
-							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","collection" ))
-							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword","delivery" )))
-					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
+							.must(QueryBuilders.matchQuery("storeId", storeId)))
 					.withPageable(pageable).build();
 		}
 		else {
-
 			 searchQuery = new NativeSearchQueryBuilder()
 					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
 							.must(QueryBuilders.matchQuery("storeId", storeId))
-							.must(QueryBuilders.matchQuery("deliveryinfo.deliverytype.keyword",deliveryType )))
-					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
+							.must(QueryBuilders.matchQuery("deliveryInfo.deliveryType.keyword",deliveryType )))
 					.withPageable(pageable).build();
 		}
 		

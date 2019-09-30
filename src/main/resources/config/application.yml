@@ -227,3 +227,7 @@ store:
    
 report:
    url: dev.ci2.divisosofttech.com:8077
+socket:
+   server:
+      host: 0.0.0.0
+      port: 9999
