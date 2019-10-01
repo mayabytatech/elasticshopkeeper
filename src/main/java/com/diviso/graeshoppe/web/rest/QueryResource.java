@@ -173,6 +173,12 @@ public class QueryResource {
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
+	@GetMapping("/taskDetails/{taskName}/{orderId}/{storeId}")
+	public void getTaskDetails(@PathVariable String taskName,@PathVariable String orderId,@PathVariable String storeId) {
+		orderQueryResourceApi.getTaskDetailsUsingGET(taskName,orderId, storeId);
+		
+	}
+	
 	@GetMapping("/orderStatus/{statusName}/{storeId}/{deliveryType}")
 	public Page<Order> findOrderByStatusName(@PathVariable String statusName, @PathVariable String storeId,@PathVariable String deliveryType, Pageable pageable){
 		return queryService.findOrderByStatusNameAndDeliveryType(statusName, storeId, deliveryType,pageable);
