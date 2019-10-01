@@ -25,10 +25,34 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-05T10:57:27.574354+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-01T11:30:02.598930+05:30[Asia/Kolkata]")
 
 @Api(value = "OrderQueryResource", description = "the OrderQueryResource API")
 public interface OrderQueryResourceApi {
+
+    @ApiOperation(value = "countByCustomerIdAndStatusName", nickname = "countByCustomerIdAndStatusNameUsingGET", notes = "", response = Long.class, tags={ "order-query-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Long.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/count-by-customerid-statusname/{customerId}/{statusName}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<Long> countByCustomerIdAndStatusNameUsingGET(@ApiParam(value = "customerId",required=true) @PathVariable("customerId") String customerId,@ApiParam(value = "statusName",required=true) @PathVariable("statusName") String statusName);
+
+
+    @ApiOperation(value = "getTaskDetails", nickname = "getTaskDetailsUsingGET", notes = "", response = OpenTask.class, tags={ "order-query-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = OpenTask.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/taskDetails/{taskName}/{orderId}/{storeId}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<OpenTask> getTaskDetailsUsingGET(@ApiParam(value = "taskName",required=true) @PathVariable("taskName") String taskName,@ApiParam(value = "orderId",required=true) @PathVariable("orderId") String orderId,@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId);
+
 
     @ApiOperation(value = "getTasks", nickname = "getTasksUsingGET", notes = "", response = OpenTask.class, responseContainer = "List", tags={ "order-query-resource", })
     @ApiResponses(value = { 
