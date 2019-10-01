@@ -174,8 +174,8 @@ public class QueryResource {
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
 	@GetMapping("/taskDetails/{taskName}/{orderId}/{storeId}")
-	public void getTaskDetails(@PathVariable String taskName,@PathVariable String orderId,@PathVariable String storeId) {
-		orderQueryResourceApi.getTaskDetailsUsingGET(taskName,orderId, storeId);
+	public ResponseEntity<OpenTask> getTaskDetails(@PathVariable String taskName,@PathVariable String orderId,@PathVariable String storeId) {
+		return orderQueryResourceApi.getTaskDetailsUsingGET(taskName,orderId, storeId);
 		
 	}
 	
