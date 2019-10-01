@@ -273,7 +273,7 @@ public class QueryResource {
 	public ResponseEntity<CustomerDTO> findCustomerById(@PathVariable Long id) {
 		return this.customerResourceApi.getCustomerUsingGET(id);
 	}
-
+ 
 	@GetMapping("/contacts/{id}")
 	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
 		return this.contactResourceApi.getContactUsingGET(id);
@@ -612,33 +612,6 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findBannersByStoreId(storeId));
 	}
 
-	/*
-	 * @GetMapping("/orderMaster/{orderId}/{status}") public
-	 * ResponseEntity<OrderMasterDTO> findOrderMasterByOrderId(@PathVariable String
-	 * orderId,@PathVariable String status, Integer page, Integer size,
-	 * ArrayList<String> sort) {
-	 * 
-	 * //OrderMaster orderMaster =
-	 * reportQueryResourceApi.getOrderMasterUsingGET(orderId, status,page, size,
-	 * sort).getBody(); OrderMaster orderMaster =
-	 * reportQueryResourceApi.getOrderMasterByOrderIdAndStatusNameUsingGET(orderId,
-	 * status, page, size, sort).getBody();
-	 * 
-	 * OrderMasterDTO dto =
-	 * orderMasterResourceApi.findOrderMasterByOrderIdUsingGET(orderId).getBody();
-	 * log.info(".................dto........." + dto); OrderMasterDTO result; if
-	 * (dto != null) { log.info("..........upadte......");
-	 * 
-	 * result =
-	 * reportCommandResourceApi.updateOrderMasterUsingPUT1(dto.getId(),orderMaster).
-	 * getBody();
-	 * 
-	 * 
-	 * } else { result =
-	 * reportCommandResourceApi.createOrderMasterUsingPOST1(orderMaster).getBody();
-	 * } return ResponseEntity.ok().body(result); }
-	 */
-
 	@GetMapping("/opentasks")
 	public ResponseEntity<List<OpenTask>> getOpenTasks(@RequestParam(required = false) String assignee,
 			@RequestParam(required = false) String assigneeLike, @RequestParam(required = false) String candidateGroup,
@@ -730,6 +703,11 @@ public class QueryResource {
 
 		return queryService.findAllEntryLineItemsByStockEntryId(id,pageable);
 	
+	}
+	
+	@GetMapping("/findnotificationcount/{receiverId}/{status}")
+	Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status){
+		return queryService.findNotificationCountByReceiverIdAndStatusName(receiverId, status);
 	}
 	
 }

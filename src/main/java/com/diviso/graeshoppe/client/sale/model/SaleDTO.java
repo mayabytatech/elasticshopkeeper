@@ -1,21 +1,22 @@
 package com.diviso.graeshoppe.client.sale.model;
 
-import java.time.Instant;
 import java.util.Objects;
-
-import javax.validation.Valid;
-
-import org.springframework.validation.annotation.Validated;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * SaleDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-09T15:22:06.170+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-30T15:12:46.034+05:30[Asia/Kolkata]")
 
 public class SaleDTO   {
   @JsonProperty("customerId")
@@ -29,6 +30,9 @@ public class SaleDTO   {
 
   @JsonProperty("id")
   private Long id = null;
+
+  @JsonProperty("userId")
+  private String userId = null;
 
   public SaleDTO customerId(Long customerId) {
     this.customerId = customerId;
@@ -74,7 +78,7 @@ public class SaleDTO   {
   public SaleDTO grandTotal(Double grandTotal) {
     this.grandTotal = grandTotal;
     return this;
-  } 
+  }
 
   /**
    * Get grandTotal
@@ -111,6 +115,26 @@ public class SaleDTO   {
     this.id = id;
   }
 
+  public SaleDTO userId(String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * Get userId
+   * @return userId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -124,22 +148,25 @@ public class SaleDTO   {
     return Objects.equals(this.customerId, saleDTO.customerId) &&
         Objects.equals(this.date, saleDTO.date) &&
         Objects.equals(this.grandTotal, saleDTO.grandTotal) &&
-        Objects.equals(this.id, saleDTO.id);
+        Objects.equals(this.id, saleDTO.id) &&
+        Objects.equals(this.userId, saleDTO.userId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(customerId, date, grandTotal, id);
+    return Objects.hash(customerId, date, grandTotal, id, userId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SaleDTO {\n");
+    
     sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    grandTotal: ").append(toIndentedString(grandTotal)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

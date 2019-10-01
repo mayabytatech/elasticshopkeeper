@@ -783,4 +783,14 @@ public class QueryServiceImpl implements QueryService {
 		
 	}
 
+	@Override
+	public Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("receiverId", receiverId))
+						.must(QueryBuilders.matchQuery("status", status)))
+				.build();
+		return elasticsearchOperations.count(searchQuery, Order.class);
+	}
+
+
 }
