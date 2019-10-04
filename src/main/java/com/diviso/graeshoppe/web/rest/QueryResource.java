@@ -29,7 +29,7 @@ import com.diviso.graeshoppe.client.order.api.ReportQueryResourceApi;
 import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.OpenTask;
 import com.diviso.graeshoppe.client.order.model.Order;
-import com.diviso.graeshoppe.client.order.model.OrderMaster;
+
 import com.diviso.graeshoppe.client.product.api.AuxilaryLineItemResourceApi;
 import com.diviso.graeshoppe.client.product.api.CategoryResourceApi;
 import com.diviso.graeshoppe.client.product.api.ComboLineItemResourceApi;
@@ -61,6 +61,7 @@ import com.diviso.graeshoppe.client.report.api.OrderMasterResourceApi;
 import com.diviso.graeshoppe.client.report.api.QueryResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportCommandResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
+import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
 import com.diviso.graeshoppe.client.report.model.ReportSummary;
 import com.diviso.graeshoppe.client.sale.api.SaleResourceApi;
@@ -633,6 +634,13 @@ public class QueryResource {
 		 Order order=queryService.findOrderByOrderId(orderId);
 		return ResponseEntity.ok().body(order);
 	}
+	
+	@GetMapping("/orderMasterByOrderId/{orderId}")
+	public ResponseEntity<OrderMaster> findOrderMasterByOrderId(@PathVariable String orderId) {
+		 OrderMaster orderMaster=queryService.findOrderMasterByOrderId(orderId);
+		return ResponseEntity.ok().body(orderMaster);
+	}
+	
 	@GetMapping("/tasks")
 	public ResponseEntity<List<Order>> getTasks(@RequestParam(required = false) String assignee,
 			@RequestParam(required = false) String assigneeLike, @RequestParam(required = false) String candidateGroup,

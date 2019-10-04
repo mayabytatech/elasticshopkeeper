@@ -44,6 +44,7 @@ import com.diviso.graeshoppe.client.product.model.Reason;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.UOM;
+import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.store.domain.Banner;
@@ -790,6 +791,15 @@ public class QueryServiceImpl implements QueryService {
 						.must(QueryBuilders.matchQuery("status", status)))
 				.build();
 		return elasticsearchOperations.count(searchQuery, Order.class);
+	}
+
+	@Override
+	public OrderMaster findOrderMasterByOrderId(String orderId) {
+		
+		StringQuery stringQuery = new StringQuery(termQuery("orderNumber", orderId).toString());
+
+		return elasticsearchOperations.queryForObject(stringQuery, OrderMaster.class);
+
 	}
 
 
