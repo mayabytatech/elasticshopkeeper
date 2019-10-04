@@ -684,7 +684,7 @@ public class QueryResource {
 	@GetMapping("/getOrderDocket/{orderNumber}")
 	public ResponseEntity<PdfDTO> getOrderDocket(@PathVariable String orderNumber) {
 		PdfDTO pdf = new PdfDTO();
-		pdf.setPdf(this.reportResourceApi.getReportAsPdfUsingGET(orderNumber).getBody());
+		pdf.setPdf(this.reportResourceApi.getReportWithAuxAndComboAsPdfUsingGET(orderNumber).getBody());
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
 	}

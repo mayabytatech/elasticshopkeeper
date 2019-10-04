@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * ReportSummary
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-06T14:07:09.933+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-04T10:29:27.676379+05:30[Asia/Kolkata]")
 
 public class ReportSummary   {
   @JsonProperty("localDate")
