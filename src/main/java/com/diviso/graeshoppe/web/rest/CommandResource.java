@@ -237,6 +237,11 @@ public class CommandResource {
 		this.deleteContact(contactid);
 	}
 
+	@PostMapping("/contacts")
+	public ResponseEntity<ContactDTO> createContact(@RequestBody ContactDTO contact) {
+		return this.contactResourceApi.createContactUsingPOST(contact);
+	}
+	
 	@PutMapping("/contacts")
 	public ResponseEntity<ContactDTO> updateContact(@RequestBody ContactDTO contact) {
 		return this.contactResourceApi.updateContactUsingPUT(contact);

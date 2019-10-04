@@ -13,17 +13,43 @@ import javax.validation.constraints.*;
  * ContactDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-02T11:06:23.898839200+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-09-28T12:48:05.037111+05:30[Asia/Kolkata]")
 
 public class ContactDTO   {
+  @JsonProperty("email")
+  private String email = null;
+
   @JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("mobileNumber")
-  private String mobileNumber = null;
+  private Long mobileNumber = null;
+
+  @JsonProperty("phoneCode")
+  private Long phoneCode = null;
 
   @JsonProperty("telephone")
-  private String telephone = null;
+  private Long telephone = null;
+
+  public ContactDTO email(String email) {
+    this.email = email;
+    return this;
+  }
+
+  /**
+   * Get email
+   * @return email
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
   public ContactDTO id(Long id) {
     this.id = id;
@@ -45,7 +71,7 @@ public class ContactDTO   {
     this.id = id;
   }
 
-  public ContactDTO mobileNumber(String mobileNumber) {
+  public ContactDTO mobileNumber(Long mobileNumber) {
     this.mobileNumber = mobileNumber;
     return this;
   }
@@ -57,15 +83,35 @@ public class ContactDTO   {
   @ApiModelProperty(value = "")
 
 
-  public String getMobileNumber() {
+  public Long getMobileNumber() {
     return mobileNumber;
   }
 
-  public void setMobileNumber(String mobileNumber) {
+  public void setMobileNumber(Long mobileNumber) {
     this.mobileNumber = mobileNumber;
   }
 
-  public ContactDTO telephone(String telephone) {
+  public ContactDTO phoneCode(Long phoneCode) {
+    this.phoneCode = phoneCode;
+    return this;
+  }
+
+  /**
+   * Get phoneCode
+   * @return phoneCode
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Long getPhoneCode() {
+    return phoneCode;
+  }
+
+  public void setPhoneCode(Long phoneCode) {
+    this.phoneCode = phoneCode;
+  }
+
+  public ContactDTO telephone(Long telephone) {
     this.telephone = telephone;
     return this;
   }
@@ -77,11 +123,11 @@ public class ContactDTO   {
   @ApiModelProperty(value = "")
 
 
-  public String getTelephone() {
+  public Long getTelephone() {
     return telephone;
   }
 
-  public void setTelephone(String telephone) {
+  public void setTelephone(Long telephone) {
     this.telephone = telephone;
   }
 
@@ -95,14 +141,16 @@ public class ContactDTO   {
       return false;
     }
     ContactDTO contactDTO = (ContactDTO) o;
-    return Objects.equals(this.id, contactDTO.id) &&
+    return Objects.equals(this.email, contactDTO.email) &&
+        Objects.equals(this.id, contactDTO.id) &&
         Objects.equals(this.mobileNumber, contactDTO.mobileNumber) &&
+        Objects.equals(this.phoneCode, contactDTO.phoneCode) &&
         Objects.equals(this.telephone, contactDTO.telephone);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, mobileNumber, telephone);
+    return Objects.hash(email, id, mobileNumber, phoneCode, telephone);
   }
 
   @Override
@@ -110,8 +158,10 @@ public class ContactDTO   {
     StringBuilder sb = new StringBuilder();
     sb.append("class ContactDTO {\n");
     
+    sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    mobileNumber: ").append(toIndentedString(mobileNumber)).append("\n");
+    sb.append("    phoneCode: ").append(toIndentedString(phoneCode)).append("\n");
     sb.append("    telephone: ").append(toIndentedString(telephone)).append("\n");
     sb.append("}");
     return sb.toString();
