@@ -216,4 +216,6 @@ public interface QueryService {
 
 	public Page<EntryLineItem> findAllEntryLineItemsByStockEntryId(String id, Pageable pageable);
 
+	public Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status);
+
 }
