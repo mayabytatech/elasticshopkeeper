@@ -796,7 +796,7 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public OrderMaster findOrderMasterByOrderId(String orderId) {
 		
-		StringQuery stringQuery = new StringQuery(termQuery("orderNumber", orderId).toString());
+		StringQuery stringQuery = new StringQuery(termQuery("orderNumber.keyword", orderId).toString());
 
 		return elasticsearchOperations.queryForObject(stringQuery, OrderMaster.class);
 
