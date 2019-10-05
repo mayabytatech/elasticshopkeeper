@@ -633,13 +633,13 @@ public class QueryResource {
 		return ResponseEntity.ok().body(order);
 	}
 	
-	@GetMapping("/findAuxItemByOrderLineId/{orderId}")
+	@GetMapping("/findAuxItemByOrderLineId/{orderLineId}")
 	public ResponseEntity<Page<AuxItem>> findAuxItemByOrderLineId(@PathVariable Long orderLineId, Pageable pageable) {
 		 Page<AuxItem> auxItem=queryService.findAuxItemByOrderLineId(orderLineId, pageable);
 		return ResponseEntity.ok().body(auxItem);
 	}
 	
-	@GetMapping("/findComboItemByOrderLineId/{orderId}")
+	@GetMapping("/findComboItemByOrderLineId/{orderLineId}")
 	public ResponseEntity<Page<ComboItem>> findComboItemByOrderLineId(@PathVariable Long orderLineId, Pageable pageable) {
 		 Page<ComboItem> comboItem=queryService.findComboItemByOrderLineId(orderLineId, pageable);
 		return ResponseEntity.ok().body(comboItem);
