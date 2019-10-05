@@ -805,20 +805,29 @@ public class QueryServiceImpl implements QueryService {
 	}
 
 	@Override
-	public AuxItem findAuxItemByOrderLineId(Long orderLineId) {
+	public Page<AuxItem> findAuxItemByOrderLineId(Long orderLineId, Pageable pageable) {
 		
-		StringQuery stringQuery = new StringQuery(termQuery("orderLine.id", orderLineId).toString());
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("orderLine.id", orderLineId)).withPageable(pageable).build();
 
-		return elasticsearchOperations.queryForObject(stringQuery, AuxItem.class);
+		return elasticsearchOperations.queryForPage(searchQuery, AuxItem.class);
 		
 	}
 
 	@Override
-	public ComboItem findComboItemByOrderLineId(Long orderLineId) {
+	public Page<ComboItem> findComboItemByOrderLineId(Long orderLineId, Pageable pageable) {
 
-		StringQuery stringQuery = new StringQuery(termQuery("orderLine.id", orderLineId).toString());
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("orderLine.id", orderLineId)).withPageable(pageable).build();
 
-		return elasticsearchOperations.queryForObject(stringQuery, ComboItem.class);
+		return elasticsearchOperations.queryForPage(searchQuery, ComboItem.class);
+	}
+
+
+	@Override
+	public Page<com.diviso.graeshoppe.client.report.model.OrderLine> findOrderLineByOrderMasterId(Long orderMasterId,
+			Pageable pageable) {
+		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("orderMaster.id", orderMasterId)).withPageable(pageable).build();
+
+		return elasticsearchOperations.queryForPage(searchQuery, com.diviso.graeshoppe.client.report.model.OrderLine.class);
 	}
 
 

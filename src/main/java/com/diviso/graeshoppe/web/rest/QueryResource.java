@@ -63,6 +63,7 @@ import com.diviso.graeshoppe.client.report.api.ReportCommandResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
 import com.diviso.graeshoppe.client.report.model.AuxItem;
 import com.diviso.graeshoppe.client.report.model.ComboItem;
+import com.diviso.graeshoppe.client.report.model.OrderLine;
 import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
 import com.diviso.graeshoppe.client.report.model.ReportSummary;
@@ -633,14 +634,14 @@ public class QueryResource {
 	}
 	
 	@GetMapping("/findAuxItemByOrderLineId/{orderId}")
-	public ResponseEntity<AuxItem> findAuxItemByOrderLineId(@PathVariable Long orderLineId) {
-		 AuxItem auxItem=queryService.findAuxItemByOrderLineId(orderLineId);
+	public ResponseEntity<Page<AuxItem>> findAuxItemByOrderLineId(@PathVariable Long orderLineId, Pageable pageable) {
+		 Page<AuxItem> auxItem=queryService.findAuxItemByOrderLineId(orderLineId, pageable);
 		return ResponseEntity.ok().body(auxItem);
 	}
 	
 	@GetMapping("/findComboItemByOrderLineId/{orderId}")
-	public ResponseEntity<ComboItem> findComboItemByOrderLineId(@PathVariable Long orderLineId) {
-		 ComboItem comboItem=queryService.findComboItemByOrderLineId(orderLineId);
+	public ResponseEntity<Page<ComboItem>> findComboItemByOrderLineId(@PathVariable Long orderLineId, Pageable pageable) {
+		 Page<ComboItem> comboItem=queryService.findComboItemByOrderLineId(orderLineId, pageable);
 		return ResponseEntity.ok().body(comboItem);
 	}
 	
@@ -648,6 +649,12 @@ public class QueryResource {
 	public ResponseEntity<OrderMaster> findOrderMasterByOrderId(@PathVariable String orderId) {
 		 OrderMaster orderMaster=queryService.findOrderMasterByOrderId(orderId);
 		return ResponseEntity.ok().body(orderMaster);
+	}
+	
+	@GetMapping("/orderLineByOrderMasterId/{orderMasterId}")
+	public ResponseEntity<Page<OrderLine>> findOrderLineByOrderMasterId(@PathVariable Long orderMasterId, Pageable pageable) {
+		 Page<OrderLine> orderLine=queryService.findOrderLineByOrderMasterId(orderMasterId, pageable);
+		return ResponseEntity.ok().body(orderLine);
 	}
 	
 	@GetMapping("/tasks")

@@ -24,6 +24,7 @@ import com.diviso.graeshoppe.client.product.model.UOM;
 import com.diviso.graeshoppe.client.report.model.AuxItem;
 import com.diviso.graeshoppe.client.report.model.ComboItem;
 import com.diviso.graeshoppe.client.report.model.OrderMaster;
+
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
 import com.diviso.graeshoppe.client.store.domain.Banner;
@@ -223,8 +224,11 @@ public interface QueryService {
 
 	public OrderMaster findOrderMasterByOrderId(String orderId);
 
-	public AuxItem findAuxItemByOrderLineId(Long orderLineId);
+	public Page<AuxItem> findAuxItemByOrderLineId(Long orderLineId, Pageable pageable);
 
-	public ComboItem findComboItemByOrderLineId(Long orderLineId);
+	public Page<ComboItem> findComboItemByOrderLineId(Long orderLineId,Pageable pageable);
+
+	public Page<com.diviso.graeshoppe.client.report.model.OrderLine> findOrderLineByOrderMasterId(Long orderMasterId,
+			Pageable pageable);
 
 }
