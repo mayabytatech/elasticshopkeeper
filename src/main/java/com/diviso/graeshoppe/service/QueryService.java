@@ -21,6 +21,8 @@ import com.diviso.graeshoppe.client.product.model.Reason;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.UOM;
+import com.diviso.graeshoppe.client.report.model.AuxItem;
+import com.diviso.graeshoppe.client.report.model.ComboItem;
 import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
@@ -220,5 +222,9 @@ public interface QueryService {
 	public Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status);
 
 	public OrderMaster findOrderMasterByOrderId(String orderId);
+
+	public AuxItem findAuxItemByOrderLineId(Long orderLineId);
+
+	public ComboItem findComboItemByOrderLineId(Long orderLineId);
 
 }

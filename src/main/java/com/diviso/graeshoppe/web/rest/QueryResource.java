@@ -61,6 +61,8 @@ import com.diviso.graeshoppe.client.report.api.OrderMasterResourceApi;
 import com.diviso.graeshoppe.client.report.api.QueryResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportCommandResourceApi;
 import com.diviso.graeshoppe.client.report.api.ReportResourceApi;
+import com.diviso.graeshoppe.client.report.model.AuxItem;
+import com.diviso.graeshoppe.client.report.model.ComboItem;
 import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.client.report.model.OrderMasterDTO;
 import com.diviso.graeshoppe.client.report.model.ReportSummary;
@@ -156,16 +158,11 @@ public class QueryResource {
 	private StoreSettingsResourceApi storeSettingsResourceApi;
 
 	@Autowired
-	private ReportQueryResourceApi reportQueryResourceApi;
-
-	@Autowired
 	private OrderQueryResourceApi orderQueryResourceApi;
 
 	@Autowired
 	private ReportResourceApi reportResourceApi;
 
-	@Autowired
-	private ReportCommandResourceApi reportCommandResourceApi;
 	@Autowired
 	OrderMasterResourceApi orderMasterResourceApi;
 	
@@ -633,6 +630,18 @@ public class QueryResource {
 	public ResponseEntity<Order> findOrderByOrderId(@PathVariable String orderId) {
 		 Order order=queryService.findOrderByOrderId(orderId);
 		return ResponseEntity.ok().body(order);
+	}
+	
+	@GetMapping("/findAuxItemByOrderLineId/{orderId}")
+	public ResponseEntity<AuxItem> findAuxItemByOrderLineId(@PathVariable Long orderLineId) {
+		 AuxItem auxItem=queryService.findAuxItemByOrderLineId(orderLineId);
+		return ResponseEntity.ok().body(auxItem);
+	}
+	
+	@GetMapping("/findComboItemByOrderLineId/{orderId}")
+	public ResponseEntity<ComboItem> findComboItemByOrderLineId(@PathVariable Long orderLineId) {
+		 ComboItem comboItem=queryService.findComboItemByOrderLineId(orderLineId);
+		return ResponseEntity.ok().body(comboItem);
 	}
 	
 	@GetMapping("/orderMasterByOrderId/{orderId}")

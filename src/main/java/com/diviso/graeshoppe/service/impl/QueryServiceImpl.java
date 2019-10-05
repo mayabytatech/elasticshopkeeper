@@ -44,6 +44,8 @@ import com.diviso.graeshoppe.client.product.model.Reason;
 import com.diviso.graeshoppe.client.product.model.StockCurrent;
 import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.product.model.UOM;
+import com.diviso.graeshoppe.client.report.model.AuxItem;
+import com.diviso.graeshoppe.client.report.model.ComboItem;
 import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
@@ -800,6 +802,23 @@ public class QueryServiceImpl implements QueryService {
 
 		return elasticsearchOperations.queryForObject(stringQuery, OrderMaster.class);
 
+	}
+
+	@Override
+	public AuxItem findAuxItemByOrderLineId(Long orderLineId) {
+		
+		StringQuery stringQuery = new StringQuery(termQuery("orderLine.id", orderLineId).toString());
+
+		return elasticsearchOperations.queryForObject(stringQuery, AuxItem.class);
+		
+	}
+
+	@Override
+	public ComboItem findComboItemByOrderLineId(Long orderLineId) {
+
+		StringQuery stringQuery = new StringQuery(termQuery("orderLine.id", orderLineId).toString());
+
+		return elasticsearchOperations.queryForObject(stringQuery, ComboItem.class);
 	}
 
 
