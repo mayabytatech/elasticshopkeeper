@@ -695,7 +695,8 @@ public class QueryResource {
 	@GetMapping("/reportsummary/{date}/{storeId}")
 	public ResponseEntity<ReportSummary> createReportSummary(@PathVariable String date, @PathVariable String storeId)
 	{
-		return queryResourceApi.createReportSummaryUsingGET(LocalDate.parse(date), storeId);
+		System.out.println("+++++++++++++++++++++++++++++++++gjjjj"+LocalDate.parse("2019-10-12"));
+		return queryResourceApi.createReportSummaryUsingGET(LocalDate.parse("2019-10-12"), storeId);
 	}
 
 	
