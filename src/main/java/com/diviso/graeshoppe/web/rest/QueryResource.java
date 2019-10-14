@@ -699,7 +699,14 @@ public class QueryResource {
 		return queryResourceApi.createReportSummaryUsingGET(LocalDate.parse("2019-10-12"), storeId);
 	}
 
-	
+	@GetMapping("/ordersummary/{date}/{storeId}")
+	public ResponseEntity<PdfDTO> getOrderSummary(@PathVariable String date, @PathVariable String storeId)
+	{
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.reportResourceApi.getReportSummaryAsPdfUsingGET(LocalDate.parse(date), storeId).getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
+	}
 	
 	@GetMapping("/notification/{receiverId}")
 	public ResponseEntity<Page<Notification>> findNotificationByReceiverId(@PathVariable String receiverId,Pageable pageable) {
