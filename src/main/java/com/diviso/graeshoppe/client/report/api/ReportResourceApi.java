@@ -65,7 +65,7 @@ public interface ReportResourceApi {
     @RequestMapping(value = "/api/report/reportSummary/{date}/{storeId}",
         produces = "*/*", 
         method = RequestMethod.GET)
-    ResponseEntity<byte[]> getReportSummaryAsPdfUsingGET(@ApiParam(value = "date",required=true) @PathVariable("date") LocalDate date,@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId);
+    ResponseEntity<byte[]> getReportSummaryAsPdfUsingGET(@ApiParam(value = "date",required=true) @PathVariable("date") String date,@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId);
 
 
     @ApiOperation(value = "getReportWithAuxAndComboAsPdf", nickname = "getReportWithAuxAndComboAsPdfUsingGET", notes = "", response = byte[].class, tags={ "report-resource", })

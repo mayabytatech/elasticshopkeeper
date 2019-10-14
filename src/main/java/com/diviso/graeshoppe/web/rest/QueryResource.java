@@ -703,7 +703,7 @@ public class QueryResource {
 	public ResponseEntity<PdfDTO> getOrderSummary(@PathVariable String date, @PathVariable String storeId)
 	{
 		PdfDTO pdf = new PdfDTO();
-		pdf.setPdf(this.reportResourceApi.getReportSummaryAsPdfUsingGET(LocalDate.parse(date), storeId).getBody());
+		pdf.setPdf(this.reportResourceApi.getReportSummaryAsPdfUsingGET(date, storeId).getBody());
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
 	}
