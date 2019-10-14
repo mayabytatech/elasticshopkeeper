@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-04T10:29:27.676379+05:30[Asia/Kolkata]")
-@Document(indexName = "orderline")
+@Document(indexName = "reportorderline")
 public class OrderLine   {
   @JsonProperty("auxItems")
   @Valid

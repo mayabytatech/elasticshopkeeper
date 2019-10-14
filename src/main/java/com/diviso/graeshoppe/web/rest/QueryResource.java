@@ -701,7 +701,7 @@ public class QueryResource {
 
 	@GetMapping("/ordersummary/{date}/{storeId}")
 	public ResponseEntity<PdfDTO> getOrderSummary(@PathVariable String date, @PathVariable String storeId)
-	{
+	{ 
 		PdfDTO pdf = new PdfDTO();
 		pdf.setPdf(this.reportResourceApi.getReportSummaryAsPdfUsingGET(date, storeId).getBody());
 		pdf.setContentType("application/pdf");
