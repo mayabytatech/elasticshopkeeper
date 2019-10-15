@@ -5,9 +5,8 @@
  */
 package com.diviso.graeshoppe.client.report.api;
 
-import java.time.LocalDate;
-import java.util.Date;
 import com.diviso.graeshoppe.client.report.model.OrderMaster;
+import com.diviso.graeshoppe.client.report.model.ReportSummary;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,10 +26,22 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-04T10:29:27.676379+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-15T16:42:27.055+05:30[Asia/Kolkata]")
 
 @Api(value = "ReportResource", description = "the ReportResource API")
 public interface ReportResourceApi {
+
+    @ApiOperation(value = "createReportSummary", nickname = "createReportSummaryUsingGET1", notes = "", response = ReportSummary.class, tags={ "report-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = ReportSummary.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/report/reportview/{expectedDelivery}/{storeName}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<ReportSummary> createReportSummaryUsingGET1(@ApiParam(value = "expectedDelivery",required=true) @PathVariable("expectedDelivery") String expectedDelivery,@ApiParam(value = "storeName",required=true) @PathVariable("storeName") String storeName);
+
 
     @ApiOperation(value = "getReportAsPdf", nickname = "getReportAsPdfUsingGET", notes = "", response = byte[].class, tags={ "report-resource", })
     @ApiResponses(value = { 

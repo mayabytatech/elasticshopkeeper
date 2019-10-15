@@ -166,23 +166,25 @@ public class QueryResource {
 
 	@Autowired
 	OrderMasterResourceApi orderMasterResourceApi;
-	
+
 	@Autowired
 	QueryResourceApi queryResourceApi;
 
 	private final Logger log = LoggerFactory.getLogger(QueryResource.class);
 
 	@GetMapping("/taskDetails/{taskName}/{orderId}/{storeId}")
-	public ResponseEntity<OpenTask> getTaskDetails(@PathVariable String taskName,@PathVariable String orderId,@PathVariable String storeId) {
-		return orderQueryResourceApi.getTaskDetailsUsingGET(taskName,orderId, storeId);
-		
+	public ResponseEntity<OpenTask> getTaskDetails(@PathVariable String taskName, @PathVariable String orderId,
+			@PathVariable String storeId) {
+		return orderQueryResourceApi.getTaskDetailsUsingGET(taskName, orderId, storeId);
+
 	}
-	
+
 	@GetMapping("/orderStatus/{statusName}/{storeId}/{deliveryType}")
-	public Page<Order> findOrderByStatusName(@PathVariable String statusName, @PathVariable String storeId,@PathVariable String deliveryType, Pageable pageable){
-		return queryService.findOrderByStatusNameAndDeliveryType(statusName, storeId, deliveryType,pageable);
+	public Page<Order> findOrderByStatusName(@PathVariable String statusName, @PathVariable String storeId,
+			@PathVariable String deliveryType, Pageable pageable) {
+		return queryService.findOrderByStatusNameAndDeliveryType(statusName, storeId, deliveryType, pageable);
 	}
-		
+
 	@GetMapping("/findAllProductByCategoryId/{categoryId}/{storeId}")
 	public Page<Product> findAllProductsByCategoryId(@PathVariable Long categoryId, @PathVariable String storeId,
 			Pageable pageable) {
@@ -278,7 +280,7 @@ public class QueryResource {
 	public ResponseEntity<CustomerDTO> findCustomerById(@PathVariable Long id) {
 		return this.customerResourceApi.getCustomerUsingGET(id);
 	}
- 
+
 	@GetMapping("/contacts/{id}")
 	public ResponseEntity<ContactDTO> findContactById(@PathVariable Long id) {
 		return this.contactResourceApi.getContactUsingGET(id);
@@ -300,7 +302,7 @@ public class QueryResource {
 		return ResponseEntity.ok().body(queryService.findAllCategories(storeId, pageable));
 
 	}
-	
+
 	@GetMapping("/findCategoryBySearchTerm/{searchTerm}/{storeId}")
 	public Page<Category> findAllCategoryBySearchTerm(@PathVariable String searchTerm, @PathVariable String storeId,
 			Pageable pageable) {
@@ -493,12 +495,12 @@ public class QueryResource {
 
 		List<AuxilaryLineItem> auxilaryLineItem = queryService.findAllAuxilaryProductsByProductId(product.getId());
 
-		Discount discount=queryService.findDiscountByProductId(product.getId());
-		
+		Discount discount = queryService.findDiscountByProductId(product.getId());
+
 		ProductBundle productBundle = new ProductBundle();
 
 		productBundle.setDiscount(discount);
-		
+
 		productBundle.setComboLineItems(comboLineItem);
 
 		productBundle.setAuxilaryLineItems(auxilaryLineItem);
@@ -512,20 +514,19 @@ public class QueryResource {
 	public ResponseEntity<StockEntryBundle> getStockEntryBundle(@PathVariable Long id) {
 
 		StockEntry stockEntry = queryService.findStockEntryById(id);
-		List<EntryLineItem> entryLineItems= queryService.findAllEntryLineItemsByStockEntryId(stockEntry.getId());
-		Reason reason=queryService.findReasonByStockEntryId(stockEntry.getId());
-		Location location=queryService.findLocationByStockEntryId(stockEntry.getId());
+		List<EntryLineItem> entryLineItems = queryService.findAllEntryLineItemsByStockEntryId(stockEntry.getId());
+		Reason reason = queryService.findReasonByStockEntryId(stockEntry.getId());
+		Location location = queryService.findLocationByStockEntryId(stockEntry.getId());
 
 		StockEntryBundle stockEntryBundle = new StockEntryBundle();
-		
+
 		stockEntryBundle.setEntryLineItems(entryLineItems);
 		stockEntryBundle.setLocation(location);
 		stockEntryBundle.setReason(reason);
 		stockEntryBundle.setStockEntry(stockEntry);
 		return ResponseEntity.ok().body(stockEntryBundle);
 	}
-	
-	
+
 	@GetMapping("/ordersbystoreId/{storeId}")
 	public Page<Order> findOrderLineByStoreId(@PathVariable String storeId, Pageable pageable) {
 
@@ -623,40 +624,43 @@ public class QueryResource {
 			@RequestParam(required = false) String candidateGroups,
 			@RequestParam(required = false) String candidateUser, @RequestParam(required = false) String createdAfter,
 			@RequestParam(required = false) String createdBefore, @RequestParam(required = false) String createdOn,
-			@RequestParam(required = false) String name, @RequestParam(required = false) String nameLike){
-		return orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups, candidateUser, createdAfter, createdBefore, createdOn, name, nameLike);
+			@RequestParam(required = false) String name, @RequestParam(required = false) String nameLike) {
+		return orderQueryResourceApi.getTasksUsingGET(assignee, assigneeLike, candidateGroup, candidateGroups,
+				candidateUser, createdAfter, createdBefore, createdOn, name, nameLike);
 	}
-	
+
 	@GetMapping("/orderByOrderId/{orderId}")
 	public ResponseEntity<Order> findOrderByOrderId(@PathVariable String orderId) {
-		 Order order=queryService.findOrderByOrderId(orderId);
+		Order order = queryService.findOrderByOrderId(orderId);
 		return ResponseEntity.ok().body(order);
 	}
-	
+
 	@GetMapping("/findAuxItemByOrderLineId/{orderLineId}")
 	public ResponseEntity<Page<AuxItem>> findAuxItemByOrderLineId(@PathVariable Long orderLineId, Pageable pageable) {
-		 Page<AuxItem> auxItem=queryService.findAuxItemByOrderLineId(orderLineId, pageable);
+		Page<AuxItem> auxItem = queryService.findAuxItemByOrderLineId(orderLineId, pageable);
 		return ResponseEntity.ok().body(auxItem);
 	}
-	
+
 	@GetMapping("/findComboItemByOrderLineId/{orderLineId}")
-	public ResponseEntity<Page<ComboItem>> findComboItemByOrderLineId(@PathVariable Long orderLineId, Pageable pageable) {
-		 Page<ComboItem> comboItem=queryService.findComboItemByOrderLineId(orderLineId, pageable);
+	public ResponseEntity<Page<ComboItem>> findComboItemByOrderLineId(@PathVariable Long orderLineId,
+			Pageable pageable) {
+		Page<ComboItem> comboItem = queryService.findComboItemByOrderLineId(orderLineId, pageable);
 		return ResponseEntity.ok().body(comboItem);
 	}
-	
+
 	@GetMapping("/orderMasterByOrderId/{orderId}")
 	public ResponseEntity<OrderMaster> findOrderMasterByOrderId(@PathVariable String orderId) {
-		 OrderMaster orderMaster=queryService.findOrderMasterByOrderId(orderId);
+		OrderMaster orderMaster = queryService.findOrderMasterByOrderId(orderId);
 		return ResponseEntity.ok().body(orderMaster);
 	}
-	
+
 	@GetMapping("/orderLineByOrderMasterId/{orderMasterId}")
-	public ResponseEntity<Page<OrderLine>> findOrderLineByOrderMasterId(@PathVariable Long orderMasterId, Pageable pageable) {
-		 Page<OrderLine> orderLine=queryService.findOrderLineByOrderMasterId(orderMasterId, pageable);
+	public ResponseEntity<Page<OrderLine>> findOrderLineByOrderMasterId(@PathVariable Long orderMasterId,
+			Pageable pageable) {
+		Page<OrderLine> orderLine = queryService.findOrderLineByOrderMasterId(orderMasterId, pageable);
 		return ResponseEntity.ok().body(orderLine);
 	}
-	
+
 	@GetMapping("/tasks")
 	public ResponseEntity<List<Order>> getTasks(@RequestParam(required = false) String assignee,
 			@RequestParam(required = false) String assigneeLike, @RequestParam(required = false) String candidateGroup,
@@ -691,62 +695,71 @@ public class QueryResource {
 		return reportResourceApi.getReportAsPdfUsingGET(orderNumber);
 
 	}
-	
-	@GetMapping("/reportsummary/{date}/{storeId}")
-	public ResponseEntity<ReportSummary> createReportSummary(@PathVariable String date, @PathVariable String storeId)
-	{
-		System.out.println("+++++++++++++++++++++++++++++++++gjjjj"+LocalDate.parse("2019-10-12"));
-		return queryResourceApi.createReportSummaryUsingGET(LocalDate.parse("2019-10-12"), storeId);
-	}
+
+	/*
+	 * @GetMapping("/reportsummary/{date}/{storeId}") public
+	 * ResponseEntity<ReportSummary> createReportSummary(@PathVariable String
+	 * date, @PathVariable String storeId) {
+	 * System.out.println("+++++++++++++++++++++++++++++++++gjjjj"+LocalDate.parse(
+	 * "2019-10-12")); return
+	 * queryResourceApi.createReportSummaryUsingGET(LocalDate.parse("2019-10-12"),
+	 * storeId); }
+	 */
 
 	@GetMapping("/ordersummary/{date}/{storeId}")
-	public ResponseEntity<PdfDTO> getOrderSummary(@PathVariable String date, @PathVariable String storeId)
-	{ 
+	public ResponseEntity<PdfDTO> getOrderSummary(@PathVariable String date, @PathVariable String storeId) {
 		PdfDTO pdf = new PdfDTO();
 		pdf.setPdf(this.reportResourceApi.getReportSummaryAsPdfUsingGET(date, storeId).getBody());
 		pdf.setContentType("application/pdf");
 		return ResponseEntity.ok().body(pdf);
 	}
-	
+
+	@GetMapping("/ordersummaryview/{expectedDelivery}/{storeName}")
+	public ResponseEntity<ReportSummary> createReportSummary(@PathVariable String expectedDelivery,
+			@PathVariable String storeName) {
+		return reportResourceApi.createReportSummaryUsingGET1(expectedDelivery, storeName);
+	}
+
 	@GetMapping("/notification/{receiverId}")
-	public ResponseEntity<Page<Notification>> findNotificationByReceiverId(@PathVariable String receiverId,Pageable pageable) {
-		return ResponseEntity.ok().body(queryService.findNotificationByReceiverId(receiverId,pageable));
-		
+	public ResponseEntity<Page<Notification>> findNotificationByReceiverId(@PathVariable String receiverId,
+			Pageable pageable) {
+		return ResponseEntity.ok().body(queryService.findNotificationByReceiverId(receiverId, pageable));
+
 	}
 
 	@GetMapping("/notification/{status}/{receiverId}")
-	public Long getNotificationCountByReceiveridAndStatus(@PathVariable String status, @PathVariable String receiverId) {
+	public Long getNotificationCountByReceiveridAndStatus(@PathVariable String status,
+			@PathVariable String receiverId) {
 
 		return queryService.getNotificationCountByReceiveridAndStatus(status, receiverId);
 	}
-	
+
 	@GetMapping("/stock-entry/{id}")
 	public ResponseEntity<StockEntryDTO> findStockEntryById(Long id) {
-	
-	return stockEntryResourceApi.getStockEntryUsingGET(id);
+
+		return stockEntryResourceApi.getStockEntryUsingGET(id);
 	}
-   
+
 	@GetMapping("/location/{idpcode}")
 	public Page<Location> findLocationByRegNo(@PathVariable String idpcode, Pageable pageable) {
 		return this.queryService.findLocationByIdpcode(idpcode, pageable);
 	}
-	
+
 	@GetMapping("/reason/{idpcode}")
 	public Page<Reason> findReasonByRegNo(@PathVariable String idpcode, Pageable pageable) {
 		return this.queryService.findReasonByIdpcode(idpcode, pageable);
 	}
-	
+
 	@GetMapping("/findallentrylineitems/{id}")
 	public Page<EntryLineItem> findAllEntryLineItemsByStockEntryId(@PathVariable String id, Pageable pageable) {
 
-		return queryService.findAllEntryLineItemsByStockEntryId(id,pageable);
-	
+		return queryService.findAllEntryLineItemsByStockEntryId(id, pageable);
+
 	}
-	
+
 	@GetMapping("/findnotificationcount/{receiverId}/{status}")
-	Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status){
+	Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status) {
 		return queryService.findNotificationCountByReceiverIdAndStatusName(receiverId, status);
 	}
-	
-}
 
+}

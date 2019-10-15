@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * OrderMasterDTO
  */
 @Validated
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-04T10:29:27.676379+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-15T16:42:27.055+05:30[Asia/Kolkata]")
 
 public class OrderMasterDTO   {
   @JsonProperty("addressType")
@@ -35,8 +35,8 @@ public class OrderMasterDTO   {
   @JsonProperty("deliveryCharge")
   private Double deliveryCharge = null;
 
-  @JsonProperty("dueDateAndTime")
-  private OffsetDateTime dueDateAndTime = null;
+  @JsonProperty("expectedDelivery")
+  private OffsetDateTime expectedDelivery = null;
 
   @JsonProperty("houseNoOrBuildingName")
   private String houseNoOrBuildingName = null;
@@ -215,25 +215,25 @@ public class OrderMasterDTO   {
     this.deliveryCharge = deliveryCharge;
   }
 
-  public OrderMasterDTO dueDateAndTime(OffsetDateTime dueDateAndTime) {
-    this.dueDateAndTime = dueDateAndTime;
+  public OrderMasterDTO expectedDelivery(OffsetDateTime expectedDelivery) {
+    this.expectedDelivery = expectedDelivery;
     return this;
   }
 
   /**
-   * Get dueDateAndTime
-   * @return dueDateAndTime
+   * Get expectedDelivery
+   * @return expectedDelivery
   **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public OffsetDateTime getDueDateAndTime() {
-    return dueDateAndTime;
+  public OffsetDateTime getExpectedDelivery() {
+    return expectedDelivery;
   }
 
-  public void setDueDateAndTime(OffsetDateTime dueDateAndTime) {
-    this.dueDateAndTime = dueDateAndTime;
+  public void setExpectedDelivery(OffsetDateTime expectedDelivery) {
+    this.expectedDelivery = expectedDelivery;
   }
 
   public OrderMasterDTO houseNoOrBuildingName(String houseNoOrBuildingName) {
@@ -634,7 +634,7 @@ public class OrderMasterDTO   {
         Objects.equals(this.customerId, orderMasterDTO.customerId) &&
         Objects.equals(this.customerOrder, orderMasterDTO.customerOrder) &&
         Objects.equals(this.deliveryCharge, orderMasterDTO.deliveryCharge) &&
-        Objects.equals(this.dueDateAndTime, orderMasterDTO.dueDateAndTime) &&
+        Objects.equals(this.expectedDelivery, orderMasterDTO.expectedDelivery) &&
         Objects.equals(this.houseNoOrBuildingName, orderMasterDTO.houseNoOrBuildingName) &&
         Objects.equals(this.id, orderMasterDTO.id) &&
         Objects.equals(this.landmark, orderMasterDTO.landmark) &&
@@ -658,7 +658,7 @@ public class OrderMasterDTO   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(addressType, alternatePhone, city, customerId, customerOrder, deliveryCharge, dueDateAndTime, houseNoOrBuildingName, id, landmark, methodOfOrder, name, notes, orderAcceptedAt, orderFromCustomer, orderNumber, orderPlaceAt, orderStatus, phone, pincode, roadNameAreaOrStreet, serviceCharge, state, storeName, storePhone, totalDue);
+    return Objects.hash(addressType, alternatePhone, city, customerId, customerOrder, deliveryCharge, expectedDelivery, houseNoOrBuildingName, id, landmark, methodOfOrder, name, notes, orderAcceptedAt, orderFromCustomer, orderNumber, orderPlaceAt, orderStatus, phone, pincode, roadNameAreaOrStreet, serviceCharge, state, storeName, storePhone, totalDue);
   }
 
   @Override
@@ -672,7 +672,7 @@ public class OrderMasterDTO   {
     sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
     sb.append("    customerOrder: ").append(toIndentedString(customerOrder)).append("\n");
     sb.append("    deliveryCharge: ").append(toIndentedString(deliveryCharge)).append("\n");
-    sb.append("    dueDateAndTime: ").append(toIndentedString(dueDateAndTime)).append("\n");
+    sb.append("    expectedDelivery: ").append(toIndentedString(expectedDelivery)).append("\n");
     sb.append("    houseNoOrBuildingName: ").append(toIndentedString(houseNoOrBuildingName)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    landmark: ").append(toIndentedString(landmark)).append("\n");

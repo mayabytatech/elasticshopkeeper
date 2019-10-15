@@ -7,6 +7,7 @@ package com.diviso.graeshoppe.client.report.api;
 
 import java.time.LocalDate;
 import java.util.Date;
+import com.diviso.graeshoppe.client.report.model.OrderAggregator;
 import com.diviso.graeshoppe.client.report.model.ReportSummary;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-04T10:29:27.676379+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-15T16:42:27.055+05:30[Asia/Kolkata]")
 
 @Api(value = "QueryResource", description = "the QueryResource API")
 public interface QueryResourceApi {
@@ -42,5 +43,17 @@ public interface QueryResourceApi {
         produces = "*/*", 
         method = RequestMethod.GET)
     ResponseEntity<ReportSummary> createReportSummaryUsingGET(@ApiParam(value = "date",required=true) @PathVariable("date") LocalDate date,@ApiParam(value = "storeId",required=true) @PathVariable("storeId") String storeId);
+
+
+    @ApiOperation(value = "getOrderAggregator", nickname = "getOrderAggregatorUsingGET", notes = "", response = OrderAggregator.class, tags={ "query-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = OrderAggregator.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/orderAggregator/{orderNumber}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<OrderAggregator> getOrderAggregatorUsingGET(@ApiParam(value = "orderNumber",required=true) @PathVariable("orderNumber") String orderNumber);
 
 }
