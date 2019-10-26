@@ -10,6 +10,7 @@ import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
+import com.diviso.graeshoppe.client.product.model.Address;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
@@ -34,6 +35,7 @@ import com.diviso.graeshoppe.client.store.domain.Store;
 import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
+
 
 public interface QueryService {
 	public Page<Category> findAllCategories(Pageable pageable);
@@ -230,5 +232,7 @@ public interface QueryService {
 
 	public Page<com.diviso.graeshoppe.client.report.model.OrderLine> findOrderLineByOrderMasterId(Long orderMasterId,
 			Pageable pageable);
+
+	public Address findAddressByStockEntryId(Long id);
 
 }

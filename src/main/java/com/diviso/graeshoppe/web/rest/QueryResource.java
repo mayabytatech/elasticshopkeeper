@@ -37,6 +37,7 @@ import com.diviso.graeshoppe.client.product.api.ProductResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockCurrentResourceApi;
 import com.diviso.graeshoppe.client.product.api.StockEntryResourceApi;
 import com.diviso.graeshoppe.client.product.api.UomResourceApi;
+import com.diviso.graeshoppe.client.product.model.Address;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItemDTO;
 import com.diviso.graeshoppe.client.product.model.Category;
@@ -517,13 +518,14 @@ public class QueryResource {
 		List<EntryLineItem> entryLineItems = queryService.findAllEntryLineItemsByStockEntryId(stockEntry.getId());
 		Reason reason = queryService.findReasonByStockEntryId(stockEntry.getId());
 		Location location = queryService.findLocationByStockEntryId(stockEntry.getId());
-
+		Address address = queryService.findAddressByStockEntryId(stockEntry.getId());
 		StockEntryBundle stockEntryBundle = new StockEntryBundle();
 
 		stockEntryBundle.setEntryLineItems(entryLineItems);
 		stockEntryBundle.setLocation(location);
 		stockEntryBundle.setReason(reason);
 		stockEntryBundle.setStockEntry(stockEntry);
+		stockEntryBundle.getLocation().setAddress(address);
 		return ResponseEntity.ok().body(stockEntryBundle);
 	}
 

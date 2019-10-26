@@ -33,6 +33,7 @@ import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
+import com.diviso.graeshoppe.client.product.model.Address;
 import com.diviso.graeshoppe.client.product.model.AuxilaryLineItem;
 import com.diviso.graeshoppe.client.product.model.Category;
 import com.diviso.graeshoppe.client.product.model.ComboLineItem;
@@ -828,6 +829,13 @@ public class QueryServiceImpl implements QueryService {
 		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("orderMaster.id", orderMasterId)).withPageable(pageable).build();
 
 		return elasticsearchOperations.queryForPage(searchQuery, com.diviso.graeshoppe.client.report.model.OrderLine.class);
+	}
+
+	@Override
+	public Address findAddressByStockEntryId(Long id) {
+		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
+		StockEntry stockentry= elasticsearchOperations.queryForObject(stringQuery, StockEntry.class);
+		return stockentry.getLocation().getAddress();
 	}
 
 
