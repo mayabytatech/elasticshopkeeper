@@ -834,8 +834,11 @@ public class QueryServiceImpl implements QueryService {
 	@Override
 	public Address findAddressByStockEntryId(Long id) {
 		StringQuery stringQuery = new StringQuery(termQuery("id", id).toString());
-		StockEntry stockentry= elasticsearchOperations.queryForObject(stringQuery, StockEntry.class);
-		return stockentry.getLocation().getAddress();
+		Location location= elasticsearchOperations.queryForObject(stringQuery, Location.class);
+		
+		return location.getAddress();
+		
+		
 	}
 
 
