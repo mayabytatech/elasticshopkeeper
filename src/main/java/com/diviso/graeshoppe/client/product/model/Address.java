@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  */
 @Validated
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-22T12:40:29.255+05:30[Asia/Calcutta]")
-@Document(indexName = "address")
+@Document(indexName = "productaddress")
 public class Address   {
   @JsonProperty("addressLine1")
   private String addressLine1 = null;
