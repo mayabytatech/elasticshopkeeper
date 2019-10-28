@@ -361,7 +361,7 @@ public class QueryResource {
 		return this.saleResourceApi.getSaleUsingGET(id);
 	}
 
-	@GetMapping("/sales/{storeId}")
+	@GetMapping("/findallsales/{storeId}")
 	public Page<Sale> findSales(@PathVariable String storeId, Pageable pageable) {
 		return queryService.findSales(storeId, pageable);
 	}
