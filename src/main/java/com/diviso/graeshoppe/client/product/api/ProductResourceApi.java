@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-22T12:40:29.255+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-28T15:55:43.394+05:30[Asia/Kolkata]")
 
 @Api(value = "ProductResource", description = "the ProductResource API")
 public interface ProductResourceApi {
@@ -55,6 +55,18 @@ public interface ProductResourceApi {
     @RequestMapping(value = "/api/products/{id}",
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteProductUsingDELETE(@ApiParam(value = "id",required=true) @PathVariable("id") Long id);
+
+
+    @ApiOperation(value = "exportProductListAsPdf", nickname = "exportProductListAsPdfUsingGET", notes = "", response = byte[].class, tags={ "product-resource", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = byte[].class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/api/pdf/products-report/{idpcode}",
+        produces = "*/*", 
+        method = RequestMethod.GET)
+    ResponseEntity<byte[]> exportProductListAsPdfUsingGET(@ApiParam(value = "idpcode",required=true) @PathVariable("idpcode") String idpcode);
 
 
     @ApiOperation(value = "getAllProducts", nickname = "getAllProductsUsingGET", notes = "", response = ProductDTO.class, responseContainer = "List", tags={ "product-resource", })
@@ -93,7 +105,7 @@ public interface ProductResourceApi {
     ResponseEntity<byte[]> getProductsPriceAsPdfUsingGET();
 
 
-    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST", notes = "", response = ProductDTO.class, responseContainer = "List", tags={ "product-resource", })
+    @ApiOperation(value = "listToDto", nickname = "listToDtoUsingPOST2", notes = "", response = ProductDTO.class, responseContainer = "List", tags={ "product-resource", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = ProductDTO.class, responseContainer = "List"),
         @ApiResponse(code = 201, message = "Created"),
@@ -104,7 +116,7 @@ public interface ProductResourceApi {
         produces = "*/*", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    ResponseEntity<List<ProductDTO>> listToDtoUsingPOST(@ApiParam(value = "products" ,required=true )  @Valid @RequestBody List<Product> product);
+    ResponseEntity<List<ProductDTO>> listToDtoUsingPOST2(@ApiParam(value = "products" ,required=true )  @Valid @RequestBody List<Product> product);
 
 
     @ApiOperation(value = "searchProducts", nickname = "searchProductsUsingGET", notes = "", response = ProductDTO.class, responseContainer = "List", tags={ "product-resource", })

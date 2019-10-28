@@ -5,6 +5,8 @@
  */
 package com.diviso.graeshoppe.client.product.api;
 
+import com.diviso.graeshoppe.client.product.model.ComboLineItem;
+import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
 import java.util.List;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -20,15 +22,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.diviso.graeshoppe.client.product.model.ComboLineItem;
-import com.diviso.graeshoppe.client.product.model.ComboLineItemDTO;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-08T17:07:15.999+05:30[Asia/Calcutta]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-10-28T15:55:43.394+05:30[Asia/Kolkata]")
 
 @Api(value = "ComboLineItemResource", description = "the ComboLineItemResource API")
 public interface ComboLineItemResourceApi {

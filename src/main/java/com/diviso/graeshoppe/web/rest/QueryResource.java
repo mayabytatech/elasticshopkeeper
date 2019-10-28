@@ -125,7 +125,7 @@ public class QueryResource {
 
 	@Autowired
 	private ContactResourceApi contactResourceApi;
-
+	
 	@Autowired
 	private StockCurrentResourceApi stockCurrentResourceApi;
 
@@ -203,32 +203,10 @@ public class QueryResource {
 		return queryService.findAllProducts(iDPcode, pageable);
 	}
 
-	@GetMapping("/productByStoreId/{iDPcode}")
-	public ResponseEntity<List<ProductDTO>> findAllProduct(@PathVariable String iDPcode, Pageable page) {
-		return productResourceApi.listToDtoUsingPOST(queryService.findAllProduct(iDPcode, page).getContent());
-	}
-
 	@GetMapping("/products/{id}")
 	public ResponseEntity<ProductDTO> findProduct(@PathVariable Long id) {
 		return this.productResourceApi.getProductUsingGET(id);
 	}
-
-	/*
-	 * @GetMapping("/products/export") public ResponseEntity<PdfDTO>
-	 * exportProducts() { PdfDTO pdf = new PdfDTO();
-	 * pdf.setPdf(this.productResourceApi.getProductsPriceAsPdfUsingGET().
-	 * getBody()) ; pdf.setContentType("application/pdf"); return
-	 * ResponseEntity.ok().body(pdf); }
-	 * 
-	 * @GetMapping("/products/pdf") public ResponseEntity<byte[]>
-	 * exportProductsAsPdf() {
-	 * 
-	 * return this.productResourceApi.getProductsPriceAsPdfUsingGET();
-	 * 
-	 * }
-	 */
-
-	///////////
 
 	@GetMapping("/findAllStockCurrentByProductName/{name}/{storeId}")
 	public Page<StockCurrent> findAllStockCurrentByProductName(@PathVariable String name, @PathVariable String storeId,
@@ -698,16 +676,6 @@ public class QueryResource {
 
 	}
 
-	/*
-	 * @GetMapping("/reportsummary/{date}/{storeId}") public
-	 * ResponseEntity<ReportSummary> createReportSummary(@PathVariable String
-	 * date, @PathVariable String storeId) {
-	 * System.out.println("+++++++++++++++++++++++++++++++++gjjjj"+LocalDate.parse(
-	 * "2019-10-12")); return
-	 * queryResourceApi.createReportSummaryUsingGET(LocalDate.parse("2019-10-12"),
-	 * storeId); }
-	 */
-
 	@GetMapping("/ordersummary/{date}/{storeId}")
 	public ResponseEntity<PdfDTO> getOrderSummary(@PathVariable String date, @PathVariable String storeId) {
 		PdfDTO pdf = new PdfDTO();
@@ -763,5 +731,39 @@ public class QueryResource {
 	Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status) {
 		return queryService.findNotificationCountByReceiverIdAndStatusName(receiverId, status);
 	}
+	
+	
+	/////////////////////////////
+	
+	//Reports
+	
+	/////////////////////////////
+	
+	
+	@GetMapping("/report/allproducts/{idpcode}")
+	public ResponseEntity<PdfDTO> getAllProducts(@PathVariable String idpcode) {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.productResourceApi.exportProductListAsPdfUsingGET(idpcode).getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
+	}
+
+	
+	@GetMapping("/report/allcategories/{idpcode}")
+	public ResponseEntity<PdfDTO> getAllCategories(@PathVariable String idpcode) {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.categoryResourceApi.exportCategoryListAsPdfUsingGET(idpcode).getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
+	}
+	
+	@GetMapping("/report/currentstock/{idpcode}")
+	public ResponseEntity<PdfDTO> getCurrentStock(@PathVariable String idpcode) {
+		PdfDTO pdf = new PdfDTO();
+		pdf.setPdf(this.stockCurrentResourceApi.exportStockCurrentListAsPdfUsingGET(idpcode).getBody());
+		pdf.setContentType("application/pdf");
+		return ResponseEntity.ok().body(pdf);
+	}
+
 
 }
