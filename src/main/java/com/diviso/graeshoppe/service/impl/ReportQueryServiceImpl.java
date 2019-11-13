@@ -11,6 +11,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
+import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.report.model.AuxItem;
 import com.diviso.graeshoppe.client.report.model.ComboItem;
@@ -20,6 +21,7 @@ import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
 
 import io.searchbox.client.JestClient;
 
+@Service
 public class ReportQueryServiceImpl implements ReportQueryService {
 
 	

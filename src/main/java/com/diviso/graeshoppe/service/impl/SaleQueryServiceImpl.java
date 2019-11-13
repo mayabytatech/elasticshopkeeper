@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.sale.domain.Sale;
 import com.diviso.graeshoppe.client.sale.domain.TicketLine;
@@ -22,6 +23,7 @@ import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
 
 import io.searchbox.client.JestClient;
 
+@Service
 public class SaleQueryServiceImpl implements SaleQueryService {
 
 	@Autowired

@@ -23,6 +23,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
+import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Order;
@@ -35,6 +36,7 @@ import io.searchbox.client.JestClient;
 import io.searchbox.core.search.aggregation.TermsAggregation;
 import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
 
+@Service
 public class OrderQueryServiceImpl implements OrderQueryService {
 	
 	int i = 0;

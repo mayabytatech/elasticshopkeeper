@@ -14,6 +14,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
+import org.springframework.stereotype.Service;
 
 import com.diviso.graeshoppe.client.store.domain.Banner;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
@@ -27,6 +28,7 @@ import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
 
 import io.searchbox.client.JestClient;
 
+@Service
 public class StoreQueryServiceImpl implements StoreQueryService {
 
 	
