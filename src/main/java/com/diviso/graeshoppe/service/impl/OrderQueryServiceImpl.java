@@ -5,59 +5,60 @@ import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
-
+import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.client.order.model.Notification;
 import com.diviso.graeshoppe.client.order.model.Order;
 import com.diviso.graeshoppe.client.order.model.OrderLine;
 import com.diviso.graeshoppe.service.OrderQueryService;
-import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
-import com.github.vanroy.springdata.jest.aggregation.AggregatedPage;
-
-import io.searchbox.client.JestClient;
-import io.searchbox.core.search.aggregation.TermsAggregation;
-import io.searchbox.core.search.aggregation.TermsAggregation.Entry;
+import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class OrderQueryServiceImpl implements OrderQueryService {
-	
+
 	int i = 0;
 	Long count = 0L;
 
-	
-	@Autowired
-	ElasticsearchOperations elasticsearchOperations;
 	private final Logger log = LoggerFactory.getLogger(QueryServiceImpl.class);
 
-	private final JestClient jestClient;
-	private final JestElasticsearchTemplate elasticsearchTemplate;
+	private ServiceUtility serviceUtility = new ServiceUtility();
 
+	private RestHighLevelClient restHighLevelClient;
 
-	public OrderQueryServiceImpl(JestClient jestClient) {
-		this.jestClient = jestClient;
-		this.elasticsearchTemplate = new JestElasticsearchTemplate(this.jestClient);
+	private ObjectMapper objectMapper;
+
+	public OrderQueryServiceImpl(ObjectMapper objectMapper, RestHighLevelClient restHighLevelClient) {
+		this.objectMapper = objectMapper;
+		this.restHighLevelClient = restHighLevelClient;
 	}
-	
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -66,29 +67,57 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	 * String)
 	 */
 	@Override
-	public Page<Order> findOrderByStatusNameAndDeliveryType(String statusName, String storeId, String deliveryType, Pageable pageable) {
-		SearchQuery searchQuery =null;
-		if(deliveryType.equals("all")) {
-			 searchQuery = new NativeSearchQueryBuilder()
-					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
-							.must(QueryBuilders.matchQuery("storeId", storeId)))
-					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
-					.withPageable(pageable).build();
-		}
-		else {
-			 searchQuery = new NativeSearchQueryBuilder()
-					.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
-							.must(QueryBuilders.matchQuery("storeId", storeId))
-							.must(QueryBuilders.matchQuery("deliveryInfo.deliveryType.keyword",deliveryType )))
-					.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
-					.withPageable(pageable).build();
-		}
-		
+	public Page<Order> findOrderByStatusNameAndDeliveryType(String statusName, String storeId, String deliveryType,
+			Pageable pageable) {
 
-		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
+		SearchResponse searchResponse = null;
+
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		SearchRequest searchRequest = null;
+
+		if (deliveryType.equals("all")) {
+
+			/*
+			 * String[] include = new String[] { "" };
+			 * 
+			 * String[] exclude = new String[] {};
+			 * 
+			 * builder.fetchSource(include, exclude);
+			 */
+
+			builder.query(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
+					.must(QueryBuilders.matchQuery("storeId", storeId))).sort("id", SortOrder.DESC);
+
+			searchRequest = serviceUtility.generateSearchRequest("order", pageable.getPageSize(),
+					pageable.getPageNumber(), builder);
+
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+		} else {
+
+			builder.query(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("status.name.keyword", statusName))
+					.must(QueryBuilders.matchQuery("storeId", storeId))
+					.must(QueryBuilders.matchQuery("deliveryInfo.deliveryType.keyword", deliveryType)))
+					.sort("id", SortOrder.DESC);
+
+			searchRequest = serviceUtility.generateSearchRequest("order", pageable.getPageSize(),
+					pageable.getPageNumber(), builder);
+
+			try {
+				searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+			} catch (IOException e) { // TODO Auto-generated
+				e.printStackTrace();
+			}
+		}
+
+		return serviceUtility.getSearchResults(searchResponse, pageable, new Order(), objectMapper);
+
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -97,10 +126,30 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	 */
 	@Override
 	public Page<Order> findOrderByStoreId(String storeId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("storeId", storeId))
-				.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC)).build();
 
-		Page<Order> orderPage = elasticsearchOperations.queryForPage(searchQuery, Order.class);
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("storeId", storeId)).sort("id", SortOrder.DESC);
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("customer", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		Page<Order> orderPage = serviceUtility.getSearchResults(searchResponse, pageable, new Order(), objectMapper);
 
 		orderPage.forEach(order -> {
 
@@ -110,8 +159,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 
 		return orderPage;
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -120,98 +168,205 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	 */
 	@Override
 	public List<OrderLine> findOrderLinesByOrderId(Long orderId) {
-		StringQuery searchQuery = new StringQuery(termQuery("order.id", orderId).toString());
-		return elasticsearchOperations.queryForList(searchQuery, OrderLine.class);
+
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("order.id", orderId));
+
+		Pageable pageable = PageRequest.of(2, 20);
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("customer", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new Order(), objectMapper).getContent();
 	}
 
-	
-	
 	@Override
 	public Page<Notification> findNotificationByReceiverId(String receiverId, Pageable pageable) {
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(termQuery("receiverId", receiverId))
-				.withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
-				.withPageable(pageable).build();
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForPage(searchQuery, Notification.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("receiverId", receiverId)).sort("id", SortOrder.DESC);
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("notification", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new Notification(), objectMapper);
+
 	}
+
+//TO_DO @rafeek
 	
-	
-	public Long findOrderCountByDateAndStatusName(String statusName, Instant date) {
+	  public Long findOrderCountByDateAndStatusName(String statusName, Instant
+	  date) {
+	  
+		/*
+		 * SearchQuery searchQuery = new
+		 * NativeSearchQueryBuilder().withQuery(matchAllQuery())
+		 * .withSearchType(QUERY_THEN_FETCH).withIndices("order").withTypes("order")
+		 * .addAggregation(AggregationBuilders.terms("date").field("date.keyword")
+		 * .order(org.elasticsearch.search.aggregations.bucket.terms.Terms.Order.
+		 * aggregation("avgPrice", true))
+		 * .subAggregation(AggregationBuilders.avg("avgPrice").field("grandTotal"))
+		 * .subAggregation(AggregationBuilders.terms("statusName").field(
+		 * "status.name.keyword"))) .build();
+		 * 
+		 * AggregatedPage<Order> result =
+		 * elasticsearchTemplate.queryForPage(searchQuery, Order.class);
+		 * 
+		 * TermsAggregation orderAgg = result.getAggregation("date",
+		 * TermsAggregation.class); List<Entry> storeBasedEntry = new
+		 * ArrayList<Entry>(); log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," +
+		 * orderAgg.getBuckets()); orderAgg.getBuckets().forEach(bucket -> {
+		 * 
+		 * List<Entry> listStore = bucket.getAggregation("statusName",
+		 * TermsAggregation.class).getBuckets();
+		 * log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + listStore); for (int i =
+		 * 0; i < listStore.size(); i++) {
+		 * log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + listStore.get(i)); if
+		 * (bucket.getKey().equals(date.toString())) { if
+		 * (listStore.get(i).getKey().equals(statusName)) {
+		 * 
+		 * storeBasedEntry .add(bucket.getAggregation("statusName",
+		 * TermsAggregation.class).getBuckets().get(i)); } }
+		 * 
+		 * }
+		 * 
+		 * }); storeBasedEntry.forEach(e -> { count = e.getCount(); }); return count;
+		 */ 
+		  return 0l;}
+	 
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery())
-				.withSearchType(QUERY_THEN_FETCH).withIndices("order").withTypes("order")
-				.addAggregation(AggregationBuilders.terms("date").field("date.keyword")
-						.order(org.elasticsearch.search.aggregations.bucket.terms.Terms.Order.aggregation("avgPrice",
-								true))
-						.subAggregation(AggregationBuilders.avg("avgPrice").field("grandTotal"))
-						.subAggregation(AggregationBuilders.terms("statusName").field("status.name.keyword")))
-				.build();
-
-		AggregatedPage<Order> result = elasticsearchTemplate.queryForPage(searchQuery, Order.class);
-
-		TermsAggregation orderAgg = result.getAggregation("date", TermsAggregation.class);
-		List<Entry> storeBasedEntry = new ArrayList<Entry>();
-		log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + orderAgg.getBuckets());
-		orderAgg.getBuckets().forEach(bucket -> {
-
-			List<Entry> listStore = bucket.getAggregation("statusName", TermsAggregation.class).getBuckets();
-			log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + listStore);
-			for (int i = 0; i < listStore.size(); i++) {
-				log.info(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + listStore.get(i));
-				if (bucket.getKey().equals(date.toString())) {
-					if (listStore.get(i).getKey().equals(statusName)) {
-
-						storeBasedEntry
-								.add(bucket.getAggregation("statusName", TermsAggregation.class).getBuckets().get(i));
-					}
-				}
-
-			}
-
-		});
-		storeBasedEntry.forEach(e -> {
-			count = e.getCount();
-		});
-		return count;
-	}
-	
-	
 	@Override
 	public Page<Order> findOrderByDatebetweenAndStoreId(Instant from, Instant to, String storeId) {
 		// .........
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
-				.must(termQuery("storeId", storeId)).must(rangeQuery("date").gte(from).lte(to))).build();
 
-		return elasticsearchOperations.queryForPage(searchQuery, Order.class);
+		Pageable pageable = PageRequest.of(2, 20);
+
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(QueryBuilders.boolQuery().must(termQuery("storeId", storeId))
+				.must(rangeQuery("date").gte(from).lte(to)));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("order", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new Order(), objectMapper);
+
 	}
-	
-	
+
 	@Override
 	public Long getNotificationCountByReceiveridAndStatus(String status, String receiverId) {
 		log.info(".............." + status + ".............." + receiverId);
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
-				.must(termQuery("status.keyword", status)).must(QueryBuilders.matchQuery("receiverId", receiverId)))
-				.build();
+		
+		Pageable pageable = PageRequest.of(2, 20);
 
-		List<Notification> notifications = new ArrayList<Notification>();
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		elasticsearchOperations.queryForPage(searchQuery, Notification.class).getContent().forEach(notifications::add);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(QueryBuilders.boolQuery()
+				.must(termQuery("status.keyword", status)).must(QueryBuilders.matchQuery("receiverId", receiverId)));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("notification", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		List<Notification> notifications = serviceUtility.getSearchResults(searchResponse, pageable, new Notification(), objectMapper).getContent();
 		return (long) notifications.size();
 	}
-	
-	
+
 	@Override
 	public Long findNotificationCountByReceiverIdAndStatusName(String receiverId, String status) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery("receiverId", receiverId))
-						.must(QueryBuilders.matchQuery("status", status)))
-				.build();
-		return elasticsearchOperations.count(searchQuery, Order.class);
+		
+
+		Pageable pageable = PageRequest.of(2, 20);
+
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(QueryBuilders.boolQuery().must(QueryBuilders.matchQuery(
+				  "receiverId", receiverId)) .must(QueryBuilders.matchQuery("status", status)));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("notification", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		List<Notification> notifications = serviceUtility.getSearchResults(searchResponse, pageable, new Notification(), objectMapper).getContent();
+		
+		return (long)notifications.size();
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -222,15 +377,27 @@ public class OrderQueryServiceImpl implements OrderQueryService {
 	public Order findOrderByOrderId(String orderId) {
 
 		StringQuery stringQuery = new StringQuery(termQuery("orderId.keyword", orderId).toString());
+		SearchSourceBuilder searchBuilder = new SearchSourceBuilder();
+		/*
+		 * String[] include = new String[] { "", "", "" };
+		 * 
+		 * searchBuilder.fetchSource(include, exclude);
+		 */
+		searchBuilder.query(termQuery("orderId.keyword", orderId));
 
-		Order test = elasticsearchOperations.queryForObject(stringQuery, Order.class);
-		log.info("+++++++++++++++++++++++++++++++++++++++", test);
-		return test;
+		SearchRequest searchRequest = new SearchRequest("order");
+
+		searchRequest.source(searchBuilder);
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		return serviceUtility.getSearchResult(searchResponse, new Order(),objectMapper);
+	
 	}
-
-
-
-
-
 
 }

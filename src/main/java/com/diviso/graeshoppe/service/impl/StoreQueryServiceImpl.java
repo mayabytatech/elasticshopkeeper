@@ -2,13 +2,21 @@ package com.diviso.graeshoppe.service.impl;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -16,6 +24,8 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
+import com.diviso.graeshoppe.client.product.model.Location;
+import com.diviso.graeshoppe.client.product.model.Product;
 import com.diviso.graeshoppe.client.store.domain.Banner;
 import com.diviso.graeshoppe.client.store.domain.DeliveryInfo;
 import com.diviso.graeshoppe.client.store.domain.Review;
@@ -24,47 +34,110 @@ import com.diviso.graeshoppe.client.store.domain.StoreType;
 import com.diviso.graeshoppe.client.store.domain.Type;
 import com.diviso.graeshoppe.client.store.domain.UserRating;
 import com.diviso.graeshoppe.service.StoreQueryService;
-import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
-
-import io.searchbox.client.JestClient;
-
+import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
+import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class StoreQueryServiceImpl implements StoreQueryService {
 
 	
-	@Autowired
-	ElasticsearchOperations elasticsearchOperations;
-	private final Logger log = LoggerFactory.getLogger(QueryServiceImpl.class);
+	private ServiceUtility serviceUtility = new ServiceUtility();
 
-	private final JestClient jestClient;
-	private final JestElasticsearchTemplate elasticsearchTemplate;
+	private RestHighLevelClient restHighLevelClient;
 
+	private ObjectMapper objectMapper;
 
-	public StoreQueryServiceImpl(JestClient jestClient) {
-		this.jestClient = jestClient;
-		this.elasticsearchTemplate = new JestElasticsearchTemplate(this.jestClient);
+	public StoreQueryServiceImpl(ObjectMapper objectMapper, RestHighLevelClient restHighLevelClient) {
+		this.objectMapper = objectMapper;
+		this.restHighLevelClient = restHighLevelClient;
 	}
-	
 	
 	
 	@Override
 	public Page<Review> findAllReviews(String storeId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
-		return elasticsearchOperations.queryForPage(searchQuery, Review.class);
+		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("store.regNo", storeId));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("review", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new Review(), objectMapper);
 	}
 	
 	@Override
 	public Page<UserRating> findAllUserRatings(String storeId, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
-		return elasticsearchOperations.queryForPage(searchQuery, UserRating.class);
+		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("store.regNo", storeId));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("userrating", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new UserRating(), objectMapper);
+	
 	}
 	
 	
 	@Override
 	public Store findStoreByRegNo(String regNo) {
-		StringQuery stringQuery = new StringQuery(termQuery("regNo", regNo).toString());
+		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForObject(stringQuery, Store.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("regNo", regNo));
+
+		SearchRequest searchRequest = new SearchRequest("store");
+
+		searchRequest.source(builder);
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		return serviceUtility.getSearchResult(searchResponse, new Store(), objectMapper);
+
 	}
 	
 	
@@ -77,8 +150,33 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	 */
 	@Override
 	public Page<DeliveryInfo> findDeliveryInfoByStoreId(Long id) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.id", id)).build();
-		return elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
+		
+
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("store.id", id));
+
+		Pageable pageable = PageRequest.of(2, 20);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("deliveryinfo", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new DeliveryInfo(), objectMapper);
+	
 
 	}
 
@@ -94,9 +192,31 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	@Override
 	public List<Type> findAllDeliveryTypesByStoreId(String storeId) {
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		Page<DeliveryInfo> deliveryinfos = elasticsearchOperations.queryForPage(searchQuery, DeliveryInfo.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("store.regNo", storeId));
+
+		Pageable pageable = PageRequest.of(2, 20);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("Type", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		Page<DeliveryInfo> deliveryinfos = serviceUtility.getSearchResults(searchResponse, pageable, new Type(), objectMapper);
+	
 
 		List<Type> types = new ArrayList<Type>();
 
@@ -119,18 +239,63 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 	@Override
 	public List<StoreType> findAllStoreTypesByStoreId(String regNo) {
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", regNo)).build();
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForList(searchQuery, StoreType.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("store.regNo", regNo));
+
+		Pageable pageable = PageRequest.of(2, 20);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("storetype", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new StoreType(), objectMapper).getContent();
+	
+
 
 	}
 
 	
 	@Override
 	public Page<Banner> findBannersByStoreId(String storeId) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("store.regNo", storeId)).build();
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForPage(searchQuery, Banner.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("store.regNo", storeId));
+
+		Pageable pageable = PageRequest.of(2, 20);
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("deliveryinfo", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new DeliveryInfo(), objectMapper);
+	
 
 	}
 

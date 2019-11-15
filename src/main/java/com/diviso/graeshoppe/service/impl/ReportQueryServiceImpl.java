@@ -2,6 +2,13 @@ package com.diviso.graeshoppe.service.impl;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
+import java.io.IOException;
+
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +20,60 @@ import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
+import com.diviso.graeshoppe.client.product.model.Location;
+import com.diviso.graeshoppe.client.product.model.StockEntry;
 import com.diviso.graeshoppe.client.report.model.AuxItem;
 import com.diviso.graeshoppe.client.report.model.ComboItem;
 import com.diviso.graeshoppe.client.report.model.OrderMaster;
 import com.diviso.graeshoppe.service.ReportQueryService;
-import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
-
-import io.searchbox.client.JestClient;
+import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ReportQueryServiceImpl implements ReportQueryService {
 
 	
-	@Autowired
-	ElasticsearchOperations elasticsearchOperations;
-	private final JestClient jestClient;
-	private final JestElasticsearchTemplate elasticsearchTemplate;
+	private ServiceUtility serviceUtility = new ServiceUtility();
 
-	private final Logger log = LoggerFactory.getLogger(QueryServiceImpl.class);
+	private RestHighLevelClient restHighLevelClient;
 
-	public ReportQueryServiceImpl(JestClient jestClient) {
-		this.jestClient = jestClient;
-		this.elasticsearchTemplate = new JestElasticsearchTemplate(this.jestClient);
+	private ObjectMapper objectMapper;
+
+	public ReportQueryServiceImpl(ObjectMapper objectMapper, RestHighLevelClient restHighLevelClient) {
+		this.objectMapper = objectMapper;
+		this.restHighLevelClient = restHighLevelClient;
 	}
+
 	
 	@Override
 	public OrderMaster findOrderMasterByOrderId(String orderId) {
 		
-		StringQuery stringQuery = new StringQuery(termQuery("orderNumber.keyword", orderId).toString());
+		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForObject(stringQuery, OrderMaster.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("orderNumber.keyword", orderId));
+
+		SearchRequest searchRequest = new SearchRequest("ordermaster");
+
+		searchRequest.source(builder);
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+	return  serviceUtility.getSearchResult(searchResponse, new OrderMaster(), objectMapper);
+
 
 	}
 	
@@ -50,10 +81,32 @@ public class ReportQueryServiceImpl implements ReportQueryService {
 	@Override
 	public Page<AuxItem> findAuxItemByOrderLineId(Long orderLineId, Pageable pageable) {
 		
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("orderLine.id", orderLineId)).withPageable(pageable).build();
-
-		return elasticsearchOperations.queryForPage(searchQuery, AuxItem.class);
 		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("orderLine.id", orderLineId));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("auxitem", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		return serviceUtility.getSearchResults(searchResponse, pageable, new AuxItem(), objectMapper);
+
 	}
 
 	
@@ -61,18 +114,67 @@ public class ReportQueryServiceImpl implements ReportQueryService {
 	@Override
 	public Page<ComboItem> findComboItemByOrderLineId(Long orderLineId, Pageable pageable) {
 
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("orderLine.id", orderLineId)).withPageable(pageable).build();
+	
+		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForPage(searchQuery, ComboItem.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("orderLine.id", orderLineId));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("comboitem", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		return serviceUtility.getSearchResults(searchResponse, pageable, new ComboItem(), objectMapper);
+
 	}
 	
 	
 	@Override
 	public Page<com.diviso.graeshoppe.client.report.model.OrderLine> findOrderLineByOrderMasterId(Long orderMasterId,
 			Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(termQuery("orderMaster.id", orderMasterId)).withPageable(pageable).build();
+	
+		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForPage(searchQuery, com.diviso.graeshoppe.client.report.model.OrderLine.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(termQuery("orderMaster.id", orderMasterId));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("comboitem", pageable.getPageSize(),
+				pageable.getPageNumber(), builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+
+		return serviceUtility.getSearchResults(searchResponse, pageable, new com.diviso.graeshoppe.client.report.model.OrderLine(), objectMapper);
+
+		
 	}
 
 	

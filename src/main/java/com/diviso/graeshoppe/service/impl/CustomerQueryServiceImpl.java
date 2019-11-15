@@ -3,6 +3,13 @@ package com.diviso.graeshoppe.service.impl;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
+import java.io.IOException;
+
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,45 +20,86 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
+
 import com.diviso.graeshoppe.client.customer.domain.Customer;
 import com.diviso.graeshoppe.service.CustomerQueryService;
-import com.github.vanroy.springdata.jest.JestElasticsearchTemplate;
-
-import io.searchbox.client.JestClient;
+import com.diviso.graeshoppe.web.rest.util.ServiceUtility;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class CustomerQueryServiceImpl implements CustomerQueryService{
 	
 	
-	private final JestClient jestClient;
-	private final JestElasticsearchTemplate elasticsearchTemplate;
 
 	private final Logger log = LoggerFactory.getLogger(QueryServiceImpl.class);
 
-	public CustomerQueryServiceImpl(JestClient jestClient) {
-		this.jestClient = jestClient;
-		this.elasticsearchTemplate = new JestElasticsearchTemplate(this.jestClient);
+	
+	private RestHighLevelClient restHighLevelClient;
+
+	private ObjectMapper objectMapper;
+	
+	private ServiceUtility serviceUtility =new ServiceUtility();
+	
+	public CustomerQueryServiceImpl(ObjectMapper objectMapper, RestHighLevelClient restHighLevelClient) {
+		this.objectMapper = objectMapper;
+		this.restHighLevelClient = restHighLevelClient;
 	}
 
 
-	@Autowired
-	ElasticsearchOperations elasticsearchOperations;
-	
 	@Override
 	public Page<Customer> findAllCustomers(String searchTerm, Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder()
-				.withQuery(matchQuery("name", searchTerm).prefixLength(3)).build();
+		SearchSourceBuilder builder = new SearchSourceBuilder();
 
-		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
 
+		builder.query(matchQuery("name", searchTerm).prefixLength(3));
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("customer", pageable.getPageSize(), pageable.getPageNumber(),
+				builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new Customer(),objectMapper);
 	}
 	
 	
 	@Override
 	public Page<Customer> findAllCustomersWithoutSearch(Pageable pageable) {
-		SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery()).withPageable(pageable)
-				.build();
-		return elasticsearchOperations.queryForPage(searchQuery, Customer.class);
+		
+		SearchSourceBuilder builder = new SearchSourceBuilder();
+		
+		/*
+		 * String[] include = new String[] { "" };
+		 * 
+		 * String[] exclude = new String[] {};
+		 * 
+		 * builder.fetchSource(include, exclude);
+		 */
+
+		builder.query(matchAllQuery());
+
+		SearchRequest searchRequest = serviceUtility.generateSearchRequest("customer", pageable.getPageSize(), pageable.getPageNumber(),
+				builder);
+
+		SearchResponse searchResponse = null;
+
+		try {
+			searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+		} catch (IOException e) { // TODO Auto-generated
+			e.printStackTrace();
+		}
+		return serviceUtility.getSearchResults(searchResponse, pageable, new Customer(),objectMapper);
 	}
 	
 }

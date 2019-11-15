@@ -355,16 +355,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 		</dependency>
-		<!-- Spring Data Jest dependencies for Elasticsearch -->
+		<!-- Spring Data rest dependencies for Elasticsearch -->
+		        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>6.8.3</version>
+        </dependency>
 		<dependency>
-			<groupId>com.github.vanroy</groupId>
-			<artifactId>spring-boot-starter-data-jest</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
 		<!-- log4j needed to create embedded elasticsearch instance -->
 		<dependency>
